@@ -1,0 +1,1668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SRH World | Wealth Management &amp; Portfolio Advisory</title>
+<link href="./fevicon.png?v=2" rel="icon" type="image/png"/>
+<link href="./fevicon.png?v=2" rel="shortcut icon" type="image/png"/>
+<link href="./fevicon.png?v=2" rel="apple-touch-icon"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<link href="style.css" rel="stylesheet"/>
+<link href="index.css" rel="stylesheet"/> <!-- Dedicated CSS for Index Page -->
+<style id="srh-assistant-critical-css">
+/* Critical assistant styling: keeps chat UI hidden until opened. */
+#srh-assistant-panel {
+  position: fixed !important; left: auto !important; top: auto !important;
+  width: 350px !important; max-width: calc(100vw - 24px) !important;
+  height: 520px !important; max-height: calc(100vh - 24px) !important;
+  display: flex !important; flex-direction: column !important; overflow: hidden !important;
+  box-sizing: border-box !important; background: #fff !important;
+  border: 1px solid rgba(22,163,74,.18) !important; border-radius: 20px !important;
+  box-shadow: 0 22px 60px rgba(15,23,42,.22) !important;
+  opacity: 0 !important; visibility: hidden !important; pointer-events: none !important;
+  transform: translateY(10px) scale(.96) !important; z-index: 2147483000 !important;
+  color: #243b53 !important;
+}
+#srh-assistant-panel.open { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; transform: translateY(0) scale(1) !important; }
+#srh-assistant-panel .srh-assistant-header { display:flex !important; align-items:center !important; justify-content:space-between !important; flex:0 0 auto !important; padding:13px 14px !important; background:linear-gradient(135deg,#0f9f4d,#16a34a) !important; color:#fff !important; }
+#srh-assistant-panel .srh-assistant-brand { display:flex !important; align-items:center !important; gap:9px !important; }
+#srh-assistant-panel .srh-assistant-brand > div { display:flex !important; flex-direction:column !important; }
+#srh-assistant-panel .srh-assistant-brand strong { font-size:14px !important; line-height:1.15 !important; }
+#srh-assistant-panel .srh-assistant-brand small { font-size:9.5px !important; margin-top:3px !important; }
+#srh-assistant-panel .srh-assistant-status-dot { width:9px !important; height:9px !important; border-radius:50% !important; background:#bbf7d0 !important; flex:0 0 auto !important; }
+#srh-assistant-panel .srh-assistant-close { width:28px !important; height:28px !important; border:0 !important; border-radius:50% !important; background:rgba(255,255,255,.14) !important; color:#fff !important; font-size:19px !important; cursor:pointer !important; }
+#srh-assistant-panel .srh-assistant-messages { flex:1 1 auto !important; min-height:0 !important; max-height:none !important; overflow-y:auto !important; padding:14px !important; background:#f8fafc !important; }
+#srh-assistant-panel .srh-assistant-msg { display:block !important; width:fit-content !important; max-width:88% !important; margin:0 0 9px !important; padding:9px 11px !important; border-radius:13px !important; font-size:12px !important; line-height:1.45 !important; white-space:pre-wrap !important; word-break:break-word !important; }
+#srh-assistant-panel .srh-assistant-msg.assistant { background:#fff !important; color:#243b53 !important; border:1px solid #e2e8f0 !important; }
+#srh-assistant-panel .srh-assistant-msg.user { margin-left:auto !important; background:#16a34a !important; color:#fff !important; }
+#srh-assistant-panel .srh-assistant-typing { display:none !important; padding:0 14px 5px !important; background:#f8fafc !important; }
+#srh-assistant-panel .srh-assistant-typing.show { display:flex !important; gap:4px !important; }
+#srh-assistant-panel .srh-assistant-typing span { width:5px !important; height:5px !important; border-radius:50% !important; background:#94a3b8 !important; }
+#srh-assistant-panel .srh-assistant-quick { display:flex !important; flex-wrap:wrap !important; gap:6px !important; padding:8px 12px 7px !important; background:#f8fafc !important; }
+#srh-assistant-panel .srh-assistant-chip { border:1px solid #bbf7d0 !important; background:#fff !important; color:#15803d !important; border-radius:999px !important; padding:6px 9px !important; font-size:10.5px !important; font-weight:700 !important; cursor:pointer !important; }
+#srh-assistant-panel .srh-assistant-input { display:flex !important; align-items:center !important; gap:7px !important; padding:9px !important; background:#fff !important; border-top:1px solid #e2e8f0 !important; }
+#srh-assistant-panel .srh-assistant-input input { flex:1 !important; min-width:0 !important; box-sizing:border-box !important; border:1px solid #dbe3ea !important; border-radius:999px !important; padding:9px 12px !important; outline:none !important; font-size:12px !important; color:#102a43 !important; background:#fff !important; }
+#srh-assistant-panel .srh-assistant-input button { flex:0 0 34px !important; width:34px !important; height:34px !important; border:0 !important; border-radius:50% !important; background:#16a34a !important; color:#fff !important; cursor:pointer !important; }
+#srh-assistant-panel .srh-assistant-note { flex:0 0 auto !important; padding:5px 11px 8px !important; text-align:center !important; background:#fff !important; color:#94a3b8 !important; font-size:8.5px !important; line-height:1.25 !important; }
+@media (max-width:768px) { #srh-assistant-panel { width:calc(100vw - 20px) !important; height:min(520px,calc(100vh - 20px)) !important; max-width:calc(100vw - 20px) !important; } }
+</style>
+</head>
+<body>
+<div class="site-wrapper" id="site-wrapper">
+<!-- Sticky Header Container -->
+<div class="header-sticky-wrapper" id="header-sticky-wrapper">
+<header class="main-header">
+<div class="header-container">
+<div class="logo-area">
+<a href="./index.html">
+<img alt="SRH World Logo" class="client-logo" src="Logo_SRH_World.png"/>
+</a>
+</div>
+<div class="header-right-actions">
+<a aria-label="Smart Calculator" class="header-calc-pill" href="./sip-calculator.html" title="Smart Financial Calculator">
+<i class="fas fa-calculator"></i>
+<span class="calc-btn-text">Smart Calculator</span>
+</a>
+<button aria-label="Toggle Navigation Menu" class="mobile-nav-toggle" id="menu-toggle-btn">
+<i class="fas fa-bars"></i>
+</button>
+</div>
+<nav class="nav-bar" id="header-navigation-menu">
+<ul class="nav-list">
+<li class="nav-item"><a class="nav-link active" href="./index.html">Home</a></li>
+<li class="nav-item"><a class="nav-link" href="./about.html">About Us</a></li>
+<li class="nav-item has-horizontal-dropdown">
+<a class="nav-link" href="./products.html">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
+<ul class="horizontal-dropdown">
+<li><a href="./products.html#equity"><i class="fas fa-chart-line dropdown-icon"></i> Equities</a></li>
+<li><a href="./products.html#mutual-funds"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
+<li><a href="./products.html#aif"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
+<li><a href="./products.html#bonds"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
+<li><a href="./products.html#ncd"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
+<li><a href="./products.html#unlisted"><i class="fas fa-building-columns dropdown-icon"></i> Unlisted Stocks</a></li>
+<li><a href="./products.html#block-deals"><i class="fas fa-handshake dropdown-icon"></i> Block Deals</a></li>
+<li><a href="./products.html#insurance"><i class="fas fa-shield-halved dropdown-icon"></i> Insurance</a></li>
+<li><a href="./products.html#fixed-income"><i class="fas fa-vault dropdown-icon"></i> Fixed Income Securities</a></li>
+<li><a href="./products.html#ofs"><i class="fas fa-tag dropdown-icon"></i> Offer for Sale (OFS)</a></li>
+<li><a href="./products.html#nfo"><i class="fas fa-seedling dropdown-icon"></i> New Fund Offering (NFO)</a></li>
+<li><a href="./products.html#ipo"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
+</ul>
+</li>
+<li class="nav-item has-horizontal-dropdown">
+<a class="nav-link" href="./services.html">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
+<ul class="horizontal-dropdown">
+<li><a href="./services.html#pms"><i class="fas fa-briefcase dropdown-icon"></i> Customised Portfolio Management</a></li>
+<li><a href="./services.html#technical"><i class="fas fa-bolt dropdown-icon"></i> Technical Stock Analysis</a></li>
+<li><a href="./services.html#fundamental"><i class="fas fa-magnifying-glass-chart dropdown-icon"></i> Fundamental Stock Analysis</a></li>
+<li><a href="./services.html#derivative"><i class="fas fa-arrow-trend-up dropdown-icon"></i> Derivative Analysis</a></li>
+<li><a href="./services.html#pms"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
+</ul>
+</li>
+<li class="nav-item has-horizontal-dropdown">
+<a class="nav-link" href="./sme.html">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
+<ul class="horizontal-dropdown">
+<li><a href="./sme.html"><i class="fas fa-landmark dropdown-icon"></i> Loans &amp; Credit Procurement</a></li>
+<li><a href="./sme.html"><i class="fas fa-industry dropdown-icon"></i> MSME &amp; SME Loans</a></li>
+<li><a href="./sme.html"><i class="fas fa-gears dropdown-icon"></i> Business &amp; Financial Engineering</a></li>
+<li><a href="./sme.html"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
+<li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
+</ul>
+</li>
+<li class="nav-item has-horizontal-dropdown">
+<a class="nav-link" href="#">Knowledge Centre <i class="fas fa-chevron-down mobile-arrow"></i></a>
+<ul class="horizontal-dropdown">
+<li><a href="./blogs.html"><i class="fas fa-book-open dropdown-icon"></i> Blogs</a></li>
+<li><a href="./media.html"><i class="fas fa-photo-film dropdown-icon"></i> Media</a></li>
+<li><a href="./manage.html"><i class="fas fa-tasks dropdown-icon"></i> Manage</a></li>
+</ul>
+</li>
+<li class="nav-item"><a class="nav-link" href="./contact.html">Contact Us</a></li>
+</ul>
+</nav>
+</div>
+</header>
+</div>
+<!-- 1. Hero Video + Product Catalog Reveal -->
+<section class="hero-interactive-section" id="hero-interactive-section">
+<div class="hero-product-layer" id="hero-product-layer">
+<div class="product-showcase-strip hero-product-catalog" id="product-showcase-section" style="background:#ffffff; padding: 40px 0 60px 0; border-bottom: 1px solid var(--border-color);">
+<!-- Added Section Heading -->
+<h2 class="section-heading-title" style="text-align: center; margin-bottom: 30px;">Our Products</h2>
+<div class="slider-viewport carousel-with-arrows" id="main-carousel">
+<button aria-label="Previous products" class="carousel-arrow carousel-arrow-left" data-carousel="main-slider-track" type="button"><i class="fas fa-chevron-left"></i></button>
+<div class="slider-track" id="main-slider-track">
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#equity">
+<i class="fas fa-chart-line product-minimal-icon"></i>
+<span class="product-minimal-name">Equity</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#mutual-funds">
+<i class="fas fa-pie-chart product-minimal-icon"></i>
+<span class="product-minimal-name">Mutual Funds</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#aif">
+<i class="fas fa-layer-group product-minimal-icon"></i>
+<span class="product-minimal-name">Alternative Investment Funds (AIFs)</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#bonds">
+<i class="fas fa-file-invoice-dollar product-minimal-icon"></i>
+<span class="product-minimal-name">Bonds</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#ncd">
+<i class="fas fa-certificate product-minimal-icon"></i>
+<span class="product-minimal-name">Non-Convertible Debentures (NCD)</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#unlisted">
+<i class="fas fa-building-columns product-minimal-icon"></i>
+<span class="product-minimal-name">Unlisted Stocks</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#block-deals">
+<i class="fas fa-handshake product-minimal-icon"></i>
+<span class="product-minimal-name">Block Deals</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#insurance">
+<i class="fas fa-shield-halved product-minimal-icon"></i>
+<span class="product-minimal-name">Insurance</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#fixed-income">
+<i class="fas fa-vault product-minimal-icon"></i>
+<span class="product-minimal-name">Fixed Income Securities</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#ofs">
+<i class="fas fa-tag product-minimal-icon"></i>
+<span class="product-minimal-name">Offer for Sale (OFS)</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#nfo">
+<i class="fas fa-seedling product-minimal-icon"></i>
+<span class="product-minimal-name">New Fund Offering (NFO)</span>
+</a>
+</div>
+<div class="product-minimal-slide">
+<a class="product-minimal-card" href="./products.html#ipo">
+<i class="fas fa-rocket product-minimal-icon"></i>
+<span class="product-minimal-name">Initial Public Offering (IPO)</span>
+</a>
+</div>
+</div>
+<button aria-label="Next products" class="carousel-arrow carousel-arrow-right" data-carousel="main-slider-track" type="button"><i class="fas fa-chevron-right"></i></button>
+</div>
+</div>
+</div>
+<div class="hero-sticky-container">
+<div class="hero-video-layer" id="hero-video-layer">
+<video autoplay="" class="hero-banner-video" id="hero-scroll-video" muted="" playsinline="" preload="metadata">
+<source src="banner.mp4" type="video/mp4"/>
+</video>
+<!-- Dynamic Text Overlay -->
+<div class="hero-text-overlay">
+<div class="hero-statement statement-1">Build your path to financial stability</div>
+<div class="hero-statement statement-2">Your partner in financial freedom</div>
+<div class="hero-statement statement-3">Let's build the bridge towards financial security</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- 3. "WE OFFER" (Kinetic Split-Screen Pinned Layout) -->
+<section class="kinetic-showcase-section" id="we-offer">
+    <div class="kinetic-header">
+        <span class="we-offer-tag"><i class="fas fa-layer-group"></i> What We Offer</span>
+        <h2 class="section-heading-title" style="font-size: 34px; color: var(--accent-green);">We Offer</h2>
+        <p style="color: var(--text-muted); font-size: 14.5px;">Explore our comprehensive investment solutions and market analytics.</p>
+    </div>
+    <div class="kinetic-split-layout">
+        <!-- Left Scrolling Pane -->
+        <div class="kinetic-left-scroll">
+            
+            <!-- 1. Equities -->
+            <div class="offer-scroll-card active" data-visual="visual-equities" id="offer-equities">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-chart-line"></i> Equities</h3>
+                    <span class="offer-badge">Market-Linked</span>
+                </div>
+                <p class="offer-desc-p">
+                    These are market-linked investments and don’t offer any assured returns. Our team of experts studies various stocks and industries to identify the most profitable opportunities.
+                </p>
+                <p class="offer-desc-p">
+                    With an in-depth technical and fundamental analysis, and risk-return ratio, the SRH team offers the best equity investments.
+                </p>
+                <a class="offer-link-btn" href="./products.html#equity">Explore Equity Strategies <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 2. Mutual Funds -->
+            <div class="offer-scroll-card" data-visual="visual-mf" id="offer-mf">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-pie-chart"></i> Mutual Funds</h3>
+                    <span class="offer-badge">Systematic Compounding</span>
+                </div>
+                <p class="offer-desc-p">
+                    Indian mutual fund houses offer multiple types of schemes like equity, debt, and balanced funds. Within these categories, you can choose large, medium, and small cap funds, index funds, and many more options.
+                </p>
+                <p class="offer-desc-p">
+                    We provide clients with systematic investment plans, systematic transfer plans, and systematic withdrawal plans to meet their changing financial goals over the years.
+                </p>
+                <a class="offer-link-btn" href="./products.html#mutual-funds">Explore Mutual Funds <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 3. PMS -->
+            <div class="offer-scroll-card" data-visual="visual-pms" id="offer-pms">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-briefcase"></i> PMS (Portfolio Management)</h3>
+                    <span class="offer-badge">Customised Portfolio</span>
+                </div>
+                <p class="offer-desc-p">
+                    Selecting the right financial advisor is an important decision based on trust that your advisor has your best interests in mind at all times. The primary goal of our portfolio management services is to find solutions that are aligned to your personal goals and requirements.
+                </p>
+                <p class="offer-desc-p">
+                    Our entire team focuses on matching your risk appetite with the most efficient investments. SRH does not offer any “model portfolio” or a generic list of asset classes. Through on-going discussions and regular interactions, our team designs an investment portfolio that is strategically aligned to your risk-return goals while keeping in mind any investing constraints you may face.
+                </p>
+                <p class="offer-desc-p">
+                    SRH believes in creating and maintaining deep, meaningful, and personal relationships with all of its clients.
+                </p>
+                <a class="offer-link-btn" href="./services.html#pms">Explore PMS <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 4. Structured Product -->
+            <div class="offer-scroll-card" data-visual="visual-structured" id="offer-structured">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-certificate"></i> Structured Product</h3>
+                    <span class="offer-badge">Low-Risk High Returns</span>
+                </div>
+                <p class="offer-desc-p">
+                    NCDs bear a fixed maturity date and the interest is paid either on maturity or at periodic intervals. This asset class when chosen correctly can deliver low-risk high returns along with tax benefits.
+                </p>
+                <p class="offer-desc-p">
+                    Our experts evaluate various NCDs on factors like credit rating, debt levels, interest coverage ratio, non-performing assets provisions, and capital adequacy ratio to maximize your returns.
+                </p>
+                <a class="offer-link-btn" href="./products.html#ncd">Explore NCDs <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 5. Bonds -->
+            <div class="offer-scroll-card" data-visual="visual-bonds" id="offer-bonds">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-file-invoice-dollar"></i> Bonds</h3>
+                    <span class="offer-badge">Fixed Income</span>
+                </div>
+                <p class="offer-desc-p">
+                    Bonds are a popular fixed-income asset class offering assured albeit lower returns. Companies, banks, and even mutual funds offer different types of bonds. Further, you can invest in RBI savings bonds and sovereign gold bonds.
+                </p>
+                <p class="offer-desc-p">
+                    The SRH team analyzes the different bond offerings and evaluates the issuer’s performance and the ratings to recommend the best products for your portfolio.
+                </p>
+                <a class="offer-link-btn" href="./products.html#bonds">Explore Bonds <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 6. Fixed Deposite -->
+            <div class="offer-scroll-card" data-visual="visual-fd" id="offer-fd">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-vault"></i> Fixed Deposite</h3>
+                    <span class="offer-badge">Optimal Tax Planning</span>
+                </div>
+                <p class="offer-desc-p">
+                    SRH helps in optimal tax planning for its clients and offers corporate fixed deposits, commercial and industrial real estate rental property investments, and fixed income insurance plans.
+                </p>
+                <a class="offer-link-btn" href="./products.html#fixed-income">Explore Fixed Deposits <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 7. Insurance -->
+            <div class="offer-scroll-card" data-visual="visual-insurance" id="offer-insurance">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-shield-halved"></i> Insurance</h3>
+                    <span class="offer-badge">Life & Non-Life Plans</span>
+                </div>
+                <p class="offer-desc-p">
+                    We work with industry leaders and experts to provide life and non-life insurance plans that cater to the individual requirements of clients. SRH also is amongst the largest retailers of different types of insurance products offered by every well-known and reliable insurance company in India.
+                </p>
+                <a class="offer-link-btn" href="./products.html#insurance">Explore Insurance <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+            <!-- 8. Loans -->
+            <div class="offer-scroll-card" data-visual="visual-loans" id="offer-loans">
+                <div class="offer-card-top">
+                    <h3 class="offer-card-heading"><i class="fas fa-landmark"></i> Loans</h3>
+                    <span class="offer-badge">Structured Credit</span>
+                </div>
+                <p class="offer-desc-p">
+                    SRH has well-established and long-standing relationships with all the major banks and non-banking finance companies (NBFCs) across India. Micro, small, and medium enterprises (MSMEs) and small and medium enterprises (SMEs) are the backbone for the future growth of the Indian economy. These businesses provide employment to millions of people and aid in industrialization of the rural and backward regions.
+                </p>
+                <p class="offer-desc-p">
+                    SRH works with MSMEs and SMEs to procure structured credit through its institutional relationships.
+                </p>
+                <a class="offer-link-btn" href="./sme.html">Explore Loans <i class="fas fa-arrow-right"></i></a>
+            </div>
+
+        </div>
+
+        <!-- Right Sticky Pinned Column -->
+        <div class="kinetic-right-sticky">
+            
+            <div class="offer-visual-panel active" id="visual-equities">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-chart-line" style="color: #38bdf8;"></i> Direct Equity Framework</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-magnifying-glass-chart" style="color: #38bdf8;"></i> Model</span><span class="offer-matrix-value">Technical &amp; Fundamental</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-arrow-trend-up" style="color: #10b981;"></i> Objective</span><span class="offer-matrix-value">Long-Term Capital Alpha</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-building-columns" style="color: #c084fc;"></i> Settlement</span><span class="offer-matrix-value">Exchange Regulated (T+1)</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Quantitative Moat &amp; Valuation Scrutiny</div>
+                </div>
+            </div>
+            
+            <div class="offer-visual-panel" id="visual-mf">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-pie-chart" style="color: #10b981;"></i> Mutual Fund Governance</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-shield-halved" style="color: #38bdf8;"></i> Regulation</span><span class="offer-matrix-value">SEBI &amp; AMFI Registered</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-repeat" style="color: #10b981;"></i> Modes</span><span class="offer-matrix-value">SIP / STP / SWP Active</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-eye" style="color: #c084fc;"></i> Disclosures</span><span class="offer-matrix-value">Daily NAV Transparency</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Goal-Based Lifecycle Planning</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-pms">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-briefcase" style="color: #f59e0b;"></i> Portfolio Management</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-bullseye" style="color: #38bdf8;"></i> Approach</span><span class="offer-matrix-value">Goal-Aligned Solutions</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-scale-balanced" style="color: #10b981;"></i> Strategy</span><span class="offer-matrix-value">Risk-Return Matching</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-users" style="color: #c084fc;"></i> Relationship</span><span class="offer-matrix-value">Personal & Meaningful</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> No Generic Model Portfolios</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-structured">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-certificate" style="color: #f43f5e;"></i> Structured Products</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-calendar-check" style="color: #38bdf8;"></i> Maturity</span><span class="offer-matrix-value">Fixed / Periodic</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-chart-line" style="color: #10b981;"></i> Returns</span><span class="offer-matrix-value">Low-Risk, High Yield</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-magnifying-glass" style="color: #c084fc;"></i> Evaluation</span><span class="offer-matrix-value">Credit & Debt Levels</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Tax Benefit Optimization</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-bonds">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-file-invoice-dollar" style="color: #38bdf8;"></i> Fixed Income &amp; Bonds</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-building" style="color: #38bdf8;"></i> Corporate</span><span class="offer-matrix-value">AAA / AA Rated Bonds</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-landmark" style="color: #10b981;"></i> Sovereign</span><span class="offer-matrix-value">RBI Savings &amp; SGB</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-percent" style="color: #c084fc;"></i> Tax-Free</span><span class="offer-matrix-value">PSU Bonds</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Issuer Performance &amp; Ratings Assessed</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-fd">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-vault" style="color: #eab308;"></i> Fixed Deposits & Assets</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-building" style="color: #38bdf8;"></i> Corporate</span><span class="offer-matrix-value">Corporate FDs</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-city" style="color: #10b981;"></i> Real Estate</span><span class="offer-matrix-value">Commercial Rentals</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-file-invoice" style="color: #c084fc;"></i> Planning</span><span class="offer-matrix-value">Optimal Tax Plans</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Diversified Fixed Income</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-insurance">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-shield-halved" style="color: #ec4899;"></i> Insurance Solutions</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-heart-pulse" style="color: #38bdf8;"></i> Coverage</span><span class="offer-matrix-value">Life & Non-Life</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-handshake" style="color: #10b981;"></i> Network</span><span class="offer-matrix-value">Industry Leaders</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-users-gear" style="color: #c084fc;"></i> Focus</span><span class="offer-matrix-value">Individual Needs</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Reliable & Comprehensive</div>
+                </div>
+            </div>
+
+            <div class="offer-visual-panel" id="visual-loans">
+                <div class="offer-matrix-card">
+                    <div class="offer-matrix-title"><i class="fas fa-landmark" style="color: #3b82f6;"></i> Credit & Loans</div>
+                    <div class="offer-matrix-list">
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-building-columns" style="color: #38bdf8;"></i> Sourcing</span><span class="offer-matrix-value">Major Banks & NBFCs</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-industry" style="color: #10b981;"></i> Segment</span><span class="offer-matrix-value">MSME & SME Focus</span></div>
+                        <div class="offer-matrix-row"><span class="offer-matrix-label"><i class="fas fa-file-signature" style="color: #c084fc;"></i> Solution</span><span class="offer-matrix-value">Structured Credit</span></div>
+                    </div>
+                    <div class="offer-matrix-footer"><i class="fas fa-check-circle"></i> Fueling Business Growth</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- 4. Call To Action Video Section -->
+<section class="cta-video-section-block" id="cta-video-block">
+<div class="cta-video-inner-layout">
+<div class="cta-text-side">
+<h2 class="cta-main-title">Not sure where to begin?</h2>
+<p class="cta-sub-description">We’ll help you identify the right starting point for your portfolio</p>
+<a class="cta-conversation-button" href="./contact.html">Begin with conversation</a>
+</div>
+<div class="cta-video-side">
+<div class="cta-video-box-wrapper" style="position: relative;">
+<video id="cta-scroll-video" playsinline="" preload="metadata">
+<source src="cta.mp4" type="video/mp4"/>
+</video>
+<div aria-label="Replay Video" class="cta-replay-overlay" id="cta-replay-overlay">
+<i class="fas fa-redo-alt"></i>
+<span>Replay</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. Our Services Carousel Section -->
+<section class="services-wrapper">
+<h2 class="services-section-title">Our Services</h2>
+<div class="services-slider-container">
+<div class="services-viewport carousel-with-arrows" id="services-carousel">
+<button aria-label="Previous services" class="carousel-arrow carousel-arrow-left" data-carousel="services-slider-track" type="button"><i class="fas fa-chevron-left"></i></button>
+<div class="services-track" id="services-slider-track">
+<div class="services-slide">
+<div class="service-card">
+<div class="service-icon-box"><i class="fas fa-briefcase"></i></div>
+<h3 class="service-card-title">Customised Portfolio Management</h3>
+<p class="service-card-text">Selecting the right financial advisor is an important decision based on trust and transparent execution...</p>
+<a class="service-read-more" href="./services.html#pms">Read More <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="services-slide">
+<div class="service-card">
+<div class="service-icon-box"><i class="fas fa-chart-line"></i></div>
+<h3 class="service-card-title">Technical Stock Analysis</h3>
+<p class="service-card-text">Based on historical price actions, returns, and trade volumes, our desk projects future setups...</p>
+<a class="service-read-more" href="./services.html#technical">Read More <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="services-slide">
+<div class="service-card">
+<div class="service-icon-box"><i class="fas fa-chart-pie"></i></div>
+<h3 class="service-card-title">Fundamental Stock Analysis</h3>
+<p class="service-card-text">Analysts deploy qualitative and balance sheet indicators to determine enterprise valuation...</p>
+<a class="service-read-more" href="./services.html#fundamental">Read More <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="services-slide">
+<div class="service-card">
+<div class="service-icon-box"><i class="fas fa-arrow-trend-up"></i></div>
+<h3 class="service-card-title">Derivative Analysis</h3>
+<p class="service-card-text">Structured derivative strategies designed to hedge underlying volatility and unlock alpha...</p>
+<a class="service-read-more" href="./services.html#derivative">Read More <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+<div class="services-slide">
+<div class="service-card">
+<div class="service-icon-box"><i class="fas fa-landmark"></i></div>
+<h3 class="service-card-title">Loans &amp; MSME Credit</h3>
+<p class="service-card-text">Structured lending, debt syndication, and working capital solutions procured through major banks...</p>
+<a class="service-read-more" href="./sme.html">Read More <i class="fas fa-arrow-right"></i></a>
+</div>
+</div>
+</div>
+<button aria-label="Next services" class="carousel-arrow carousel-arrow-right" data-carousel="services-slider-track" type="button"><i class="fas fa-chevron-right"></i></button>
+</div>
+</div>
+</section>
+<!-- 6. Latest from Our Blogs Section -->
+<section class="latest-blogs-section">
+<div class="blogs-section-header">
+<h2 class="section-heading-title">Latest from Our Blogs</h2>
+<a class="view-all-blogs-link" href="./blogs.html">View All Posts <i class="fas fa-arrow-right"></i></a>
+</div>
+<div class="blogs-two-square-grid" id="homepage-blogs-grid"></div>
+</section>
+<!-- 7. Key Partners Section (Image-Only Showcase) -->
+<section class="partners-wrapper">
+<h2 class="section-heading-title">Key Partners</h2>
+<div class="partners-slider-container">
+<div class="partners-viewport">
+<div class="partners-track" id="partners-slider-track">
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Baroda Mutual Fund" onerror="this.style.display='none'" src="1.jpg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Edelweiss" onerror="this.style.display='none'" src="2.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Franklin Templeton Investment" onerror="this.style.display='none'" src="3.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="HSBC Mutual Fund" onerror="this.style.display='none'" src="4.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="IIFL Invesco" onerror="this.style.display='none'" src="5.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="JM Financial" onerror="this.style.display='none'" src="6.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Kotak" onerror="this.style.display='none'" src="7.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="L&amp;T" onerror="this.style.display='none'" src="8.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="LIC" onerror="this.style.display='none'" src="9.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Mahindra" onerror="this.style.display='none'" src="10.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Motilal Oswal" onerror="this.style.display='none'" src="11.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Nippon Life" onerror="this.style.display='none'" src="12.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Quantum" onerror="this.style.display='none'" src="13.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="SBI" onerror="this.style.display='none'" src="14.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Shriram" onerror="this.style.display='none'" src="15.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Tata" onerror="this.style.display='none'" src="16.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Union" onerror="this.style.display='none'" src="17.png"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="UTI" onerror="this.style.display='none'" src="18.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Aditya Birla" onerror="this.style.display='none'" src="19.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Axis" onerror="this.style.display='none'" src="20.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="Anand Rathi" onerror="this.style.display='none'" src="21.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="BOI" onerror="this.style.display='none'" src="22.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="HDFC Mutual Fund" onerror="this.style.display='none'" src="23.jpeg"/></div></div>
+<div class="partner-slide"><div class="partner-card-img-wrap"><img alt="IIFL" onerror="this.style.display='none'" src="24.jpeg"/></div></div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. Complete Site Footer -->
+<footer class="site-footer-compact" id="site-footer">
+<div class="footer-custom-container">
+<div class="footer-top-row">
+<div class="footer-brand-wrap">
+<img alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'" src="footer_logo.png"/>
+</div>
+<div class="footer-social-icons">
+<a aria-label="Facebook" class="social-icon social-fb" href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" rel="noopener noreferrer" target="_blank"><i class="fab fa-facebook-f"></i></a>
+<a aria-label="Instagram" class="social-icon social-insta" href="https://www.instagram.com/srh.world" rel="noopener noreferrer" target="_blank"><i class="fab fa-instagram"></i></a>
+<a aria-label="LinkedIn" class="social-icon social-li" href="https://www.linkedin.com/company/srh-world/" rel="noopener noreferrer" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+<!-- UPDATED X LOGO ICON -->
+<a aria-label="X (Twitter)" class="social-icon social-x" href="https://x.com/srhworldpune" rel="noopener noreferrer" target="_blank"><i class="fab fa-twitter"></i></a>
+<a aria-label="YouTube" class="social-icon social-yt" href="https://youtube.com" rel="noopener noreferrer" target="_blank"><i class="fab fa-youtube"></i></a>
+<a aria-label="WhatsApp Direct Message" class="social-icon social-wa" href="https://wa.me/918484914844" rel="noopener noreferrer" target="_blank"><i class="fab fa-whatsapp"></i></a>
+</div>
+</div>
+<div class="footer-offices-grid">
+<div class="footer-office-col">
+<h4 class="footer-office-heading"><i class="fas fa-building"></i> Head Office</h4>
+<div class="footer-info-item">
+<span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span>
+<p>OFFICE 1&amp;2, F – MADHUKOSH SOCIETY, SINHGAD ROAD, NEXT TO WARJE, PUNE, MAHARASHTRA - 411041</p>
+</div>
+<div class="footer-info-item">
+<span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span>
+<p><a href="tel:8484914844">+91 84849 14844</a></p>
+</div>
+<div class="footer-info-item">
+<span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span>
+<p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p>
+</div>
+</div>
+<div class="footer-office-col">
+<h4 class="footer-office-heading"><i class="fas fa-city"></i> Wakad office</h4>
+<div class="footer-info-item">
+<span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span>
+<p>G-201-202 WATER’S SQUARE, VISHAL NAGAR, PIMPLE NILAKH, PUNE, MAHARASHTRA - 411027</p>
+</div>
+<div class="footer-info-item">
+<span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span>
+<p><a href="tel:8291008616">+91 82910 08616</a></p>
+</div>
+<div class="footer-info-item">
+<span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span>
+<p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="footer-bottom-bar">
+<div class="footer-bottom-container">
+<p class="copyright-text">© 2026 SRH World. All rights reserved.</p>
+<div class="footer-legal-links">
+<a href="./index.html">Home</a>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms &amp; Conditions</a>
+<a href="./manage.html">Staff Portal</a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<!-- Floating TOP Button (Hidden initially) -->
+<button aria-label="Scroll to Top" class="top-float-btn hide-floating-btn" id="top-float-btn">
+<i class="fas fa-arrow-up"></i> <span>TOP</span>
+</button>
+<!-- Floating WhatsApp Button (Hidden initially) -->
+<a aria-label="Chat on WhatsApp" class="whatsapp-float hide-floating-btn" href="https://wa.me/918484914844" id="whatsapp-btn" rel="noopener noreferrer" target="_blank">
+<i class="fab fa-whatsapp"></i>
+</a>
+<!-- Floating Vertical Demat Account Button -->
+<a aria-label="Open Free Demat Account" class="demat-floating-btn" href="https://anandrathi.com/" rel="noopener noreferrer" target="_blank">
+        OPEN FREE DEMAT ACCOUNT
+    </a>
+<!-- Cute animated SRH World expert mascot -->
+<div aria-hidden="true" class="srh-assistant-panel" id="srh-assistant-panel">
+<div class="srh-assistant-header">
+<div class="srh-assistant-brand">
+<span class="srh-assistant-status-dot"></span>
+<div><strong>Doji</strong><small>Here to help you find the right service</small></div>
+</div>
+<button aria-label="Close assistant" class="srh-assistant-close" id="srh-assistant-close" type="button" onclick="window.closeDojiAssistant && window.closeDojiAssistant(event)">×</button>
+</div>
+<div aria-live="polite" class="srh-assistant-messages" id="srh-assistant-messages"></div>
+<div aria-hidden="true" class="srh-assistant-typing" id="srh-assistant-typing"><span></span><span></span><span></span></div>
+<div class="srh-assistant-quick" id="srh-assistant-quick"></div>
+<form class="srh-assistant-input" id="srh-assistant-form">
+<input aria-label="Message" autocomplete="off" id="srh-assistant-input" placeholder="Type your question..." type="text"/>
+<button aria-label="Send message" type="submit"><i class="fas fa-paper-plane"></i></button>
+</form>
+<div class="srh-assistant-note">AI guidance is for general information only, not personalized investment advice.</div>
+</div><div aria-live="polite" class="srh-mascot" data-mascot-state="hero" id="srh-mascot">
+
+<div class="srh-mascot-bubble" id="srh-mascot-bubble">
+<button aria-label="Close message" class="srh-mascot-close" id="srh-mascot-close" type="button">×</button>
+<div class="srh-mascot-bubble-title">Hi! <span aria-hidden="true">👋</span></div>
+<div class="srh-mascot-bubble-text">Hi, how can we help?</div>
+<a class="srh-mascot-connect" href="https://wa.me/918484914844" rel="noopener noreferrer" target="_blank">
+<i aria-hidden="true" class="fab fa-whatsapp"></i>
+                Connect Now
+            </a>
+</div>
+<button aria-label="Connect with an SRH World expert" class="srh-mascot-character" id="srh-mascot-character" type="button" onclick="window.openDojiAssistant && window.openDojiAssistant(event)">
+<svg aria-label="Cute Japanese candlestick mascot" class="srh-mascot-svg" role="img" viewbox="0 0 120 175">
+<defs>
+<lineargradient id="mascotBodyGradient" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0%" stop-color="#8df58a"></stop>
+<stop offset="45%" stop-color="#35c85a"></stop>
+<stop offset="100%" stop-color="#119447"></stop>
+</lineargradient>
+<lineargradient id="mascotTopGradient" x1="0" x2="1" y1="0" y2="1">
+<stop offset="0%" stop-color="#c9ffc4"></stop>
+<stop offset="100%" stop-color="#48dc6b"></stop>
+</lineargradient>
+<filter height="170%" id="mascotShadow" width="180%" x="-40%" y="-30%">
+<fedropshadow dx="0" dy="6" flood-color="#0f172a" flood-opacity="0.20" stddeviation="5"></fedropshadow>
+</filter>
+</defs>
+<!-- Lower wick: deliberately candle-chart style, not a burning candle. -->
+<line stroke="#116f38" stroke-linecap="round" stroke-width="5" x1="60" x2="60" y1="145" y2="163"></line>
+<line stroke="#116f38" stroke-linecap="round" stroke-width="5" x1="60" x2="60" y1="10" y2="29"></line>
+<!-- Soft rounded arms: natural-looking, short and friendly. -->
+<g class="srh-mascot-wave-arm" id="srh-mascot-wave-arm">
+<path d="M30 101 C21 99, 16 93, 15 85" fill="none" stroke="#159b49" stroke-linecap="round" stroke-width="8"></path>
+<ellipse cx="15" cy="82" fill="#35c85a" rx="5.5" ry="6.5" transform="rotate(-18 15 82)"></ellipse>
+</g>
+<g class="srh-mascot-rest-arm">
+<path d="M90 101 C99 99, 104 93, 105 86" fill="none" stroke="#159b49" stroke-linecap="round" stroke-width="8"></path>
+<ellipse cx="105" cy="83" fill="#35c85a" rx="5.5" ry="6.5" transform="rotate(18 105 83)"></ellipse>
+</g>
+<!-- Japanese candlestick body: square green real body + upper/lower wicks. -->
+<g filter="url(#mascotShadow)">
+<rect fill="url(#mascotBodyGradient)" height="116" rx="8" stroke="#0e7e3b" stroke-width="2.2" width="62" x="29" y="29"></rect>
+<rect fill="#d7ffd1" height="103" opacity="0.22" rx="4" width="9" x="34" y="35"></rect>
+<rect fill="url(#mascotTopGradient)" height="13" opacity="0.92" rx="7" width="62" x="29" y="29"></rect>
+</g>
+<!-- Friendly face -->
+<path d="M39 55 Q46 50 52 54" fill="none" stroke="#12351f" stroke-linecap="round" stroke-width="3.5"></path>
+<path d="M68 54 Q75 50 82 55" fill="none" stroke="#12351f" stroke-linecap="round" stroke-width="3.5"></path>
+<g class="srh-mascot-eye" data-eye-x="46" data-eye-y="70">
+<ellipse cx="46" cy="70" fill="#ffffff" rx="11" ry="13" stroke="#12351f" stroke-width="1.6"></ellipse>
+<circle class="srh-mascot-pupil" cx="46" cy="71" fill="#24180f" r="5.5"></circle>
+<circle cx="48" cy="69" fill="#ffffff" r="2"></circle>
+</g>
+<g class="srh-mascot-eye" data-eye-x="74" data-eye-y="70">
+<ellipse cx="74" cy="70" fill="#ffffff" rx="11" ry="13" stroke="#12351f" stroke-width="1.6"></ellipse>
+<circle class="srh-mascot-pupil" cx="74" cy="71" fill="#24180f" r="5.5"></circle>
+<circle cx="76" cy="69" fill="#ffffff" r="2"></circle>
+</g>
+<!-- Blink lids -->
+<g aria-hidden="true" class="srh-mascot-blink">
+<path d="M36 70 Q46 82 56 70" fill="none" stroke="#35c85a" stroke-linecap="round" stroke-width="8"></path>
+<path d="M64 70 Q74 82 84 70" fill="none" stroke="#35c85a" stroke-linecap="round" stroke-width="8"></path>
+</g>
+<!-- Cute smile -->
+<path d="M45 94 Q60 105 75 94" fill="none" stroke="#12351f" stroke-linecap="round" stroke-width="3"></path>
+<ellipse cx="36" cy="91" fill="#ff9baa" opacity=".55" rx="4" ry="2"></ellipse>
+<ellipse cx="84" cy="91" fill="#ff9baa" opacity=".55" rx="4" ry="2"></ellipse>
+</svg>
+</button>
+</div>
+<script>
+        // 1. Dynamic Latest Blogs Renderer
+        const DEFAULT_HOME_BLOGS = [
+            { id: 'post_1', title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: 'August 2026', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles...' },
+            { id: 'post_2', title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: 'August 2026', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles...' }
+        ];
+
+        function renderHomepageLatestBlogs() {
+            const grid = document.getElementById('homepage-blogs-grid');
+            if (!grid) return;
+            let blogs = [];
+            try {
+                const stored = localStorage.getItem('srh_blogs');
+                blogs = stored ? JSON.parse(stored) : DEFAULT_HOME_BLOGS;
+            } catch (e) { blogs = DEFAULT_HOME_BLOGS; }
+            if (!blogs || blogs.length === 0) blogs = DEFAULT_HOME_BLOGS;
+
+            grid.innerHTML = '';
+            blogs.slice(0, 2).forEach(blog => {
+                const article = document.createElement('article');
+                article.className = 'blog-square-card';
+                article.innerHTML = `
+                    <div class="blog-image-frame">
+                        <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
+                        <span class="blog-category-badge">${blog.category || 'Insights'}</span>
+                    </div>
+                    <div class="blog-body-content">
+                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${blog.date || 'August 2026'} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
+                        <h3 class="blog-article-title">${blog.title}</h3>
+                        <p class="blog-summary-text">${blog.excerpt || ''}</p>
+                        <a href="./blogs.html" class="blog-read-btn">Read Full Article <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                `;
+                grid.appendChild(article);
+            });
+        }
+
+        // 2. Continuous Marquee Engine
+        function setupContinuousMarquee(trackId) {
+            const track = document.getElementById(trackId);
+            if (track && !track.dataset.cloned) {
+                Array.from(track.children).forEach(item => track.appendChild(item.cloneNode(true)));
+                track.dataset.cloned = "true";
+            }
+        }
+        setupContinuousMarquee('main-slider-track');
+        setupContinuousMarquee('services-slider-track');
+        setupContinuousMarquee('partners-slider-track');
+
+        // 3. Hero Video Configuration
+        const scrollVideo = document.getElementById('hero-scroll-video');
+        if (scrollVideo) {
+            scrollVideo.playbackRate = 2.0; 
+        }
+
+        // 4. Floating Buttons Visibility Logic (WhatsApp & TOP)
+        function syncFloatingButtons() {
+            const weOfferSection = document.getElementById('we-offer');
+            const topFloatBtn = document.getElementById('top-float-btn');
+            const whatsappBtn = document.getElementById('whatsapp-btn');
+            const heroSection = document.getElementById('hero-interactive-section');
+            const footerElement = document.getElementById('site-footer');
+            const header = document.getElementById('header-sticky-wrapper');
+
+            // Header stickiness
+            if (header) {
+                if (window.scrollY <= 10 || window.scrollY > 300) {
+                    header.classList.add('header-visible');
+                } else {
+                    header.classList.remove('header-visible');
+                }
+            }
+
+            // WhatsApp Button: Appear after Hero is scrolled OR collapsed
+            if (whatsappBtn) {
+                if (window.scrollY > 50 || (heroSection && heroSection.offsetHeight < 50)) {
+                    whatsappBtn.classList.remove('hide-floating-btn');
+                } else {
+                    whatsappBtn.classList.add('hide-floating-btn');
+                }
+            }
+
+            // TOP Button: Appear after "What We Offer" section is scrolled past
+            if (topFloatBtn && weOfferSection) {
+                const weOfferRect = weOfferSection.getBoundingClientRect();
+                if (weOfferRect.bottom < 0) {
+                    topFloatBtn.classList.remove('hide-floating-btn');
+                } else {
+                    topFloatBtn.classList.add('hide-floating-btn');
+                }
+            }
+
+            // Keep the TOP button visible even when the footer is in view.
+            // WhatsApp retains its existing footer behavior.
+            if (footerElement) {
+                if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
+                    if (whatsappBtn) whatsappBtn.classList.add('hide-floating-btn');
+                }
+            }
+        }
+
+        // Click handler for TOP button
+        const topFloatBtn = document.getElementById('top-float-btn');
+        if (topFloatBtn) {
+            topFloatBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        // 5. Hero Video Fade-Out (no slide / no collapse)
+        function triggerHeroVideoFade() {
+            setTimeout(() => {
+                const video = document.getElementById('hero-scroll-video');
+                const videoLayer = document.getElementById('hero-video-layer');
+
+                if (videoLayer) videoLayer.classList.add('video-fade-out');
+
+                // Stop video after the full 2.4s fade finishes.
+                setTimeout(() => {
+                    if (video) video.pause();
+                }, 2400);
+            }, 4000);
+        }
+
+        // 6. Stable "What We Offer" Scroll-Spy
+        // The previous IntersectionObserver could activate multiple cards in one
+        // scroll event. That made the right panel flicker or show the wrong card
+        // when scrolling back upward. We now use one deterministic viewport guide.
+        const offerCards = Array.from(document.querySelectorAll('.offer-scroll-card'));
+        const visualPanels = Array.from(document.querySelectorAll('.offer-visual-panel'));
+        let offerActiveId = null;
+        let offerScrollTicking = false;
+
+        function setActiveOffer(card) {
+            if (!card) return;
+
+            const targetId = card.getAttribute('data-visual');
+            if (!targetId || targetId === offerActiveId) return;
+
+            offerActiveId = targetId;
+
+            offerCards.forEach(c => {
+                c.classList.toggle('active', c === card);
+            });
+
+            visualPanels.forEach(panel => {
+                panel.classList.toggle('active', panel.id === targetId);
+            });
+        }
+
+        function updateOfferScrollSpy() {
+            offerScrollTicking = false;
+            if (!offerCards.length || window.innerWidth <= 992) return;
+
+            // Keep the active state tied to the card nearest the visual centre.
+            // This behaves consistently in both directions and avoids observer races.
+            const guideY = Math.min(window.innerHeight * 0.48, window.innerHeight - 180);
+            let closestCard = offerCards[0];
+            let closestDistance = Infinity;
+
+            offerCards.forEach(card => {
+                const rect = card.getBoundingClientRect();
+                const cardCenter = rect.top + (rect.height / 2);
+                const distance = Math.abs(cardCenter - guideY);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestCard = card;
+                }
+            });
+
+            setActiveOffer(closestCard);
+        }
+
+        function requestOfferScrollSpy() {
+            if (!offerScrollTicking) {
+                offerScrollTicking = true;
+                window.requestAnimationFrame(updateOfferScrollSpy);
+            }
+        }
+
+        if (offerCards.length) {
+            setActiveOffer(offerCards.find(card => card.classList.contains('active')) || offerCards[0]);
+            window.addEventListener('scroll', requestOfferScrollSpy, { passive: true });
+            window.addEventListener('resize', requestOfferScrollSpy, { passive: true });
+            window.addEventListener('load', requestOfferScrollSpy);
+        }
+
+        // 7. CTA Video - Play unmuted on visible with replay option
+        const ctaVid = document.getElementById('cta-scroll-video');
+        const ctaReplayBtn = document.getElementById('cta-replay-overlay');
+
+        if (ctaVid) {
+            const ctaVideoObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (ctaVid.paused && !ctaVid.ended) {
+                            const playPromise = ctaVid.play();
+                            if (playPromise !== undefined) {
+                                playPromise.catch(error => {
+                                    console.log("Autoplay policy blocked unmuted video.");
+                                });
+                            }
+                        }
+                    } else {
+                        ctaVid.pause();
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            ctaVideoObserver.observe(ctaVid);
+
+            ctaVid.addEventListener('ended', () => {
+                if (ctaReplayBtn) ctaReplayBtn.style.display = 'flex';
+            });
+
+            if (ctaReplayBtn) {
+                ctaReplayBtn.addEventListener('click', () => {
+                    ctaReplayBtn.style.display = 'none';
+                    ctaVid.currentTime = 0;
+                    ctaVid.play();
+                });
+            }
+        }
+
+        window.addEventListener('scroll', () => { window.requestAnimationFrame(syncFloatingButtons); }, { passive: true });
+        window.addEventListener('resize', syncFloatingButtons, { passive: true });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+            window.scrollTo(0, 0);
+            renderHomepageLatestBlogs();
+            syncFloatingButtons();
+            triggerHeroVideoFade();
+        });
+
+        // 8. Universal Navigation Menu & Dropdowns
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const headerNavigationMenu = document.getElementById('header-navigation-menu');
+        if (menuToggleBtn && headerNavigationMenu) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                headerNavigationMenu.classList.toggle('mobile-open');
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
+                        }
+                    }
+                });
+            });
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        }
+    
+
+        // 9. Cute SRH World mascot: one natural greeting, hover wave, timed message,
+        // hide during the Equity offer view, then return near the Demat button after CTA.
+        (function setupSRHMascot() {
+            const mascot = document.getElementById('srh-mascot');
+            const character = document.getElementById('srh-mascot-character');
+            const bubble = document.getElementById('srh-mascot-bubble');
+            const closeBtn = document.getElementById('srh-mascot-close');
+            const videoLayer = document.getElementById('hero-video-layer');
+            const equityCard = document.getElementById('offer-equities');
+            const ctaBlock = document.getElementById('cta-video-block');
+            const weOfferSection = document.getElementById('we-offer');
+            const headerNavigationMenu = document.getElementById('header-navigation-menu');
+            const headerBar = document.querySelector('.main-header');
+            const smartCalculator = document.querySelector('.header-calc-pill');
+
+            if (!mascot || !character || !bubble) return;
+
+            let initialGreetingShown = false;
+            let rafId = null;
+            let messageTimer = null;
+            let mouseX = window.innerWidth * 0.5;
+            let mouseY = window.innerHeight * 0.5;
+
+            function showMessage() {
+                clearTimeout(messageTimer);
+                bubble.classList.remove('message-force-hidden');
+                bubble.classList.add('message-visible');
+                bubble.style.opacity = '1';
+                bubble.style.visibility = 'visible';
+                bubble.style.transform = 'translateY(0) scale(1)';
+                bubble.style.pointerEvents = 'auto';
+                messageTimer = setTimeout(() => {
+                    bubble.classList.remove('message-visible');
+                    bubble.classList.add('message-force-hidden');
+                    bubble.style.opacity = '0';
+                    bubble.style.visibility = 'hidden';
+                    bubble.style.transform = 'translateY(10px) scale(.92)';
+                    bubble.style.pointerEvents = 'none';
+                }, 2000);
+            }
+
+            function waveOnce() {
+                character.classList.remove('hover-wave');
+                mascot.classList.remove('wave-now');
+                void character.offsetWidth;
+                void mascot.offsetWidth;
+                mascot.classList.add('wave-now');
+            }
+
+            function positionMascotBesideCalculator(mode = 'cta') {
+                if (!smartCalculator) return;
+                mascot.dataset.mascotState = mode;
+                const calcRect = smartCalculator.getBoundingClientRect();
+                const mascotRect = mascot.getBoundingClientRect();
+                const mascotWidth = mascotRect.width || (window.innerWidth <= 768 ? 34 : 42);
+                const mascotHeight = mascotRect.height || (window.innerWidth <= 768 ? 50 : 60);
+                const gap = window.innerWidth <= 768 ? 4 : 6;
+                const headerRect = headerBar ? headerBar.getBoundingClientRect() : { top: 0, height: 72, bottom: 72 };
+                const headerTop = Math.max(0, headerRect.top);
+                const headerBottom = Math.min(window.innerHeight, headerRect.bottom);
+                const safeHeight = Math.max(1, headerBottom - headerTop);
+
+                mascot.style.left = Math.max(4, calcRect.left - mascotWidth - gap) + 'px';
+                mascot.style.right = 'auto';
+                mascot.style.top = Math.max(headerTop + 2, Math.min(headerBottom - mascotHeight - 2, headerTop + (safeHeight - mascotHeight) / 2)) + 'px';
+                mascot.style.bottom = 'auto';
+            }
+
+            function positionMascotInHeader() {
+                positionMascotBesideCalculator('header');
+            }
+
+            function resetMascotPosition() {
+                mascot.style.left = '';
+                mascot.style.right = '';
+                mascot.style.top = '';
+                mascot.style.bottom = '';
+            }
+
+            function showMascot(mode = 'hero') {
+                mascot.dataset.mascotState = mode;
+                if (mode === 'cta' || mode === 'header') {
+                    positionMascotBesideCalculator(mode);
+                } else {
+                    resetMascotPosition();
+                }
+                mascot.classList.add('is-visible');
+
+                // Initial greeting: show immediately when the mascot first appears in the hero.
+                if (mode === 'hero' && !initialGreetingShown) {
+                    initialGreetingShown = true;
+                    showMessage();
+                    setTimeout(waveOnce, 120);
+                } else if (mode !== 'hero') {
+                    setTimeout(waveOnce, 180);
+                }
+            }
+
+            function hideMascot() {
+                mascot.classList.remove('is-visible', 'message-visible', 'message-force-hidden', 'wave-now', 'hover-wave');
+                clearTimeout(messageTimer);
+            }
+
+            // Hero appearance after the video fade.
+            if (videoLayer) {
+                videoLayer.addEventListener('transitionend', (event) => {
+                    if (event.propertyName === 'opacity') setTimeout(() => showMascot('hero'), 120);
+                });
+            }
+            setTimeout(() => showMascot('hero'), 6450);
+
+            // Keep the mascot small and inside the sticky header throughout the
+            // entire We Offer section. This prevents the large hero mascot from
+            // appearing when the user scrolls back up from the middle of We Offer.
+            function weOfferIsInView() {
+                if (!weOfferSection) return false;
+                const sectionRect = weOfferSection.getBoundingClientRect();
+                return sectionRect.top < window.innerHeight * 0.92 && sectionRect.bottom > window.innerHeight * 0.08;
+            }
+
+            // Kept for compatibility with the existing mascot logic.
+            function equityIsActive() {
+                if (!equityCard || !weOfferSection || window.innerWidth <= 992) return false;
+                const sectionRect = weOfferSection.getBoundingClientRect();
+                const cardRect = equityCard.getBoundingClientRect();
+                const sectionHasBeenReached = sectionRect.top < window.innerHeight * 0.82;
+                const equityIsOnScreen = cardRect.top < window.innerHeight * 0.72 && cardRect.bottom > window.innerHeight * 0.18;
+                return sectionHasBeenReached && equityIsOnScreen && equityCard.classList.contains('active');
+            }
+
+            // Bring it back when the CTA video block reaches the viewport, and
+            // restore the original bottom-left position when scrolling back upward.
+            let ctaShown = false;
+            let lastScrollY = window.scrollY;
+            function syncMascotScroll() {
+                // IMPORTANT: the whole We Offer section uses the small header mascot.
+                // Do this before the CTA/hero logic so scrolling upward from any
+                // middle offer card can never restore the large bottom-left mascot.
+                if (weOfferIsInView()) {
+                    ctaShown = false;
+                    if (mascot.dataset.mascotState !== 'header' || !mascot.classList.contains('is-visible')) {
+                        showMascot('header');
+                    } else {
+                        positionMascotInHeader();
+                    }
+                    lastScrollY = window.scrollY;
+                    return;
+                }
+
+                if (!ctaBlock) return;
+
+                const rect = ctaBlock.getBoundingClientRect();
+                const ctaInView = rect.top < window.innerHeight * 0.72 && rect.bottom > window.innerHeight * 0.18;
+                const scrollingUp = window.scrollY < lastScrollY;
+
+                if (ctaInView) {
+                    if (!ctaShown) {
+                        ctaShown = true;
+                        showMascot('cta');
+                    }
+                } else if (scrollingUp && rect.top > window.innerHeight * 0.72) {
+                    ctaShown = false;
+                    showMascot('hero');
+                } else if (rect.bottom < window.innerHeight * 0.18) {
+                    // Once the CTA has been passed, keep the CTA mascot available.
+                    if (!ctaShown) showMascot('cta');
+                }
+
+                lastScrollY = window.scrollY;
+            }
+
+            window.addEventListener('scroll', syncMascotScroll, { passive: true });
+            window.addEventListener('resize', () => {
+                syncMascotScroll();
+                if ((mascot.dataset.mascotState === 'cta' || mascot.dataset.mascotState === 'header') && mascot.classList.contains('is-visible')) {
+                    positionMascotBesideCalculator(mascot.dataset.mascotState);
+                }
+            }, { passive: true });
+
+            // Cursor tracking: pupils move within the real 120x175 SVG viewBox.
+            function updateEyes() {
+                rafId = null;
+                const svg = mascot.querySelector('.srh-mascot-svg');
+                if (!svg) return;
+
+                const rect = svg.getBoundingClientRect();
+                const scaleX = 120 / rect.width;
+                const scaleY = 175 / rect.height;
+                const cursorSvgX = (mouseX - rect.left) * scaleX;
+                const cursorSvgY = (mouseY - rect.top) * scaleY;
+
+                mascot.querySelectorAll('.srh-mascot-eye').forEach(eye => {
+                    const eyeX = Number(eye.dataset.eyeX);
+                    const eyeY = Number(eye.dataset.eyeY);
+                    const dx = cursorSvgX - eyeX;
+                    const dy = cursorSvgY - eyeY;
+                    const angle = Math.atan2(dy, dx);
+                    const distance = Math.min(4.5, Math.hypot(dx, dy) * 0.032);
+                    const pupil = eye.querySelector('.srh-mascot-pupil');
+                    if (pupil) pupil.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`;
+                });
+            }
+
+            document.addEventListener('mousemove', (event) => {
+                mouseX = event.clientX;
+                mouseY = event.clientY;
+                if (!rafId) rafId = requestAnimationFrame(updateEyes);
+            }, { passive: true });
+
+            window.addEventListener('resize', () => {
+                mouseX = window.innerWidth * 0.5;
+                mouseY = window.innerHeight * 0.5;
+                if (!rafId) rafId = requestAnimationFrame(updateEyes);
+                if (document.getElementById('srh-assistant-panel')?.classList.contains('open') && typeof positionAssistantPanel === 'function') positionAssistantPanel();
+            }, { passive: true });
+
+            // Keep the assistant attached to the mascot while the page scrolls.
+            // The panel itself is fixed to the viewport, so it must be repositioned
+            // whenever the sticky header/mascot changes its viewport position.
+            let assistantScrollFrame = null;
+            window.addEventListener('scroll', () => {
+                if (!document.getElementById('srh-assistant-panel')?.classList.contains('open')) return;
+                if (assistantScrollFrame) return;
+                assistantScrollFrame = requestAnimationFrame(() => {
+                    assistantScrollFrame = null;
+                    positionAssistantPanel();
+                });
+            }, { passive: true });
+
+            // Natural one-time hover wave. Repeated hover waves only happen after the
+            // pointer actually leaves and enters again, avoiding a robotic loop.
+            let hoverInside = false;
+            character.addEventListener('mouseenter', () => {
+                if (hoverInside) return;
+                hoverInside = true;
+                waveOnce();
+            });
+            character.addEventListener('mouseleave', () => { hoverInside = false; });
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', (event) => {
+                    event.stopPropagation();
+                    bubble.classList.remove('message-visible');
+                    clearTimeout(messageTimer);
+                });
+            }
+
+            // Open Doji, the SRH World AI assistant, when the mascot is clicked.
+            const assistantPanel = document.getElementById('srh-assistant-panel');
+            const assistantMessages = document.getElementById('srh-assistant-messages');
+            const assistantQuick = document.getElementById('srh-assistant-quick');
+            const assistantForm = document.getElementById('srh-assistant-form');
+            const assistantInput = document.getElementById('srh-assistant-input');
+            const assistantClose = document.getElementById('srh-assistant-close');
+            const assistantTyping = document.getElementById('srh-assistant-typing');
+            const SRH_AI_ENDPOINT = '/api/srh-assistant';
+            let assistantStarted = false;
+            let assistantHistory = [];
+            let assistantLead = { name: '', mobile: '', email: '', interest: '' };
+
+            function assistantAddMessage(text, role = 'assistant') {
+                if (!assistantMessages) return;
+                const item = document.createElement('div');
+                item.className = 'srh-assistant-msg ' + role;
+                item.textContent = text;
+                assistantMessages.appendChild(item);
+                assistantMessages.scrollTop = assistantMessages.scrollHeight;
+            }
+
+            function assistantShowQuick(options) {
+                if (!assistantQuick) return;
+                assistantQuick.innerHTML = '';
+                (options || []).forEach(option => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'srh-assistant-chip';
+                    btn.textContent = option;
+                    btn.addEventListener('click', () => assistantSend(option));
+                    assistantQuick.appendChild(btn);
+                });
+            }
+
+            function positionAssistantPanel() {
+                if (!assistantPanel || !mascot) return;
+
+                const mr = mascot.getBoundingClientRect();
+                const isMobile = window.innerWidth <= 768;
+                const panelWidth = Math.min(isMobile ? 330 : 350, window.innerWidth - (isMobile ? 20 : 30));
+                const panelHeight = Math.min(isMobile ? 500 : 520, window.innerHeight - (isMobile ? 20 : 40));
+                const gap = isMobile ? 8 : 10;
+                let left;
+                let top;
+
+                // Header/CTA mascot: open directly below the mascot, inside the
+                // viewport. Hero mascot: open above it when there is enough room.
+                if (mascot.dataset.mascotState === 'header' || mascot.dataset.mascotState === 'cta') {
+                    left = mr.left + (mr.width / 2) - (panelWidth / 2);
+                    top = mr.bottom + gap;
+                } else {
+                    left = mr.left;
+                    top = mr.top - panelHeight - gap;
+                    if (top < 10) top = mr.bottom + gap;
+                }
+
+                // Never allow the chat window outside the browser viewport.
+                left = Math.max(10, Math.min(left, window.innerWidth - panelWidth - 10));
+                top = Math.max(10, Math.min(top, window.innerHeight - panelHeight - 10));
+
+                assistantPanel.style.width = panelWidth + 'px';
+                assistantPanel.style.height = panelHeight + 'px';
+                assistantPanel.style.left = left + 'px';
+                assistantPanel.style.top = top + 'px';
+                assistantPanel.style.right = 'auto';
+                assistantPanel.style.bottom = 'auto';
+            }
+
+            function assistantOpen() {
+                if (!assistantPanel) return;
+                positionAssistantPanel();
+                assistantPanel.classList.add('open');
+                assistantPanel.setAttribute('aria-hidden', 'false');
+                if (!assistantStarted) {
+                    assistantStarted = true;
+                    assistantAddMessage('Hi! 👋 I’m Doji, the SRH World assistant. Tell me what you are looking for, and I’ll help you find the right service.');
+                    assistantShowQuick(['Equity', 'Mutual Funds', 'IPO / OFS / NFO', 'Bonds', 'Unlisted / Block Deals', 'Loans', 'Not sure — help me choose']);
+                }
+                setTimeout(() => assistantInput?.focus(), 120);
+            }
+
+            function assistantClosePanel() {
+                if (!assistantPanel) return;
+                assistantPanel.classList.remove('open');
+                assistantPanel.setAttribute('aria-hidden', 'true');
+            }
+
+            async function assistantSend(text) {
+                text = String(text || '').trim();
+                if (!text) return;
+                if (text === 'Chat on WhatsApp') {
+                    window.open('https://wa.me/918484914844', '_blank', 'noopener,noreferrer');
+                    return;
+                }
+                assistantQuick && (assistantQuick.innerHTML = '');
+                assistantAddMessage(text, 'user');
+                assistantHistory.push({ role: 'user', content: text });
+                if (assistantInput) assistantInput.value = '';
+                if (assistantTyping) assistantTyping.classList.add('show');
+
+                try {
+                    const response = await fetch(SRH_AI_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            messages: assistantHistory.slice(-12),
+                            lead: assistantLead,
+                            page: window.location.href
+                        })
+                    });
+                    if (!response.ok) throw new Error('Assistant endpoint unavailable');
+                    const data = await response.json();
+                    const reply = data.reply || data.message || 'Thanks. How else can I help you?';
+                    assistantAddMessage(reply, 'assistant');
+                    assistantHistory.push({ role: 'assistant', content: reply });
+                    if (data.lead) assistantLead = { ...assistantLead, ...data.lead };
+                    assistantShowQuick(data.quickReplies || []);
+                } catch (error) {
+                    // Until the secure server endpoint is connected, guide the visitor
+                    // through the same lead-capture flow without exposing an AI API key.
+                    assistantLocalFallback(text);
+                } finally {
+                    if (assistantTyping) assistantTyping.classList.remove('show');
+                }
+            }
+
+            function assistantLocalFallback(text) {
+                const lower = text.toLowerCase();
+                if (!assistantLead.interest && /equity|stock|share|mutual|sip|ipo|ofs|nfo|bond|fixed income|unlisted|block deal|loan|finance/.test(lower)) {
+                    assistantLead.interest = text;
+                    assistantAddMessage('Great. I can help with that. What is your name?');
+                    return;
+                }
+                if (!assistantLead.name) {
+                    assistantLead.name = text;
+                    assistantAddMessage('Nice to meet you, ' + text + '! What mobile number should our team use to contact you?');
+                    return;
+                }
+                if (!assistantLead.mobile) {
+                    const digits = text.replace(/\D/g, '');
+                    if (digits.length >= 10) {
+                        assistantLead.mobile = digits.slice(-10);
+                        assistantAddMessage('Thank you. If you’d like, you can also share your email address.');
+                        assistantShowQuick(['Skip email']);
+                    } else {
+                        assistantAddMessage('Please enter a valid 10-digit mobile number.');
+                    }
+                    return;
+                }
+                if (!assistantLead.email && text.toLowerCase() !== 'skip email') {
+                    assistantLead.email = text;
+                }
+                assistantAddMessage('Thanks! I’ve captured your details and interest. Our SRH World team can follow up with you.');
+                assistantShowQuick(['Chat on WhatsApp']);
+            }
+
+            character.addEventListener('click', (event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                assistantOpen();
+            });
+
+            // Fallback click handler: catches clicks on the SVG/eyes/body of Doji
+            // even if another element receives the initial event.
+            document.addEventListener('click', (event) => {
+                const target = event.target.closest?.('#srh-mascot-character');
+                if (!target) return;
+                event.preventDefault();
+                event.stopPropagation();
+                assistantOpen();
+            }, true);
+            assistantClose?.addEventListener('click', assistantClosePanel);
+            assistantForm?.addEventListener('submit', (event) => {
+                event.preventDefault();
+                assistantSend(assistantInput?.value || '');
+            });
+            assistantQuick?.addEventListener('click', (event) => {
+                const chip = event.target.closest('.srh-assistant-chip');
+                if (chip && chip.textContent === 'Chat on WhatsApp') {
+                    window.open('https://wa.me/918484914844', '_blank', 'noopener,noreferrer');
+                }
+            });
+
+            // Do not let the mascot sit over the mobile hamburger/menu area.
+            if (headerNavigationMenu) {
+                const observer = new MutationObserver(() => {
+                    // Header-state mascot must remain inside the top bar even when the menu opens.
+                    if (headerNavigationMenu.classList.contains('mobile-open') && mascot.dataset.mascotState !== 'header') {
+                        mascot.classList.add('menu-open-safe');
+                    } else {
+                        mascot.classList.remove('menu-open-safe');
+                    }
+                });
+                observer.observe(headerNavigationMenu, { attributes: true, attributeFilter: ['class'] });
+            }
+
+            setTimeout(updateEyes, 100);
+            setTimeout(syncMascotScroll, 150);
+        })();
+
+        // 9. Carousel controls: manual slide, then resume automatic movement after 5 seconds.
+        (function setupCarouselControls() {
+            const configs = [
+                { container: 'main-carousel', track: 'main-slider-track' },
+                { container: 'services-carousel', track: 'services-slider-track' }
+            ];
+
+            configs.forEach(({ container, track }) => {
+                const wrapper = document.getElementById(container);
+                const slider = document.getElementById(track);
+                if (!wrapper || !slider) return;
+
+                let resumeTimer = null;
+
+                function getMarqueeAnimation() {
+                    return slider.getAnimations().find(animation => animation.animationName === 'continuousMarquee') || slider.getAnimations()[0];
+                }
+
+                function move(direction) {
+                    const animation = getMarqueeAnimation();
+                    if (!animation) return;
+
+                    clearTimeout(resumeTimer);
+                    animation.pause();
+                    wrapper.classList.add('carousel-manual-pause');
+
+                    const first = slider.children[0];
+                    const gap = parseFloat(getComputedStyle(slider).gap) || 0;
+                    const step = first ? first.getBoundingClientRect().width + gap : 250;
+                    const loopWidth = slider.scrollWidth / 2;
+                    const duration = animation.effect?.getComputedTiming().duration;
+
+                    if (typeof duration === 'number' && loopWidth > 0) {
+                        const timePerPixel = duration / loopWidth;
+                        animation.currentTime = (Number(animation.currentTime) || 0) + (direction * step * timePerPixel);
+                    }
+
+                    resumeTimer = setTimeout(() => {
+                        wrapper.classList.remove('carousel-manual-pause');
+                        animation.play();
+                    }, 5000);
+                }
+
+                wrapper.querySelector('.carousel-arrow-left')?.addEventListener('click', () => move(1));
+                wrapper.querySelector('.carousel-arrow-right')?.addEventListener('click', () => move(-1));
+            });
+        })();
+</script>
+
+<script>
+/* =========================================================
+   DOJI DIRECT CLICK FALLBACK
+   This is intentionally independent of the main assistant IIFE.
+   ========================================================= */
+window.openDojiAssistant = function(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const panel = document.getElementById('srh-assistant-panel');
+    const mascot = document.getElementById('srh-mascot');
+    if (!panel || !mascot) return;
+
+    const mobile = window.innerWidth <= 768;
+    const width = Math.min(mobile ? 330 : 350, window.innerWidth - 20);
+    const height = Math.min(mobile ? 500 : 520, window.innerHeight - 20);
+    const mr = mascot.getBoundingClientRect();
+
+    let left = mr.left + (mr.width / 2) - (width / 2);
+    let top = mr.top - height - 10;
+
+    if (top < 10) top = mr.bottom + 10;
+    left = Math.max(10, Math.min(left, window.innerWidth - width - 10));
+    top = Math.max(10, Math.min(top, window.innerHeight - height - 10));
+
+    panel.style.position = 'fixed';
+    panel.style.width = width + 'px';
+    panel.style.height = height + 'px';
+    panel.style.left = left + 'px';
+    panel.style.top = top + 'px';
+    panel.style.right = 'auto';
+    panel.style.bottom = 'auto';
+    panel.style.zIndex = '2147483647';
+    panel.classList.add('open');
+    panel.setAttribute('aria-hidden', 'false');
+
+    const messages = document.getElementById('srh-assistant-messages');
+    const quick = document.getElementById('srh-assistant-quick');
+    if (messages && !messages.dataset.dojifallbackStarted) {
+        messages.dataset.dojifallbackStarted = 'true';
+        messages.innerHTML = '<div class="srh-assistant-msg assistant">Hi! 👋 I’m Doji, the SRH World assistant. Tell me what you are looking for, and I’ll help you find the right service.</div>';
+    }
+    if (quick && !quick.dataset.dojifallbackStarted) {
+        quick.dataset.dojifallbackStarted = 'true';
+        quick.innerHTML = '';
+        ['Equity','Mutual Funds','Bonds','Fixed Income Securities','Insurance','Loans'].forEach(function(label) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'srh-assistant-chip';
+            b.textContent = label;
+            b.addEventListener('click', function() {
+                const input = document.getElementById('srh-assistant-input');
+                if (input) { input.value = label; input.focus(); }
+            });
+            quick.appendChild(b);
+        });
+    }
+
+    setTimeout(function() {
+        const input = document.getElementById('srh-assistant-input');
+        if (input) input.focus();
+    }, 100);
+};
+
+window.closeDojiAssistant = function(event) {
+    if (event) event.stopPropagation();
+    const panel = document.getElementById('srh-assistant-panel');
+    if (panel) {
+        panel.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+    }
+};
+
+document.addEventListener('click', function(event) {
+    const btn = event.target.closest && event.target.closest('#srh-mascot-character');
+    if (btn) window.openDojiAssistant(event);
+}, true);
+</script>
+<script>
+/* =========================================================
+   FINAL DOJI CLICK HANDLER
+   Uses pointerdown in capture phase so no overlay/other handler
+   can prevent the mascot from opening the assistant.
+   ========================================================= */
+(function () {
+    function openDojiFromMascot(event) {
+        var el = event.target;
+        var btn = el && el.closest ? el.closest('#srh-mascot-character') : null;
+        if (!btn) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+        if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+        var panel = document.getElementById('srh-assistant-panel');
+        var mascot = document.getElementById('srh-mascot');
+        if (!panel || !mascot) return;
+
+        var mobile = window.innerWidth <= 768;
+        var width = Math.min(mobile ? 330 : 350, window.innerWidth - 20);
+        var height = Math.min(mobile ? 500 : 520, window.innerHeight - 20);
+        var r = mascot.getBoundingClientRect();
+        var left = r.left + r.width / 2 - width / 2;
+        var top = r.top - height - 10;
+
+        if (top < 10) top = r.bottom + 10;
+        left = Math.max(10, Math.min(left, window.innerWidth - width - 10));
+        top = Math.max(10, Math.min(top, window.innerHeight - height - 10));
+
+        panel.style.position = 'fixed';
+        panel.style.width = width + 'px';
+        panel.style.height = height + 'px';
+        panel.style.left = left + 'px';
+        panel.style.top = top + 'px';
+        panel.style.right = 'auto';
+        panel.style.bottom = 'auto';
+        panel.style.zIndex = '2147483647';
+        panel.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+
+        var messages = document.getElementById('srh-assistant-messages');
+        if (messages && !messages.dataset.dojiStarted) {
+            messages.dataset.dojiStarted = 'true';
+            messages.innerHTML = '<div class="srh-assistant-msg assistant">Hi! 👋 I’m Doji, the SRH World assistant. Tell me what you are looking for, and I’ll help you find the right service.</div>';
+        }
+
+        var quick = document.getElementById('srh-assistant-quick');
+        if (quick && !quick.dataset.dojiStarted) {
+            quick.dataset.dojiStarted = 'true';
+            quick.innerHTML = '';
+            ['Equity','Mutual Funds','Bonds','Fixed Income Securities','Insurance','Loans'].forEach(function (label) {
+                var b = document.createElement('button');
+                b.type = 'button';
+                b.className = 'srh-assistant-chip';
+                b.textContent = label;
+                b.addEventListener('click', function () {
+                    var input = document.getElementById('srh-assistant-input');
+                    if (input) { input.value = label; input.focus(); }
+                });
+                quick.appendChild(b);
+            });
+        }
+
+        setTimeout(function () {
+            var input = document.getElementById('srh-assistant-input');
+            if (input) input.focus();
+        }, 50);
+    }
+
+    document.addEventListener('pointerdown', openDojiFromMascot, true);
+    document.addEventListener('click', openDojiFromMascot, true);
+})();
+</script>
+</body>
+</html>

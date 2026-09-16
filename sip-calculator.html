@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Calculators | SRH World</title>
+    
+    <link rel="icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="apple-touch-icon" href="./fevicon.png?v=2">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main Navigation Header -->
+    <div class="header-sticky-wrapper header-visible">
+        <header class="main-header">
+            <div class="header-container">
+                <div class="logo-area">
+                    <a href="./index.html">
+                        <img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo">
+                    </a>
+                </div>
+
+                <!-- Right Action: Home Pill Button -->
+                <div class="header-right-actions">
+                    <a href="./index.html" class="header-home-btn" aria-label="Go to Home" title="Back to Home Page">
+                        <i class="fas fa-home"></i>
+                        <span class="calc-btn-text">Home</span>
+                    </a>
+
+                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Navigation Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+
+                <nav class="nav-bar" id="header-navigation-menu">
+    <ul class="nav-list">
+        
+        <!-- 1. Home -->
+        <li class="nav-item">
+            <a href="./index.html" class="nav-link">Home</a>
+        </li>
+
+        <!-- 2. About Us -->
+        <li class="nav-item">
+            <a href="./about.html" class="nav-link">About Us</a>
+        </li>
+
+        <!-- 3. Products -->
+        <li class="nav-item has-horizontal-dropdown">
+            <a href="#" class="nav-link">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
+            <ul class="horizontal-dropdown">
+                <li><a href="./about.html"><i class="fas fa-chart-line dropdown-icon"></i> Equity</a></li>
+                <li><a href="./about.html"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
+                <li><a href="./about.html"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
+                <li><a href="./about.html"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
+                <li><a href="./about.html"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
+                <li><a href="./about.html"><i class="fas fa-building-columns dropdown-icon"></i> Unlisted Stocks</a></li>
+                <li><a href="./about.html"><i class="fas fa-shield-halved dropdown-icon"></i> Insurance</a></li>
+                <li><a href="./about.html"><i class="fas fa-vault dropdown-icon"></i> Fixed Income Securities</a></li>
+                <li><a href="./about.html"><i class="fas fa-tag dropdown-icon"></i> Offer for Sale (OFS)</a></li>
+                <li><a href="./about.html"><i class="fas fa-seedling dropdown-icon"></i> New Fund Offering (NFO)</a></li>
+                <li><a href="./about.html"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
+                <li><a href="./about.html"><i class="fas fa-cubes dropdown-icon"></i> Structured Product</a></li>
+            </ul>
+        </li>
+
+        <!-- 4. Services -->
+        <li class="nav-item has-horizontal-dropdown">
+            <a href="./services.html" class="nav-link">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
+            <ul class="horizontal-dropdown">
+                <li><a href="./services.html#pms"><i class="fas fa-briefcase dropdown-icon"></i> Customised Portfolio Management</a></li>
+                <li><a href="./services.html#technical"><i class="fas fa-bolt dropdown-icon"></i> Technical Stock Analysis</a></li>
+                <li><a href="./services.html#fundamental"><i class="fas fa-magnifying-glass-chart dropdown-icon"></i> Fundamental Stock Analysis</a></li>
+                <li><a href="./services.html#derivative"><i class="fas fa-arrow-trend-up dropdown-icon"></i> Derivative Analysis</a></li>
+                <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
+            </ul>
+        </li>
+
+        <!-- 5. Other Business -->
+        <li class="nav-item has-horizontal-dropdown">
+            <a href="./other-services.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
+            <ul class="horizontal-dropdown">
+                <li><a href="./other-services.html#loans"><i class="fas fa-landmark dropdown-icon"></i> Loans & Credit Procurement</a></li>
+                <li><a href="./other-services.html#msme"><i class="fas fa-industry dropdown-icon"></i> MSME & SME Loans</a></li>
+                <li><a href="./other-services.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
+                <li><a href="./other-services.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
+                <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
+            </ul>
+        </li>
+
+        <!-- 6. Knowledge Centre -->
+        <li class="nav-item has-horizontal-dropdown">
+            <a href="#" class="nav-link">Knowledge Centre <i class="fas fa-chevron-down mobile-arrow"></i></a>
+            <ul class="horizontal-dropdown">
+                <li><a href="./blogs.html"><i class="fas fa-book-open dropdown-icon"></i> Blogs</a></li>
+                <li><a href="./media.html"><i class="fas fa-photo-film dropdown-icon"></i> Media</a></li>
+                <li><a href="./manage.html"><i class="fas fa-tasks dropdown-icon"></i> Manage</a></li>
+            </ul>
+        </li>
+
+        <!-- 7. Contact Us -->
+        <li class="nav-item">
+            <a href="./contact.html" class="nav-link">Contact Us</a>
+        </li>
+
+    </ul>
+</nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- Main Calculator Interactive Container (No Upper Hero Banner) -->
+    <main class="calc-master-wrapper">
+        
+        <!-- 5 Calculator Tabs Ordered: SIP, SWP, Lumpsum, Home Loan, Retirement -->
+        <div class="calc-tabs-bar">
+            <button class="calc-tab-btn active" data-tab="sip-calc">
+                <i class="fas fa-chart-line"></i> SIP
+            </button>
+            <button class="calc-tab-btn" data-tab="swp-calc">
+                <i class="fas fa-hand-holding-dollar"></i> SWP
+            </button>
+            <button class="calc-tab-btn" data-tab="lump-calc">
+                <i class="fas fa-vault"></i> Lumpsum
+            </button>
+            <button class="calc-tab-btn" data-tab="loan-calc">
+                <i class="fas fa-home"></i> Home Loan
+            </button>
+            <button class="calc-tab-btn" data-tab="retire-calc">
+                <i class="fas fa-user-clock"></i> Retirement
+            </button>
+        </div>
+
+        <!-- TAB 1: SIP CALCULATOR -->
+        <div class="calc-tab-pane active" id="sip-calc">
+            <div class="calc-container-layout">
+                <div class="calc-inputs-panel">
+                    
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="sip-amount-input">Monthly Investment</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="sip-amount-input" class="calc-number-input" value="10000" min="500" max="10000000" step="500">
+                            </div>
+                        </div>
+                        <input type="range" id="sip-amount-range" class="calc-slider" min="500" max="200000" step="500" value="10000">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="sip-return-input">Expected Return Rate (p.a)</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="sip-return-input" class="calc-number-input" value="12" min="1" max="40" step="0.1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="sip-return-range" class="calc-slider" min="1" max="30" step="0.5" value="12">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="sip-years-input">Time Period</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="sip-years-input" class="calc-number-input" value="10" min="1" max="50" step="1">
+                                <span class="input-suffix">Yr</span>
+                            </div>
+                        </div>
+                        <input type="range" id="sip-years-range" class="calc-slider" min="1" max="40" step="1" value="10">
+                    </div>
+
+                </div>
+
+                <div class="calc-results-panel">
+                    <div>
+                        <div class="result-row">
+                            <span class="result-label">Invested Amount</span>
+                            <span class="result-value" id="sip-invested-val">₹ 12,00,000</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Est. Returns</span>
+                            <span class="result-value value-green" id="sip-returns-val">₹ 11,23,391</span>
+                        </div>
+                        <hr class="calc-divider">
+                        <div class="result-row total-highlight">
+                            <span class="result-label">Total Future Value</span>
+                            <span class="result-value" id="sip-total-val">₹ 23,23,391</span>
+                        </div>
+                    </div>
+                    <a href="./contact.html" class="invest-now-btn">Start SIP Portfolio <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SWP CALCULATOR -->
+        <div class="calc-tab-pane" id="swp-calc">
+            <div class="calc-container-layout">
+                <div class="calc-inputs-panel">
+                    
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="swp-initial-input">Total Investment Corpus</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="swp-initial-input" class="calc-number-input" value="2500000" min="50000" max="100000000" step="50000">
+                            </div>
+                        </div>
+                        <input type="range" id="swp-initial-range" class="calc-slider" min="100000" max="50000000" step="50000" value="2500000">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="swp-monthly-input">Monthly Withdrawal</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="swp-monthly-input" class="calc-number-input" value="18000" min="500" max="2000000" step="500">
+                            </div>
+                        </div>
+                        <input type="range" id="swp-monthly-range" class="calc-slider" min="1000" max="300000" step="1000" value="18000">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="swp-return-input">Expected Annual Return</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="swp-return-input" class="calc-number-input" value="9" min="1" max="30" step="0.1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="swp-return-range" class="calc-slider" min="3" max="20" step="0.5" value="9">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="swp-years-input">Time Period</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="swp-years-input" class="calc-number-input" value="15" min="1" max="50" step="1">
+                                <span class="input-suffix">Yr</span>
+                            </div>
+                        </div>
+                        <input type="range" id="swp-years-range" class="calc-slider" min="1" max="35" step="1" value="15">
+                    </div>
+
+                </div>
+
+                <div class="calc-results-panel">
+                    <div>
+                        <div class="result-row">
+                            <span class="result-label">Initial Investment</span>
+                            <span class="result-value" id="swp-invested-val">₹ 25,00,000</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Total Cashflow Withdrawn</span>
+                            <span class="result-value value-green" id="swp-withdrawn-val">₹ 32,40,000</span>
+                        </div>
+                        <hr class="calc-divider">
+                        <div class="result-row total-highlight">
+                            <span class="result-label">Remaining Balance</span>
+                            <span class="result-value" id="swp-final-val">₹ 36,46,678</span>
+                        </div>
+                    </div>
+                    <a href="./contact.html" class="invest-now-btn">Setup SWP Plan <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: LUMPSUM CALCULATOR -->
+        <div class="calc-tab-pane" id="lump-calc">
+            <div class="calc-container-layout">
+                <div class="calc-inputs-panel">
+                    
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="lump-amount-input">Total Investment</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="lump-amount-input" class="calc-number-input" value="100000" min="1000" max="50000000" step="5000">
+                            </div>
+                        </div>
+                        <input type="range" id="lump-amount-range" class="calc-slider" min="5000" max="10000000" step="5000" value="100000">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="lump-return-input">Expected Return Rate (p.a)</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="lump-return-input" class="calc-number-input" value="12" min="1" max="40" step="0.1">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="lump-return-range" class="calc-slider" min="1" max="30" step="0.5" value="12">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="lump-years-input">Time Period</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="lump-years-input" class="calc-number-input" value="10" min="1" max="50" step="1">
+                                <span class="input-suffix">Yr</span>
+                            </div>
+                        </div>
+                        <input type="range" id="lump-years-range" class="calc-slider" min="1" max="40" step="1" value="10">
+                    </div>
+
+                </div>
+
+                <div class="calc-results-panel">
+                    <div>
+                        <div class="result-row">
+                            <span class="result-label">Invested Amount</span>
+                            <span class="result-value" id="lump-invested-val">₹ 1,00,000</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Est. Returns</span>
+                            <span class="result-value value-green" id="lump-returns-val">₹ 2,10,585</span>
+                        </div>
+                        <hr class="calc-divider">
+                        <div class="result-row total-highlight">
+                            <span class="result-label">Total Future Value</span>
+                            <span class="result-value" id="lump-total-val">₹ 3,10,585</span>
+                        </div>
+                    </div>
+                    <a href="./contact.html" class="invest-now-btn">Invest Lumpsum <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: HOME LOAN EMI CALCULATOR -->
+        <div class="calc-tab-pane" id="loan-calc">
+            <div class="calc-container-layout">
+                <div class="calc-inputs-panel">
+                    
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="loan-amount-input">Loan Amount</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="loan-amount-input" class="calc-number-input" value="4000000" min="50000" max="100000000" step="50000">
+                            </div>
+                        </div>
+                        <input type="range" id="loan-amount-range" class="calc-slider" min="100000" max="30000000" step="50000" value="4000000">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="loan-rate-input">Interest Rate (% p.a)</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="loan-rate-input" class="calc-number-input" value="8.5" min="1" max="25" step="0.05">
+                                <span class="input-suffix">%</span>
+                            </div>
+                        </div>
+                        <input type="range" id="loan-rate-range" class="calc-slider" min="5" max="20" step="0.1" value="8.5">
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="loan-tenure-input">Loan Tenure</label>
+                            <div class="input-unit-wrapper">
+                                <input type="number" id="loan-tenure-input" class="calc-number-input" value="20" min="1" max="40" step="1">
+                                <span class="input-suffix">Yr</span>
+                            </div>
+                        </div>
+                        <input type="range" id="loan-tenure-range" class="calc-slider" min="1" max="30" step="1" value="20">
+                    </div>
+
+                </div>
+
+                <div class="calc-results-panel">
+                    <div>
+                        <div class="result-row">
+                            <span class="result-label">Monthly EMI</span>
+                            <span class="result-value value-green" id="loan-emi-val">₹ 34,713</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Principal Amount</span>
+                            <span class="result-value" id="loan-principal-val">₹ 40,00,000</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Total Interest Payable</span>
+                            <span class="result-value" id="loan-interest-val">₹ 43,31,114</span>
+                        </div>
+                        <hr class="calc-divider">
+                        <div class="result-row total-highlight">
+                            <span class="result-label">Total Amount Payable</span>
+                            <span class="result-value" id="loan-total-val">₹ 83,31,114</span>
+                        </div>
+                    </div>
+                    <a href="./contact.html" class="invest-now-btn">Apply for Loan <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: RETIREMENT CALCULATOR (NEW PARAMETERS & SIMPLE OUTPUTS) -->
+        <div class="calc-tab-pane" id="retire-calc">
+            <div class="calc-container-layout">
+                <div class="calc-inputs-panel">
+                    
+                    <div class="calc-sub-grid">
+                        <div class="input-group-row">
+                            <div class="input-label-bar">
+                                <label for="ret-cur-age-input">Current Age</label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="ret-cur-age-input" class="calc-number-input" value="30" min="18" max="70" step="1">
+                                    <span class="input-suffix">Yr</span>
+                                </div>
+                            </div>
+                            <input type="range" id="ret-cur-age-range" class="calc-slider" min="18" max="55" step="1" value="30">
+                        </div>
+
+                        <div class="input-group-row">
+                            <div class="input-label-bar">
+                                <label for="ret-target-age-input">Retirement Age</label>
+                                <div class="input-unit-wrapper">
+                                    <input type="number" id="ret-target-age-input" class="calc-number-input" value="60" min="30" max="85" step="1">
+                                    <span class="input-suffix">Yr</span>
+                                </div>
+                            </div>
+                            <input type="range" id="ret-target-age-range" class="calc-slider" min="40" max="75" step="1" value="60">
+                        </div>
+                    </div>
+
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label for="ret-expense-input">Spending Per Month (Today)</label>
+                            <div class="input-unit-wrapper">
+                                <span class="input-prefix">₹</span>
+                                <input type="number" id="ret-expense-input" class="calc-number-input" value="40000" min="5000" max="5000000" step="1000">
+                            </div>
+                        </div>
+                        <input type="range" id="ret-expense-range" class="calc-slider" min="10000" max="500000" step="5000" value="40000">
+                    </div>
+
+                    <!-- Lifestyle Choice (3 Options) -->
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label>Retirement Lifestyle Choice</label>
+                        </div>
+                        <div class="radio-options-grid">
+                            <label class="custom-radio-card">
+                                <input type="radio" name="lifestyle-choice" value="king">
+                                <div class="radio-content-box">
+                                    <span>👑 Retire like a king</span>
+                                    <small style="font-size:11px; font-weight: normal; color: #64748b;"> </small>
+                                </div>
+                            </label>
+                            <label class="custom-radio-card">
+                                <input type="radio" name="lifestyle-choice" value="happy" checked>
+                                <div class="radio-content-box">
+                                    <span>😊 Happy as I am</span>
+                                    <small style="font-size:11px; font-weight: normal; color: #64748b;"> </small>
+                                </div>
+                            </label>
+                            <label class="custom-radio-card">
+                                <input type="radio" name="lifestyle-choice" value="monk">
+                                <div class="radio-content-box">
+                                    <span>🧘 Like a monk</span>
+                                    <small style="font-size:11px; font-weight: normal; color: #64748b;"> </small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Saving Mode Choice (2 Options) -->
+                    <div class="input-group-row">
+                        <div class="input-label-bar">
+                            <label>Where are you saving for retirement?</label>
+                        </div>
+                        <div class="radio-options-grid two-cols">
+                            <label class="custom-radio-card">
+                                <input type="radio" name="saving-mode" value="safe">
+                                <div class="radio-content-box">
+                                    <span>🛡️ Safe (PF, FD, etc.)</span>
+                                    <small style="font-size:11px; font-weight: normal; color: #64748b;">~7.0% Return</small>
+                                </div>
+                            </label>
+                            <label class="custom-radio-card">
+                                <input type="radio" name="saving-mode" value="aggressive" checked>
+                                <div class="radio-content-box">
+                                    <span>🚀 Aggressive (Mutual Fund, Equity)</span>
+                                    <small style="font-size:11px; font-weight: normal; color: #64748b;">~12.0% Return</small>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Simple Crisp Outputs -->
+                <div class="calc-results-panel">
+                    <div>
+                        <div class="result-row">
+                            <span class="result-label">Future Monthly Need</span>
+                            <span class="result-value" id="ret-future-expense-val">₹ 2,29,740 / mo</span>
+                        </div>
+                        <div class="result-row">
+                            <span class="result-label">Amount Required for Retirement</span>
+                            <span class="result-value" style="font-size: 20px;" id="ret-corpus-val">₹ 4.87 Cr</span>
+                        </div>
+                        <hr class="calc-divider">
+                        <div class="result-row total-highlight">
+                            <span class="result-label">Monthly Savings Needed Today</span>
+                            <span class="result-value value-green" id="ret-monthly-save-val">₹ 13,918 / mo</span>
+                        </div>
+                    </div>
+                    <a href="./contact.html" class="invest-now-btn">Plan Your Retirement <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer-compact">
+        <div class="footer-compact-container">
+            
+            <div class="footer-logo-wrap">
+                <img src="Logo_SRH_World.png" alt="SRH World Logo" class="footer-logo">
+            </div>
+
+            <div class="footer-contact-block">
+                <div class="footer-info-item">
+                    <span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span>
+                    <p>OFFICE 1&2, F – MADHUKOSH SOCIETY, SINHGAD ROAD, NEXT TO WARJE, PUNE, MAHARASHTRA - 411041</p>
+                </div>
+
+                <div class="footer-info-item">
+                    <span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span>
+                    <p><a href="tel:8484914844">+91 84849 14844</a></p>
+                </div>
+
+                <div class="footer-info-item">
+                    <span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span>
+                    <p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">© 2026 SRH World. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="./manage.html">Staff Portal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/918484914844" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const inrFormatter = new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            maximumFractionDigits: 0
+        });
+
+        function formatINR(val) {
+            if (val >= 10000000) {
+                return '₹ ' + (val / 10000000).toFixed(2) + ' Cr';
+            }
+            return inrFormatter.format(Math.round(val));
+        }
+
+        function bindInputAndSlider(inputEl, rangeEl, onUpdate) {
+            rangeEl.addEventListener('input', () => {
+                inputEl.value = rangeEl.value;
+                onUpdate();
+            });
+
+            inputEl.addEventListener('input', () => {
+                const val = parseFloat(inputEl.value);
+                if (!isNaN(val)) {
+                    rangeEl.value = val;
+                }
+                onUpdate();
+            });
+        }
+
+        const calcTabs = document.querySelectorAll('.calc-tab-btn');
+        const calcPanes = document.querySelectorAll('.calc-tab-pane');
+
+        calcTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                calcTabs.forEach(t => t.classList.remove('active'));
+                calcPanes.forEach(p => p.classList.remove('active'));
+
+                tab.classList.add('active');
+                const targetPane = document.getElementById(tab.getAttribute('data-tab'));
+                if (targetPane) targetPane.classList.add('active');
+            });
+        });
+
+        // 1. SIP Calculator
+        const sipAmountInput = document.getElementById('sip-amount-input');
+        const sipAmountRange = document.getElementById('sip-amount-range');
+        const sipReturnInput = document.getElementById('sip-return-input');
+        const sipReturnRange = document.getElementById('sip-return-range');
+        const sipYearsInput = document.getElementById('sip-years-input');
+        const sipYearsRange = document.getElementById('sip-years-range');
+
+        function updateSIP() {
+            const P = Math.max(0, parseFloat(sipAmountInput.value) || 0);
+            const r = Math.max(0, parseFloat(sipReturnInput.value) || 0);
+            const y = Math.max(0, parseFloat(sipYearsInput.value) || 0);
+
+            const i = (r / 100) / 12;
+            const n = y * 12;
+            const totalInvested = P * n;
+            let futureValue = 0;
+            if (i > 0) {
+                futureValue = P * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
+            } else {
+                futureValue = totalInvested;
+            }
+            const estReturns = Math.max(0, futureValue - totalInvested);
+
+            document.getElementById('sip-invested-val').innerText = formatINR(totalInvested);
+            document.getElementById('sip-returns-val').innerText = formatINR(estReturns);
+            document.getElementById('sip-total-val').innerText = formatINR(futureValue);
+        }
+
+        bindInputAndSlider(sipAmountInput, sipAmountRange, updateSIP);
+        bindInputAndSlider(sipReturnInput, sipReturnRange, updateSIP);
+        bindInputAndSlider(sipYearsInput, sipYearsRange, updateSIP);
+
+        // 2. SWP Calculator
+        const swpInitialInput = document.getElementById('swp-initial-input');
+        const swpInitialRange = document.getElementById('swp-initial-range');
+        const swpMonthlyInput = document.getElementById('swp-monthly-input');
+        const swpMonthlyRange = document.getElementById('swp-monthly-range');
+        const swpReturnInput = document.getElementById('swp-return-input');
+        const swpReturnRange = document.getElementById('swp-return-range');
+        const swpYearsInput = document.getElementById('swp-years-input');
+        const swpYearsRange = document.getElementById('swp-years-range');
+
+        function updateSWP() {
+            const P = Math.max(0, parseFloat(swpInitialInput.value) || 0);
+            const W = Math.max(0, parseFloat(swpMonthlyInput.value) || 0);
+            const r = Math.max(0, parseFloat(swpReturnInput.value) || 0) / 100;
+            const y = Math.max(0, parseFloat(swpYearsInput.value) || 0);
+
+            const monthlyRate = r / 12;
+            const totalMonths = y * 12;
+            let currentBalance = P;
+            let totalWithdrawn = 0;
+
+            for (let m = 1; m <= totalMonths; m++) {
+                currentBalance = (currentBalance * (1 + monthlyRate)) - W;
+                if (currentBalance <= 0) {
+                    totalWithdrawn += (W + currentBalance);
+                    currentBalance = 0;
+                    break;
+                }
+                totalWithdrawn += W;
+            }
+
+            document.getElementById('swp-invested-val').innerText = formatINR(P);
+            document.getElementById('swp-withdrawn-val').innerText = formatINR(totalWithdrawn);
+            document.getElementById('swp-final-val').innerText = formatINR(currentBalance);
+        }
+
+        bindInputAndSlider(swpInitialInput, swpInitialRange, updateSWP);
+        bindInputAndSlider(swpMonthlyInput, swpMonthlyRange, updateSWP);
+        bindInputAndSlider(swpReturnInput, swpReturnRange, updateSWP);
+        bindInputAndSlider(swpYearsInput, swpYearsRange, updateSWP);
+
+        // 3. Lumpsum Calculator
+        const lumpAmountInput = document.getElementById('lump-amount-input');
+        const lumpAmountRange = document.getElementById('lump-amount-range');
+        const lumpReturnInput = document.getElementById('lump-return-input');
+        const lumpReturnRange = document.getElementById('lump-return-range');
+        const lumpYearsInput = document.getElementById('lump-years-input');
+        const lumpYearsRange = document.getElementById('lump-years-range');
+
+        function updateLumpsum() {
+            const P = Math.max(0, parseFloat(lumpAmountInput.value) || 0);
+            const r = Math.max(0, parseFloat(lumpReturnInput.value) || 0);
+            const y = Math.max(0, parseFloat(lumpYearsInput.value) || 0);
+
+            const futureValue = P * Math.pow(1 + (r / 100), y);
+            const estReturns = Math.max(0, futureValue - P);
+
+            document.getElementById('lump-invested-val').innerText = formatINR(P);
+            document.getElementById('lump-returns-val').innerText = formatINR(estReturns);
+            document.getElementById('lump-total-val').innerText = formatINR(futureValue);
+        }
+
+        bindInputAndSlider(lumpAmountInput, lumpAmountRange, updateLumpsum);
+        bindInputAndSlider(lumpReturnInput, lumpReturnRange, updateLumpsum);
+        bindInputAndSlider(lumpYearsInput, lumpYearsRange, updateLumpsum);
+
+        // 4. Home Loan EMI Calculator
+        const loanAmountInput = document.getElementById('loan-amount-input');
+        const loanAmountRange = document.getElementById('loan-amount-range');
+        const loanRateInput = document.getElementById('loan-rate-input');
+        const loanRateRange = document.getElementById('loan-rate-range');
+        const loanTenureInput = document.getElementById('loan-tenure-input');
+        const loanTenureRange = document.getElementById('loan-tenure-range');
+
+        function updateHomeLoan() {
+            const P = Math.max(0, parseFloat(loanAmountInput.value) || 0);
+            const r = Math.max(0, parseFloat(loanRateInput.value) || 0);
+            const y = Math.max(0, parseFloat(loanTenureInput.value) || 0);
+
+            const monthlyRate = (r / 100) / 12;
+            const n = y * 12;
+
+            let emi = 0;
+            let totalPayment = 0;
+            let totalInterest = 0;
+
+            if (monthlyRate > 0 && n > 0) {
+                emi = (P * monthlyRate * Math.pow(1 + monthlyRate, n)) / (Math.pow(1 + monthlyRate, n) - 1);
+                totalPayment = emi * n;
+                totalInterest = Math.max(0, totalPayment - P);
+            } else if (n > 0) {
+                emi = P / n;
+                totalPayment = P;
+            }
+
+            document.getElementById('loan-emi-val').innerText = inrFormatter.format(Math.round(emi));
+            document.getElementById('loan-principal-val').innerText = formatINR(P);
+            document.getElementById('loan-interest-val').innerText = formatINR(totalInterest);
+            document.getElementById('loan-total-val').innerText = formatINR(totalPayment);
+        }
+
+        bindInputAndSlider(loanAmountInput, loanAmountRange, updateHomeLoan);
+        bindInputAndSlider(loanRateInput, loanRateRange, updateHomeLoan);
+        bindInputAndSlider(loanTenureInput, loanTenureRange, updateHomeLoan);
+
+        // 5. Retirement Calculator
+        const retCurAgeInput = document.getElementById('ret-cur-age-input');
+        const retCurAgeRange = document.getElementById('ret-cur-age-range');
+        const retTargetAgeInput = document.getElementById('ret-target-age-input');
+        const retTargetAgeRange = document.getElementById('ret-target-age-range');
+        const retExpenseInput = document.getElementById('ret-expense-input');
+        const retExpenseRange = document.getElementById('ret-expense-range');
+
+        function updateRetirement() {
+            let curAge = parseInt(retCurAgeInput.value) || 30;
+            let retAge = parseInt(retTargetAgeInput.value) || 60;
+
+            if (retAge <= curAge) {
+                retAge = curAge + 1;
+                retTargetAgeInput.value = retAge;
+                retTargetAgeRange.value = retAge;
+            }
+
+            const curExpense = Math.max(0, parseFloat(retExpenseInput.value) || 0);
+
+            // Lifestyle factor
+            const lifestyleEl = document.querySelector('input[name="lifestyle-choice"]:checked');
+            let lifestyleFactor = 1.0;
+            if (lifestyleEl) {
+                if (lifestyleEl.value === 'king') lifestyleFactor = 1.30;
+                else if (lifestyleEl.value === 'monk') lifestyleFactor = 0.75;
+            }
+
+            // Saving mode rate
+            const savingModeEl = document.querySelector('input[name="saving-mode"]:checked');
+            let preReturn = 0.12; // default Aggressive
+            let postReturn = 0.08;
+            if (savingModeEl && savingModeEl.value === 'safe') {
+                preReturn = 0.07;
+                postReturn = 0.065;
+            }
+
+            const infRate = 0.06; // Standard 6% inflation
+            const lifeExpectancy = 85;
+
+            const yearsToRetire = retAge - curAge;
+            const yearsInRetire = Math.max(1, lifeExpectancy - retAge);
+
+            const adjustedMonthlyExpense = curExpense * lifestyleFactor;
+            const futureMonthlyExpense = adjustedMonthlyExpense * Math.pow(1 + infRate, yearsToRetire);
+            const firstYearRetireExpense = futureMonthlyExpense * 12;
+
+            const realRate = (postReturn - infRate) / (1 + infRate);
+
+            let corpusRequired = 0;
+            if (Math.abs(realRate) > 0.0001) {
+                corpusRequired = firstYearRetireExpense * ((1 - Math.pow(1 + realRate, -yearsInRetire)) / realRate);
+            } else {
+                corpusRequired = firstYearRetireExpense * yearsInRetire;
+            }
+
+            const monthlyPreRate = preReturn / 12;
+            const totalMonths = yearsToRetire * 12;
+            let requiredMonthlySaving = 0;
+
+            if (monthlyPreRate > 0) {
+                const sipFactor = ((Math.pow(1 + monthlyPreRate, totalMonths) - 1) / monthlyPreRate) * (1 + monthlyPreRate);
+                requiredMonthlySaving = corpusRequired / sipFactor;
+            } else {
+                requiredMonthlySaving = corpusRequired / totalMonths;
+            }
+
+            document.getElementById('ret-future-expense-val').innerText = formatINR(futureMonthlyExpense) + ' / mo';
+            document.getElementById('ret-corpus-val').innerText = formatINR(corpusRequired);
+            document.getElementById('ret-monthly-save-val').innerText = formatINR(requiredMonthlySaving) + ' / mo';
+        }
+
+        bindInputAndSlider(retCurAgeInput, retCurAgeRange, updateRetirement);
+        bindInputAndSlider(retTargetAgeInput, retTargetAgeRange, updateRetirement);
+        bindInputAndSlider(retExpenseInput, retExpenseRange, updateRetirement);
+
+        document.querySelectorAll('input[name="lifestyle-choice"], input[name="saving-mode"]').forEach(radio => {
+            radio.addEventListener('change', updateRetirement);
+        });
+
+        // Initialize All Calcs
+        updateSIP();
+        updateSWP();
+        updateLumpsum();
+        updateHomeLoan();
+        updateRetirement();
+
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const headerNavigationMenu = document.getElementById('header-navigation-menu');
+
+        if (menuToggleBtn && headerNavigationMenu) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                headerNavigationMenu.classList.toggle('mobile-open');
+                const icon = menuToggleBtn.querySelector('i');
+                if (headerNavigationMenu.classList.contains('mobile-open')) {
+                    icon.className = 'fas fa-times';
+                } else {
+                    icon.className = 'fas fa-bars';
+                }
+            });
+
+            document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => {
+                            dd.classList.remove('submenu-visible');
+                        });
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => {
+                            arr.classList.remove('rotate-arrow');
+                        });
+
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    const icon = menuToggleBtn.querySelector('i');
+                    if (icon) icon.className = 'fas fa-bars';
+                });
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    const icon = menuToggleBtn.querySelector('i');
+                    if (icon) icon.className = 'fas fa-bars';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

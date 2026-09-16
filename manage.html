@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management Portal | Shri Renuka Holdings (SRH World)</title>
+
+    <link rel="icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="apple-touch-icon" href="./fevicon.png?v=2">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* --- EMBEDDED COMPLETE STYLES FOR MANAGE.HTML --- */
+        :root {
+            --primary-dark: #0f172a;
+            --primary-navy: #1e293b;
+            --accent-green: #10b981;
+            --accent-green-hover: #059669;
+            --accent-blue: #2563eb;
+            --accent-blue-hover: #1d4ed8;
+            --bg-light: #f1f5f9;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+            --border-subtle: #cbd5e1;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+        }
+
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            line-height: 1.6;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* --- ADMIN TOP NAVBAR --- */
+        .admin-top-nav {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 12px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .admin-nav-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        /* Fixed Crisp Logo Badge */
+        .admin-brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background-color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .admin-brand a {
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-logo {
+            height: 32px;
+            width: auto;
+            display: block;
+            filter: none !important;
+        }
+
+        .admin-badge {
+            background-color: var(--accent-blue);
+            color: #ffffff;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-nav-actions,
+        .admin-user-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .user-greeting {
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #94a3b8;
+            margin-right: 4px;
+        }
+
+        .user-greeting span {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .admin-btn-primary {
+            background-color: var(--accent-green);
+            color: #ffffff;
+            border: none;
+            padding: 9px 18px;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-primary:hover {
+            background-color: var(--accent-green-hover);
+        }
+
+        .admin-btn-secondary {
+            background-color: #334155;
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 12.5px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-secondary:hover {
+            background-color: #475569;
+        }
+
+        .admin-btn-danger {
+            background-color: #ef4444;
+            color: #ffffff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            font-size: 12.5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .admin-btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .full-width-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 12px;
+            margin-top: 6px;
+        }
+
+        /* --- LOGIN & FIRST TIME AUTH SCREENS --- */
+        .auth-card-section {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-box {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 36px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .auth-icon {
+            font-size: 38px;
+            color: var(--accent-blue);
+            margin-bottom: 10px;
+        }
+
+        .warning-icon {
+            color: #f59e0b;
+        }
+
+        .auth-header h2 {
+            font-size: 22px;
+            color: var(--primary-dark);
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .auth-header p {
+            font-size: 13.5px;
+            color: var(--text-sub);
+            line-height: 1.5;
+        }
+
+        .auth-error-text {
+            color: #ef4444;
+            font-size: 12.5px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            min-height: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 13.5px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            background-color: #f8fafc;
+            color: var(--primary-dark);
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-blue);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 14px;
+        }
+
+        .flex-1 { flex: 1; }
+        .flex-2 { flex: 2; }
+
+        /* --- DASHBOARD SECTION --- */
+        .admin-main-container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .admin-dashboard-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .dash-tab-btn {
+            background: none;
+            border: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-sub);
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .dash-tab-btn:hover {
+            color: var(--primary-dark);
+            background-color: #e2e8f0;
+        }
+
+        .dash-tab-btn.active {
+            color: var(--primary-dark);
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-bottom: 2px solid #ffffff;
+            margin-bottom: -2px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .tab-content-pane {
+            display: none;
+        }
+
+        .tab-content-pane.active {
+            display: block;
+        }
+
+        .dashboard-header-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px 24px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .dashboard-header-bar h2 {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 4px;
+        }
+
+        .dashboard-header-bar p {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .admin-table-container {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .admin-table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .admin-table th {
+            background-color: #f8fafc;
+            color: var(--text-sub);
+            font-size: 12px;
+            font-weight: 700;
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .admin-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13.5px;
+            vertical-align: middle;
+            color: #334155;
+        }
+
+        .admin-table tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .table-thumb {
+            width: 52px;
+            height: 38px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .table-category-tag {
+            background-color: #eff6ff;
+            color: var(--accent-blue);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
+
+        .tag-media {
+            background-color: #fef3c7 !important;
+            color: #b45309 !important;
+        }
+
+        .author-tag {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .reorder-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .order-btn {
+            background: #f1f5f9;
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 3px 7px;
+            cursor: pointer;
+            font-size: 10px;
+        }
+
+        .order-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .edit-action { background-color: #e0f2fe; color: #0369a1; }
+        .edit-action:hover { background-color: #bae6fd; }
+        .delete-action { background-color: #fee2e2; color: #b91c1c; }
+        .delete-action:hover { background-color: #fecaca; }
+
+        .badge-count {
+            background-color: #ef4444;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-left: 4px;
+        }
+
+        .inq-timestamp {
+            font-size: 12px;
+            color: var(--text-sub);
+            white-space: nowrap;
+        }
+
+        .table-phone-link, .table-email-link {
+            color: var(--accent-blue);
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .table-phone-link:hover, .table-email-link:hover {
+            text-decoration: underline;
+        }
+
+        .inq-query-box {
+            max-width: 320px;
+            font-size: 13px;
+            color: var(--primary-dark);
+            background-color: #f8fafc;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            line-height: 1.5;
+        }
+
+        .empty-table-text {
+            text-align: center;
+            padding: 40px !important;
+            color: var(--text-sub);
+            font-size: 14.5px;
+        }
+
+        /* --- MODAL DIALOGS --- */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            padding: 20px;
+        }
+
+        .admin-modal.modal-active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .admin-modal-dialog {
+            background-color: #ffffff;
+            border-radius: var(--radius-md);
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 26px;
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-dialog-sm { max-width: 420px; }
+
+        .admin-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 18px;
+        }
+
+        .admin-modal-header h3 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+
+        .close-modal-btn {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: var(--text-sub);
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 16px;
+        }
+
+        .image-upload-wrapper {
+            background-color: #f8fafc;
+            border: 1px dashed var(--border-subtle);
+            border-radius: 8px;
+            padding: 14px;
+        }
+
+        .file-drop-area {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .file-input-hidden { display: none; }
+
+        .file-custom-btn {
+            background-color: var(--primary-dark);
+            color: #ffffff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .file-or-span {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .image-preview-box {
+            margin-top: 10px;
+            width: 100%;
+            height: 110px;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-preview-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Admin Header -->
+    <header class="admin-top-nav">
+        <div class="admin-nav-container">
+            <div class="admin-brand">
+                <a href="./index.html" title="Go to SRH World Home">
+                    <img src="Logo_SRH_World.png" alt="SRH World Logo" class="admin-logo">
+                </a>
+                <span class="admin-badge">Admin Portal</span>
+            </div>
+            
+            <div class="admin-nav-actions">
+                <a href="./index.html" class="admin-btn-secondary"><i class="fas fa-home"></i> Back to Home</a>
+                
+                <div class="admin-user-controls" id="admin-user-controls" style="display: none;">
+                    <span class="user-greeting"><i class="fas fa-user-circle"></i> <span id="current-user-name">User</span></span>
+                    <button class="admin-btn-secondary" id="open-change-pass-btn"><i class="fas fa-key"></i> Change Password</button>
+                    <a href="./blogs.html" class="admin-btn-secondary" target="_blank"><i class="fas fa-book-open"></i> Blogs</a>
+                    <a href="./media.html" class="admin-btn-secondary" target="_blank"><i class="fas fa-photo-film"></i> Media</a>
+                    <button class="admin-btn-danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main-container">
+        
+        <!-- Screen 1: Login Card -->
+        <section class="auth-card-section" id="login-section">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <i class="fas fa-lock auth-icon"></i>
+                    <h2>Portal Login</h2>
+                    <p>Enter your credentials to manage SRH World content & inquiries</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-username">Username</label>
+                        <input type="text" id="login-username" class="form-control" placeholder="Enter username" required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
+                    </div>
+                    <div id="login-error-msg" class="auth-error-text"></div>
+                    <button type="submit" class="admin-btn-primary full-width-btn">Login to Dashboard</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Screen 2: First-Time Mandatory Password Change -->
+        <section class="auth-card-section" id="first-time-pass-section" style="display: none;">
+            <div class="auth-box">
+                <div class="auth-header">
+                    <i class="fas fa-shield-alt auth-icon warning-icon"></i>
+                    <h2>Update Initial Password</h2>
+                    <p>For security, please change your default password before proceeding.</p>
+                </div>
+                <form id="first-time-pass-form">
+                    <div class="form-group">
+                        <label for="new-pass-first">New Password</label>
+                        <input type="password" id="new-pass-first" class="form-control" placeholder="Minimum 6 characters" required autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-pass-first">Confirm New Password</label>
+                        <input type="password" id="confirm-pass-first" class="form-control" placeholder="Re-enter password" required autocomplete="new-password">
+                    </div>
+                    <div id="first-pass-error" class="auth-error-text"></div>
+                    <button type="submit" class="admin-btn-primary full-width-btn">Save Password & Continue</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Screen 3: Main Management Dashboard -->
+        <section class="dashboard-section" id="dashboard-section" style="display: none;">
+            
+            <div class="admin-dashboard-tabs">
+                <button class="dash-tab-btn active" id="tab-btn-blogs" onclick="switchDashboardTab('blogs')">
+                    <i class="fas fa-newspaper"></i> Blog Posts Manager
+                </button>
+                <button class="dash-tab-btn" id="tab-btn-media" onclick="switchDashboardTab('media')">
+                    <i class="fas fa-photo-film"></i> Media & Press Manager
+                </button>
+                <button class="dash-tab-btn" id="tab-btn-inquiries" onclick="switchDashboardTab('inquiries')">
+                    <i class="fas fa-envelope-open-text"></i> Contact Us Inquiries <span class="badge-count" id="inquiry-count-badge">0</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: BLOGS MANAGER -->
+            <div id="pane-blogs" class="tab-content-pane active">
+                <div class="dashboard-header-bar">
+                    <div>
+                        <h2>Blog Post Manager</h2>
+                        <p>Create, edit, reorder, and publish market insights</p>
+                    </div>
+                    <button class="admin-btn-primary" id="open-create-blog-modal-btn">
+                        <i class="fas fa-plus"></i> Create New Blog Post
+                    </button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">Order</th>
+                                <th>Image</th>
+                                <th>Article Title</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Author</th>
+                                <th style="width: 170px; text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-posts-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 2: MEDIA MANAGER -->
+            <div id="pane-media" class="tab-content-pane">
+                <div class="dashboard-header-bar">
+                    <div>
+                        <h2>Media & Press Manager</h2>
+                        <p>Upload photos, press releases, video coverages, and events</p>
+                    </div>
+                    <button class="admin-btn-primary" id="open-create-media-modal-btn">
+                        <i class="fas fa-upload"></i> Upload / Add Media Item
+                    </button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 70px;">Order</th>
+                                <th>Media Preview</th>
+                                <th>Title / Caption</th>
+                                <th>Media Type</th>
+                                <th>Date</th>
+                                <th>Author</th>
+                                <th style="width: 170px; text-align: right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-media-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- TAB 3: INQUIRIES & LEADS -->
+            <div id="pane-inquiries" class="tab-content-pane">
+                <div class="dashboard-header-bar">
+                    <div>
+                        <h2>Customer Inquiries</h2>
+                        <p>Inquiries submitted via the Contact Us and Other Business pages</p>
+                    </div>
+                    <button class="admin-btn-secondary" onclick="exportInquiriesCSV()">
+                        <i class="fas fa-file-csv"></i> Export to CSV
+                    </button>
+                </div>
+
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Client Name</th>
+                                <th>Phone Number</th>
+                                <th>Email</th>
+                                <th>Query / Details</th>
+                                <th style="width: 100px; text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-inquiries-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal 1: Create / Edit Blog Post -->
+    <div class="admin-modal" id="post-modal">
+        <div class="admin-modal-dialog">
+            <div class="admin-modal-header">
+                <h3 id="modal-form-title">Create Blog Post</h3>
+                <button class="close-modal-btn" id="close-post-modal">&times;</button>
+            </div>
+            <form id="post-editor-form">
+                <input type="hidden" id="edit-post-id">
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label for="post-title">Article Title</label>
+                        <input type="text" id="post-title" class="form-control" placeholder="Enter article title" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="post-category">Category</label>
+                        <select id="post-category" class="form-control" required>
+                            <option value="Market Analysis">Market Analysis</option>
+                            <option value="Wealth Planning">Wealth Planning</option>
+                            <option value="Mutual Funds">Mutual Funds</option>
+                            <option value="Fixed Income">Fixed Income</option>
+                            <option value="PMS Insights">PMS Insights</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Article Cover Image</label>
+                    <div class="image-upload-wrapper">
+                        <div class="file-drop-area">
+                            <input type="file" id="post-image-file" accept="image/*" class="file-input-hidden">
+                            <label for="post-image-file" class="file-custom-btn"><i class="fas fa-cloud-upload-alt"></i> Upload from Device</label>
+                            <span class="file-or-span">or enter filename/URL</span>
+                        </div>
+                        <input type="text" id="post-image" class="form-control" style="margin-top: 8px;" placeholder="e.g. Equities.jpg" value="Equities.jpg" required>
+                        <div class="image-preview-box">
+                            <img src="Equities.jpg" id="post-preview-img" alt="Cover Preview">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="post-date">Publish Date</label>
+                        <input type="text" id="post-date" class="form-control" value="August 2026" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-excerpt">Short Summary (Excerpt)</label>
+                    <textarea id="post-excerpt" class="form-control" rows="2" placeholder="Brief summary preview..." required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="post-content">Full Blog Content</label>
+                    <textarea id="post-content" class="form-control" rows="7" placeholder="Write the full article content..." required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="admin-btn-secondary" id="cancel-post-modal">Cancel</button>
+                    <button type="submit" class="admin-btn-primary">Save Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 2: Create / Edit Media Item -->
+    <div class="admin-modal" id="media-modal">
+        <div class="admin-modal-dialog">
+            <div class="admin-modal-header">
+                <h3 id="media-modal-form-title">Add Media Item</h3>
+                <button class="close-modal-btn" id="close-media-modal">&times;</button>
+            </div>
+            <form id="media-editor-form">
+                <input type="hidden" id="edit-media-id">
+                <div class="form-row">
+                    <div class="form-group flex-2">
+                        <label for="media-title">Media Title / Headline</label>
+                        <input type="text" id="media-title" class="form-control" placeholder="e.g. Annual Investor Conclave" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="media-type">Media Type / Category</label>
+                        <select id="media-type" class="form-control" required>
+                            <option value="Press Releases">Press Releases</option>
+                            <option value="Events & Conferences">Events & Conferences</option>
+                            <option value="Interviews & Videos">Interviews & Videos</option>
+                            <option value="Market Insights">Market Insights</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Media Photograph / Graphic</label>
+                    <div class="image-upload-wrapper">
+                        <div class="file-drop-area">
+                            <input type="file" id="media-image-file" accept="image/*" class="file-input-hidden">
+                            <label for="media-image-file" class="file-custom-btn"><i class="fas fa-cloud-upload-alt"></i> Choose Image File</label>
+                            <span class="file-or-span">or link image filename</span>
+                        </div>
+                        <input type="text" id="media-image" class="form-control" style="margin-top: 8px;" placeholder="e.g. bonds.jpg" value="bonds.jpg" required>
+                        <div class="image-preview-box">
+                            <img src="bonds.jpg" id="media-preview-img" alt="Media Preview">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group flex-1">
+                        <label for="media-date">Release Date</label>
+                        <input type="text" id="media-date" class="form-control" value="August 2026" required>
+                    </div>
+                    <div class="form-group flex-1">
+                        <label for="media-link">External Link / Video URL (Optional)</label>
+                        <input type="text" id="media-link" class="form-control" placeholder="https://youtube.com/...">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="media-description">Description / Brief</label>
+                    <textarea id="media-description" class="form-control" rows="4" placeholder="Describe the media coverage..." required></textarea>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="admin-btn-secondary" id="cancel-media-modal">Cancel</button>
+                    <button type="submit" class="admin-btn-primary">Save Media</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 3: On-Demand Password Change -->
+    <div class="admin-modal" id="change-pass-modal">
+        <div class="admin-modal-dialog modal-dialog-sm">
+            <div class="admin-modal-header">
+                <h3>Change Account Password</h3>
+                <button class="close-modal-btn" id="close-pass-modal">&times;</button>
+            </div>
+            <form id="account-pass-form">
+                <div class="form-group">
+                    <label for="current-password-input">Current Password</label>
+                    <input type="password" id="current-password-input" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="new-password-input">New Password</label>
+                    <input type="password" id="new-password-input" class="form-control" placeholder="Minimum 6 characters" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password-input">Confirm New Password</label>
+                    <input type="password" id="confirm-password-input" class="form-control" required>
+                </div>
+                <div id="modal-pass-error" class="auth-error-text"></div>
+                <div class="modal-actions">
+                    <button type="button" class="admin-btn-secondary" id="cancel-pass-modal">Cancel</button>
+                    <button type="submit" class="admin-btn-primary">Update Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const DEFAULT_USERS = {
+            'Admin': { password: 'SRH@1234', firstLogin: true },
+            'Wasu': { password: 'SRH@1234', firstLogin: true },
+            'Srushti': { password: 'SRH@1234', firstLogin: true }
+        };
+
+        const INITIAL_POSTS = [
+            {
+                id: 'post_1',
+                title: 'Understanding Market Volatility and Portfolio Diversification',
+                category: 'Market Analysis',
+                date: 'August 2026',
+                author: 'Admin',
+                image: 'Equities.jpg',
+                excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.',
+                content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.'
+            },
+            {
+                id: 'post_2',
+                title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth',
+                category: 'Wealth Planning',
+                date: 'August 2026',
+                author: 'Wasu',
+                image: 'mutual-fund.jpg',
+                excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.',
+                content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.'
+            }
+        ];
+
+        const INITIAL_MEDIA = [
+            {
+                id: 'media_1',
+                title: 'SRH World Annual Investment Conclave 2026',
+                type: 'Events & Conferences',
+                date: 'August 2026',
+                author: 'Admin',
+                image: 'bonds.jpg',
+                link: '',
+                description: 'Key stakeholders and private wealth clients gathered to discuss strategic portfolio positioning and alternate investment opportunities.'
+            },
+            {
+                id: 'media_2',
+                title: 'CNBC-TV18 Market Outlook: Fixed Income Dynamics',
+                type: 'Interviews & Videos',
+                date: 'July 2026',
+                author: 'Wasu',
+                image: 'Fix-income.jpg',
+                link: 'https://youtube.com',
+                description: 'Our senior research desk breaks down macroeconomic indicators, interest rate cycles, and high-yield debenture allocations.'
+            }
+        ];
+
+        function getUsers() {
+            const data = localStorage.getItem('srh_users');
+            return data ? JSON.parse(data) : DEFAULT_USERS;
+        }
+
+        function saveUsers(users) {
+            localStorage.setItem('srh_users', JSON.stringify(users));
+        }
+
+        function getPosts() {
+            const data = localStorage.getItem('srh_blogs');
+            if (!data) {
+                localStorage.setItem('srh_blogs', JSON.stringify(INITIAL_POSTS));
+                return INITIAL_POSTS;
+            }
+            return JSON.parse(data);
+        }
+
+        function savePosts(posts) {
+            localStorage.setItem('srh_blogs', JSON.stringify(posts));
+        }
+
+        function getMedia() {
+            const data = localStorage.getItem('srh_media');
+            if (!data) {
+                localStorage.setItem('srh_media', JSON.stringify(INITIAL_MEDIA));
+                return INITIAL_MEDIA;
+            }
+            return JSON.parse(data);
+        }
+
+        function saveMedia(media) {
+            localStorage.setItem('srh_media', JSON.stringify(media));
+        }
+
+        function getInquiries() {
+            return JSON.parse(localStorage.getItem('srh_inquiries') || '[]');
+        }
+
+        function saveInquiries(inquiries) {
+            localStorage.setItem('srh_inquiries', JSON.stringify(inquiries));
+        }
+
+        function getCurrentSession() {
+            return sessionStorage.getItem('srh_active_user');
+        }
+
+        function setCurrentSession(username) {
+            sessionStorage.setItem('srh_active_user', username);
+        }
+
+        function clearSession() {
+            sessionStorage.removeItem('srh_active_user');
+        }
+
+        if (!localStorage.getItem('srh_users')) {
+            saveUsers(DEFAULT_USERS);
+        }
+
+        const loginSection = document.getElementById('login-section');
+        const firstTimeSection = document.getElementById('first-time-pass-section');
+        const dashboardSection = document.getElementById('dashboard-section');
+        const userControls = document.getElementById('admin-user-controls');
+        const currentUserNameEl = document.getElementById('current-user-name');
+        
+        const loginForm = document.getElementById('login-form');
+        const loginErrorMsg = document.getElementById('login-error-msg');
+        const firstTimePassForm = document.getElementById('first-time-pass-form');
+        const firstPassError = document.getElementById('first-pass-error');
+        
+        const adminPostsTbody = document.getElementById('admin-posts-tbody');
+        const adminMediaTbody = document.getElementById('admin-media-tbody');
+        const adminInquiriesTbody = document.getElementById('admin-inquiries-tbody');
+        const inquiryCountBadge = document.getElementById('inquiry-count-badge');
+        
+        const postModal = document.getElementById('post-modal');
+        const postEditorForm = document.getElementById('post-editor-form');
+        const mediaModal = document.getElementById('media-modal');
+        const mediaEditorForm = document.getElementById('media-editor-form');
+        
+        const changePassModal = document.getElementById('change-pass-modal');
+        const accountPassForm = document.getElementById('account-pass-form');
+        const modalPassError = document.getElementById('modal-pass-error');
+
+        let activeUser = null;
+
+        window.switchDashboardTab = function(tabKey) {
+            document.querySelectorAll('.dash-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content-pane').forEach(pane => pane.classList.remove('active'));
+
+            if (tabKey === 'blogs') {
+                document.getElementById('tab-btn-blogs').classList.add('active');
+                document.getElementById('pane-blogs').classList.add('active');
+                renderPostsTable();
+            } else if (tabKey === 'media') {
+                document.getElementById('tab-btn-media').classList.add('active');
+                document.getElementById('pane-media').classList.add('active');
+                renderMediaTable();
+            } else if (tabKey === 'inquiries') {
+                document.getElementById('tab-btn-inquiries').classList.add('active');
+                document.getElementById('pane-inquiries').classList.add('active');
+                renderInquiriesTable();
+            }
+        };
+
+        function checkAuthState() {
+            activeUser = getCurrentSession();
+            const users = getUsers();
+
+            if (!activeUser || !users[activeUser]) {
+                loginSection.style.display = 'flex';
+                firstTimeSection.style.display = 'none';
+                dashboardSection.style.display = 'none';
+                userControls.style.display = 'none';
+                return;
+            }
+
+            if (users[activeUser].firstLogin) {
+                loginSection.style.display = 'none';
+                firstTimeSection.style.display = 'flex';
+                dashboardSection.style.display = 'none';
+                userControls.style.display = 'none';
+                return;
+            }
+
+            loginSection.style.display = 'none';
+            firstTimeSection.style.display = 'none';
+            dashboardSection.style.display = 'block';
+            userControls.style.display = 'flex';
+            currentUserNameEl.innerText = activeUser;
+            
+            renderPostsTable();
+            renderMediaTable();
+            renderInquiriesTable();
+        }
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            loginErrorMsg.innerText = '';
+            const rawUser = document.getElementById('login-username').value.trim();
+            const pass = document.getElementById('login-password').value;
+
+            const users = getUsers();
+            const matchedUserKey = Object.keys(users).find(u => u.toLowerCase() === rawUser.toLowerCase());
+
+            if (matchedUserKey && users[matchedUserKey].password === pass) {
+                setCurrentSession(matchedUserKey);
+                loginForm.reset();
+                checkAuthState();
+            } else {
+                loginErrorMsg.innerText = 'Invalid username or password. Please try again.';
+            }
+        });
+
+        firstTimePassForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            firstPassError.innerText = '';
+            const newP = document.getElementById('new-pass-first').value;
+            const confP = document.getElementById('confirm-pass-first').value;
+
+            if (newP.length < 6) {
+                firstPassError.innerText = 'Password must be at least 6 characters long.';
+                return;
+            }
+            if (newP !== confP) {
+                firstPassError.innerText = 'Passwords do not match.';
+                return;
+            }
+
+            const users = getUsers();
+            users[activeUser].password = newP;
+            users[activeUser].firstLogin = false;
+            saveUsers(users);
+
+            firstTimePassForm.reset();
+            checkAuthState();
+        });
+
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            clearSession();
+            checkAuthState();
+        });
+
+        document.getElementById('open-change-pass-btn').addEventListener('click', () => {
+            modalPassError.innerText = '';
+            accountPassForm.reset();
+            changePassModal.classList.add('modal-active');
+        });
+
+        document.getElementById('close-pass-modal').addEventListener('click', () => changePassModal.classList.remove('modal-active'));
+        document.getElementById('cancel-pass-modal').addEventListener('click', () => changePassModal.classList.remove('modal-active'));
+
+        accountPassForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            modalPassError.innerText = '';
+            const currP = document.getElementById('current-password-input').value;
+            const newP = document.getElementById('new-password-input').value;
+            const confP = document.getElementById('confirm-password-input').value;
+
+            const users = getUsers();
+            if (users[activeUser].password !== currP) {
+                modalPassError.innerText = 'Current password is incorrect.';
+                return;
+            }
+            if (newP.length < 6) {
+                modalPassError.innerText = 'New password must be at least 6 characters.';
+                return;
+            }
+            if (newP !== confP) {
+                modalPassError.innerText = 'New passwords do not match.';
+                return;
+            }
+
+            users[activeUser].password = newP;
+            saveUsers(users);
+            changePassModal.classList.remove('modal-active');
+            alert('Password updated successfully!');
+        });
+
+        function setupImageUploader(fileInputId, textInputId, previewImgId) {
+            const fileInput = document.getElementById(fileInputId);
+            const textInput = document.getElementById(textInputId);
+            const previewImg = document.getElementById(previewImgId);
+
+            fileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        textInput.value = event.target.result;
+                        previewImg.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            textInput.addEventListener('input', (e) => {
+                previewImg.src = e.target.value.trim() || 'Equities.jpg';
+            });
+        }
+
+        setupImageUploader('post-image-file', 'post-image', 'post-preview-img');
+        setupImageUploader('media-image-file', 'media-image', 'media-preview-img');
+
+        function renderPostsTable() {
+            const posts = getPosts();
+            adminPostsTbody.innerHTML = '';
+
+            if (posts.length === 0) {
+                adminPostsTbody.innerHTML = '<tr><td colspan="7" class="empty-table-text">No articles found.</td></tr>';
+                return;
+            }
+
+            posts.forEach((post, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="reorder-btns">
+                            <button class="order-btn" onclick="movePost(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
+                            <button class="order-btn" onclick="movePost(${index}, 1)" ${index === posts.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </td>
+                    <td><img src="${post.image}" alt="Thumb" class="table-thumb" onerror="this.src='Equities.jpg'"></td>
+                    <td><strong class="table-post-title">${post.title}</strong></td>
+                    <td><span class="table-category-tag">${post.category}</span></td>
+                    <td>${post.date}</td>
+                    <td><span class="author-tag">${post.author || 'Admin'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="action-btn edit-action" onclick="openEditPost('${post.id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="action-btn delete-action" onclick="deletePost('${post.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                adminPostsTbody.appendChild(tr);
+            });
+        }
+
+        function renderMediaTable() {
+            const media = getMedia();
+            adminMediaTbody.innerHTML = '';
+
+            if (media.length === 0) {
+                adminMediaTbody.innerHTML = '<tr><td colspan="7" class="empty-table-text">No media records found.</td></tr>';
+                return;
+            }
+
+            media.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <div class="reorder-btns">
+                            <button class="order-btn" onclick="moveMedia(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
+                            <button class="order-btn" onclick="moveMedia(${index}, 1)" ${index === media.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </td>
+                    <td><img src="${item.image}" alt="Thumb" class="table-thumb" onerror="this.src='bonds.jpg'"></td>
+                    <td><strong class="table-post-title">${item.title}</strong></td>
+                    <td><span class="table-category-tag tag-media">${item.type}</span></td>
+                    <td>${item.date}</td>
+                    <td><span class="author-tag">${item.author || 'Admin'}</span></td>
+                    <td style="text-align: right;">
+                        <button class="action-btn edit-action" onclick="openEditMedia('${item.id}')"><i class="fas fa-edit"></i> Edit</button>
+                        <button class="action-btn delete-action" onclick="deleteMedia('${item.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                adminMediaTbody.appendChild(tr);
+            });
+        }
+
+        function renderInquiriesTable() {
+            const inquiries = getInquiries();
+            inquiryCountBadge.innerText = inquiries.length;
+            adminInquiriesTbody.innerHTML = '';
+
+            if (inquiries.length === 0) {
+                adminInquiriesTbody.innerHTML = '<tr><td colspan="6" class="empty-table-text"><i class="fas fa-inbox" style="font-size: 28px; margin-bottom: 8px; display:block;"></i>No customer inquiries recorded yet.</td></tr>';
+                return;
+            }
+
+            inquiries.forEach((inq) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><span class="inq-timestamp"><i class="far fa-clock"></i> ${inq.timestamp}</span></td>
+                    <td><strong>${inq.name}</strong></td>
+                    <td><a href="tel:${inq.phone}" class="table-phone-link"><i class="fas fa-phone-alt"></i> ${inq.phone}</a></td>
+                    <td><a href="mailto:${inq.email}" class="table-email-link"><i class="fas fa-envelope"></i> ${inq.email}</a></td>
+                    <td><div class="inq-query-box">${inq.query}</div></td>
+                    <td style="text-align: right;">
+                        <button class="action-btn delete-action" onclick="deleteInquiry('${inq.id}')" title="Delete Inquiry"><i class="fas fa-trash"></i></button>
+                    </td>
+                `;
+                adminInquiriesTbody.appendChild(tr);
+            });
+        }
+
+        window.deleteInquiry = function(inqId) {
+            if (!confirm('Are you sure you want to delete this customer inquiry?')) return;
+            let inquiries = getInquiries();
+            inquiries = inquiries.filter(i => i.id !== inqId);
+            saveInquiries(inquiries);
+            renderInquiriesTable();
+        };
+
+        window.exportInquiriesCSV = function() {
+            const inquiries = getInquiries();
+            if (inquiries.length === 0) {
+                alert('No inquiries available to export.');
+                return;
+            }
+
+            let csvContent = 'data:text/csv;charset=utf-8,Date and Time,Full Name,Phone Number,Email,Query\n';
+            inquiries.forEach(i => {
+                const cleanQuery = `"${i.query.replace(/"/g, '""')}"`;
+                csvContent += `"${i.timestamp}","${i.name}","${i.phone}","${i.email}",${cleanQuery}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `SRH_World_Inquiries_${Date.now()}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        };
+
+        document.getElementById('open-create-blog-modal-btn').addEventListener('click', () => {
+            postEditorForm.reset();
+            document.getElementById('edit-post-id').value = '';
+            document.getElementById('post-date').value = 'August 2026';
+            document.getElementById('post-image').value = 'Equities.jpg';
+            document.getElementById('post-preview-img').src = 'Equities.jpg';
+            document.getElementById('modal-form-title').innerText = 'Create New Blog Post';
+            postModal.classList.add('modal-active');
+        });
+
+        document.getElementById('close-post-modal').addEventListener('click', () => postModal.classList.remove('modal-active'));
+        document.getElementById('cancel-post-modal').addEventListener('click', () => postModal.classList.remove('modal-active'));
+
+        window.openEditPost = function(postId) {
+            const posts = getPosts();
+            const target = posts.find(p => p.id === postId);
+            if (!target) return;
+
+            document.getElementById('edit-post-id').value = target.id;
+            document.getElementById('post-title').value = target.title;
+            document.getElementById('post-category').value = target.category;
+            document.getElementById('post-image').value = target.image;
+            document.getElementById('post-preview-img').src = target.image;
+            document.getElementById('post-date').value = target.date;
+            document.getElementById('post-excerpt').value = target.excerpt;
+            document.getElementById('post-content').value = target.content;
+
+            document.getElementById('modal-form-title').innerText = 'Edit Blog Post';
+            postModal.classList.add('modal-active');
+        };
+
+        postEditorForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('edit-post-id').value;
+            const posts = getPosts();
+
+            const postData = {
+                id: editId || 'post_' + Date.now(),
+                title: document.getElementById('post-title').value.trim(),
+                category: document.getElementById('post-category').value,
+                image: document.getElementById('post-image').value.trim() || 'Equities.jpg',
+                date: document.getElementById('post-date').value.trim() || 'August 2026',
+                excerpt: document.getElementById('post-excerpt').value.trim(),
+                content: document.getElementById('post-content').value.trim(),
+                author: activeUser || 'Admin'
+            };
+
+            if (editId) {
+                const idx = posts.findIndex(p => p.id === editId);
+                if (idx !== -1) posts[idx] = postData;
+            } else {
+                posts.unshift(postData);
+            }
+
+            savePosts(posts);
+            postModal.classList.remove('modal-active');
+            renderPostsTable();
+        });
+
+        document.getElementById('open-create-media-modal-btn').addEventListener('click', () => {
+            mediaEditorForm.reset();
+            document.getElementById('edit-media-id').value = '';
+            document.getElementById('media-date').value = 'August 2026';
+            document.getElementById('media-image').value = 'bonds.jpg';
+            document.getElementById('media-preview-img').src = 'bonds.jpg';
+            document.getElementById('media-modal-form-title').innerText = 'Upload / Add Media Item';
+            mediaModal.classList.add('modal-active');
+        });
+
+        document.getElementById('close-media-modal').addEventListener('click', () => mediaModal.classList.remove('modal-active'));
+        document.getElementById('cancel-media-modal').addEventListener('click', () => mediaModal.classList.remove('modal-active'));
+
+        window.openEditMedia = function(mediaId) {
+            const media = getMedia();
+            const target = media.find(m => m.id === mediaId);
+            if (!target) return;
+
+            document.getElementById('edit-media-id').value = target.id;
+            document.getElementById('media-title').value = target.title;
+            document.getElementById('media-type').value = target.type;
+            document.getElementById('media-image').value = target.image;
+            document.getElementById('media-preview-img').src = target.image;
+            document.getElementById('media-date').value = target.date;
+            document.getElementById('media-link').value = target.link || '';
+            document.getElementById('media-description').value = target.description;
+
+            document.getElementById('media-modal-form-title').innerText = 'Edit Media Item';
+            mediaModal.classList.add('modal-active');
+        };
+
+        mediaEditorForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('edit-media-id').value;
+            const media = getMedia();
+
+            const mediaData = {
+                id: editId || 'media_' + Date.now(),
+                title: document.getElementById('media-title').value.trim(),
+                type: document.getElementById('media-type').value,
+                image: document.getElementById('media-image').value.trim() || 'bonds.jpg',
+                date: document.getElementById('media-date').value.trim() || 'August 2026',
+                link: document.getElementById('media-link').value.trim(),
+                description: document.getElementById('media-description').value.trim(),
+                author: activeUser || 'Admin'
+            };
+
+            if (editId) {
+                const idx = media.findIndex(m => m.id === editId);
+                if (idx !== -1) media[idx] = mediaData;
+            } else {
+                media.unshift(mediaData);
+            }
+
+            saveMedia(media);
+            mediaModal.classList.remove('modal-active');
+            renderMediaTable();
+        });
+
+        window.deletePost = function(postId) {
+            if (!confirm('Are you sure you want to delete this article?')) return;
+            let posts = getPosts();
+            posts = posts.filter(p => p.id !== postId);
+            savePosts(posts);
+            renderPostsTable();
+        };
+
+        window.movePost = function(index, direction) {
+            const posts = getPosts();
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= posts.length) return;
+            const temp = posts[index];
+            posts[index] = posts[targetIndex];
+            posts[targetIndex] = temp;
+            savePosts(posts);
+            renderPostsTable();
+        };
+
+        window.deleteMedia = function(mediaId) {
+            if (!confirm('Are you sure you want to delete this media item?')) return;
+            let media = getMedia();
+            media = media.filter(m => m.id !== mediaId);
+            saveMedia(media);
+            renderMediaTable();
+        };
+
+        window.moveMedia = function(index, direction) {
+            const media = getMedia();
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= media.length) return;
+            const temp = media[index];
+            media[index] = media[targetIndex];
+            media[targetIndex] = temp;
+            saveMedia(media);
+            renderMediaTable();
+        };
+
+        checkAuthState();
+    </script>
+</body>
+</html>

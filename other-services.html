@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Other Business - Loans, MSME & Real Estate | SRH World</title>
+
+    <link rel="icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="apple-touch-icon" href="./fevicon.png?v=2">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Card Stacking (Slide-Over) Architecture */
+        .products-stack-deck {
+            position: relative;
+            width: 100%;
+            padding-top: 75px;
+        }
+
+        .stack-slide {
+            position: sticky;
+            top: 75px;
+            min-height: calc(100vh - 75px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease-out;
+        }
+
+        .stack-slide:nth-child(1) { background-color: #ffffff; z-index: 1; }
+        .stack-slide:nth-child(2) { background-color: #f8fafc; z-index: 2; }
+        .stack-slide:nth-child(3) { background-color: #ffffff; z-index: 3; }
+        .stack-slide:nth-child(4) { background-color: #f8fafc; z-index: 4; }
+
+        @media (max-width: 992px) {
+            .stack-slide {
+                position: relative;
+                top: auto;
+                min-height: auto;
+                padding: 50px 20px;
+                box-shadow: none;
+            }
+            .products-stack-deck {
+                padding-top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Navigation Header -->
+    <div class="header-sticky-wrapper header-visible">
+        <header class="main-header">
+            <div class="header-container">
+                <div class="logo-area"><a href="./index.html"><img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo"></a></div>
+                <div class="header-right-actions">
+                    <a href="./sip-calculator.html" class="header-calc-pill" aria-label="Smart Calculator"><i class="fas fa-calculator"></i><span class="calc-btn-text">Smart Calculator</span></a>
+                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+                </div>
+                <nav class="nav-bar" id="header-navigation-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="./index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="./about.html" class="nav-link">About Us</a></li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./products.html" class="nav-link">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./products.html#equity"><i class="fas fa-chart-line dropdown-icon"></i> Equity</a></li>
+                                <li><a href="./products.html#mutual-funds"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
+                                <li><a href="./products.html#aif"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
+                                <li><a href="./products.html#bonds"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
+                                <li><a href="./products.html#ncd"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
+                                <li><a href="./products.html#unlisted"><i class="fas fa-building-columns dropdown-icon"></i> Unlisted Stocks</a></li>
+                                <li><a href="./products.html#block-deals"><i class="fas fa-handshake dropdown-icon"></i> Block Deals</a></li>
+                                <li><a href="./products.html#insurance"><i class="fas fa-shield-halved dropdown-icon"></i> Insurance</a></li>
+                                <li><a href="./products.html#fixed-income"><i class="fas fa-vault dropdown-icon"></i> Fixed Income Securities</a></li>
+                                <li><a href="./products.html#ofs"><i class="fas fa-tag dropdown-icon"></i> Offer for Sale (OFS)</a></li>
+                                <li><a href="./products.html#nfo"><i class="fas fa-seedling dropdown-icon"></i> New Fund Offering (NFO)</a></li>
+                                <li><a href="./products.html#ipo"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./services.html" class="nav-link">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./services.html#pms"><i class="fas fa-briefcase dropdown-icon"></i> Customised Portfolio Management</a></li>
+                                <li><a href="./services.html#technical"><i class="fas fa-bolt dropdown-icon"></i> Technical Stock Analysis</a></li>
+                                <li><a href="./services.html#fundamental"><i class="fas fa-magnifying-glass-chart dropdown-icon"></i> Fundamental Stock Analysis</a></li>
+                                <li><a href="./services.html#derivative"><i class="fas fa-arrow-trend-up dropdown-icon"></i> Derivative Analysis</a></li>
+                                <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./other-services.html" class="nav-link active">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./other-services.html#loans"><i class="fas fa-landmark dropdown-icon"></i> Loans</a></li>
+                                <li><a href="./other-services.html#msme"><i class="fas fa-industry dropdown-icon"></i> MSME & SME Loans</a></li>
+                                <li><a href="./other-services.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
+                                <li><a href="./other-services.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
+                                <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="#" class="nav-link">Knowledge Centre <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./blogs.html"><i class="fas fa-book-open dropdown-icon"></i> Blogs</a></li>
+                                <li><a href="./media.html"><i class="fas fa-photo-film dropdown-icon"></i> Media</a></li>
+                                <li><a href="./manage.html"><i class="fas fa-tasks dropdown-icon"></i> Manage</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a href="./contact.html" class="nav-link">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- Side Quick-Jump Nav Bar -->
+    <nav class="services-anchor-nav" aria-label="Other Business Navigation">
+        <a href="#loans" class="anchor-dot active" title="Loans & Credit Procurement"><span>Loans & Credit</span></a>
+        <a href="#msme" class="anchor-dot" title="MSME & SME Loans"><span>MSME & SME Loans</span></a>
+        <a href="#reengineering" class="anchor-dot" title="Business & Financial Engineering"><span>Re-Engineering</span></a>
+        <a href="#real-estate" class="anchor-dot" title="Real Estate Advisory"><span>Real Estate</span></a>
+    </nav>
+
+    <!-- Stacking Deck Sections (Slide-Over Effect) -->
+    <main class="products-stack-deck">
+
+        <!-- 1. LOANS & CREDIT PROCUREMENT -->
+        <section class="stack-slide" id="loans">
+            <div class="service-slide-container">
+                <div class="service-content-card">
+                    <div class="service-tag-chip"><i class="fas fa-landmark"></i> Banking & Debt Syndication</div>
+                    <h2 class="service-main-heading">Loans </h2>
+                    <div class="service-body-copy">
+                        <p>SRH has well-established and long-standing relationships with all the major banks and non-banking finance companies (NBFCs) across India. We assist our clients to procure the best Deals.</p>
+                    </div>
+                    <div class="service-pill-list">
+                        <span><i class="fas fa-check-circle"></i> Home Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Home Loan Top-Up & Balance Transfer</span>
+                        <span><i class="fas fa-check-circle"></i> Loan Against Property (LAP)</span>
+                        <span><i class="fas fa-check-circle"></i> LAP Top-Up & Balance Transfer</span>
+                        <span><i class="fas fa-check-circle"></i> Commercial Property Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Commercial Property Top-Up</span>
+                        <span><i class="fas fa-check-circle"></i> Personal Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Education Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Construction Finance</span>
+                        <span><i class="fas fa-check-circle"></i> SME Loans</span>
+                    </div>
+                    <div class="service-action-bar">
+                        <a href="./sip-calculator.html" class="admin-btn-primary"><i class="fas fa-calculator"></i> Calculate Loan EMI</a>
+                        <a href="./contact.html" class="admin-btn-secondary"><i class="fas fa-file-alt"></i> Apply for Credit</a>
+                    </div>
+                </div>
+                <div class="service-visual-showcase">
+                    <div class="visual-glass-card">
+                        <div class="visual-card-header"><i class="fas fa-building-columns" style="color: #10b981;"></i> <span>Institutional Banking & Credit Matrix</span></div>
+                        <div class="allocation-bars">
+                            <div class="alloc-item"><div class="alloc-labels"><span>Home & Mortgage Loans</span><strong>From 8.40%</strong></div><div class="alloc-progress"><span style="width: 85%; background: #10b981;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Loan Against Property (LAP)</span><strong>From 9.15%</strong></div><div class="alloc-progress"><span style="width: 75%; background: #2563eb;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Commercial & Construction</span><strong>Customized LTV</strong></div><div class="alloc-progress"><span style="width: 90%; background: #f59e0b;"></span></div></div>
+                        </div>
+                        <div class="visual-stat-pill"><i class="fas fa-handshake"></i> Pan-India Major Bank & NBFC Tie-ups</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MSME & SME LOANS -->
+        <section class="stack-slide" id="msme">
+            <div class="service-slide-container">
+                <div class="service-content-card">
+                    <div class="service-tag-chip chip-amber"><i class="fas fa-industry"></i> Enterprise Growth</div>
+                    <h2 class="service-main-heading">MSME and SME Loans</h2>
+                    <div class="service-body-copy">
+                        <p>Micro, small, and medium enterprises (MSMEs) and small and medium enterprises (SMEs) are the backbone for the future growth of the Indian economy. These businesses provide employment to millions of people and aid in industrialization of the rural and backward regions.</p>
+                        <p>SRH works with MSMEs and SMEs to procure structured credit through its institutional relationships.</p>
+                    </div>
+                    <div class="service-pill-list">
+                        <span><i class="fas fa-check-circle"></i> Term Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Working Capital Loans</span>
+                        <span><i class="fas fa-check-circle"></i> LC-Based Invoice Discounting</span>
+                        <span><i class="fas fa-check-circle"></i> Equipment Funding</span>
+                        <span><i class="fas fa-check-circle"></i> Asset-Backed Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Cash Credit & Drop Line Facilities</span>
+                        <span><i class="fas fa-check-circle"></i> Business Property Loans</span>
+                        <span><i class="fas fa-check-circle"></i> Project Funding</span>
+                        <span><i class="fas fa-check-circle"></i> Lease Rental Discounting (LRD)</span>
+                    </div>
+                    <div class="service-action-bar">
+                        <a href="./contact.html" class="admin-btn-primary"><i class="fas fa-paper-plane"></i> Apply for MSME Credit</a>
+                    </div>
+                </div>
+                <div class="service-visual-showcase">
+                    <div class="visual-glass-card">
+                        <div class="visual-card-header"><i class="fas fa-vault" style="color: #f59e0b;"></i> <span>Structured Enterprise Credit Suite</span></div>
+                        <div class="derivative-heatmap">
+                            <div class="fno-row"><span>Working Capital Lines</span><strong style="color: #10b981;">CC / OD / Drop Line</strong></div>
+                            <div class="fno-row"><span>Trade & Invoice Finance</span><strong>LC Discounting</strong></div>
+                            <div class="fno-row"><span>Machinery & Capex</span><strong>Term Funding</strong></div>
+                            <div class="fno-row"><span>Commercial Real Estate</span><strong>LRD Facilities</strong></div>
+                        </div>
+                        <div class="visual-stat-pill"><i class="fas fa-chart-line" style="color: #f59e0b;"></i> Tailored for Scaling Units</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. BUSINESS PROCESS & FINANCIAL ENGINEERING -->
+        <section class="stack-slide" id="reengineering">
+            <div class="service-slide-container">
+                <div class="service-content-card">
+                    <div class="service-tag-chip chip-blue"><i class="fas fa-gears"></i> Operational Efficiency</div>
+                    <h2 class="service-main-heading">Business Process & Financial Engineering</h2>
+                    <div class="service-body-copy">
+                        <p>We provide business process re-engineering services to help overcome bottlenecks faced by your company and improve your operational efficiency.</p>
+                        <p>SRH also offers financial engineering that includes cash management, identifying financial constraints, developing, implementing, and monitoring financial initiatives and strategies.</p>
+                        <p class="service-highlight-note">Our business and financial re-engineering services can help SMEs and MSMEs to increase productivity, boost employee morale, and enhance their cash flows.</p>
+                    </div>
+                    <div class="service-action-bar">
+                        <a href="./contact.html" class="admin-btn-primary"><i class="fas fa-handshake"></i> Book Advisory Consultation</a>
+                    </div>
+                </div>
+                <div class="service-visual-showcase">
+                    <div class="visual-glass-card">
+                        <div class="visual-card-header"><i class="fas fa-chart-pie" style="color: #38bdf8;"></i> <span>Enterprise Optimization Pillars</span></div>
+                        <div class="metrics-two-col-grid">
+                            <div class="metric-box"><span class="metric-label">Operational Desk</span><strong class="metric-val" style="color: #10b981;">Bottleneck Elimination</strong></div>
+                            <div class="metric-box"><span class="metric-label">Cash Flow Structuring</span><strong class="metric-val">Liquidity Control</strong></div>
+                            <div class="metric-box"><span class="metric-label">Cost Containment</span><strong class="metric-val">Capital Efficiency</strong></div>
+                            <div class="metric-box"><span class="metric-label">Output & Scale</span><strong class="metric-val" style="color: #38bdf8;">Productivity Surge</strong></div>
+                        </div>
+                        <div class="visual-stat-pill"><i class="fas fa-check-double" style="color: #38bdf8;"></i> Sustainable Long-Term Cash Flow Enhancement</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. REAL ESTATE ADVISORY -->
+        <section class="stack-slide" id="real-estate">
+            <div class="service-slide-container">
+                <div class="service-content-card">
+                    <div class="service-tag-chip chip-purple"><i class="fas fa-city"></i> Real Estate Advisory</div>
+                    <h2 class="service-main-heading">Real Estate & Strategic Advisory</h2>
+                    <div class="service-body-copy">
+                        <p>SRH World delivers end-to-end strategic real estate advisory designed for private wealth clients, family offices, and developers. Our core focus includes structured capital procurement, high-yield commercial property acquisitions, and long-term asset monetization.</p>
+                        <p>Through our banking tie-ups, we arrange developer construction funding, project equity, and Lease Rental Discounting (LRD) on pre-leased assets.</p>
+                    </div>
+                    <div class="service-pill-list">
+                        <span><i class="fas fa-check-circle"></i> Pre-Leased Commercial Assets</span>
+                        <span><i class="fas fa-check-circle"></i> Lease Rental Discounting (LRD)</span>
+                        <span><i class="fas fa-check-circle"></i> Developer Construction Finance</span>
+                        <span><i class="fas fa-check-circle"></i> Strategic Land Acquisitions</span>
+                    </div>
+                    <div class="service-action-bar">
+                        <a href="./contact.html" class="admin-btn-primary"><i class="fas fa-building"></i> Consult Real Estate Desk</a>
+                    </div>
+                </div>
+                <div class="service-visual-showcase">
+                    <div class="visual-glass-card">
+                        <div class="visual-card-header"><i class="fas fa-landmark" style="color: #c084fc;"></i> <span>Commercial Asset & LRD Structuring</span></div>
+                        <div class="allocation-bars">
+                            <div class="alloc-item"><div class="alloc-labels"><span>Pre-Leased Commercial Yields</span><strong>8.5% - 10.5%</strong></div><div class="alloc-progress"><span style="width: 80%; background: #9333ea;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>LRD Structured Debt Procurement</span><strong>Up to 80% LTV</strong></div><div class="alloc-progress"><span style="width: 85%; background: #10b981;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Project Finance & Construction</span><strong>Syndicated Banking</strong></div><div class="alloc-progress"><span style="width: 70%; background: #f59e0b;"></span></div></div>
+                        </div>
+                        <div class="visual-stat-pill"><i class="fas fa-shield-alt" style="color: #c084fc;"></i> Verified Institutional Grade Clearances</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Site Footer -->
+    <footer class="site-footer-compact" id="site-footer">
+        <div class="footer-custom-container">
+            <div class="footer-top-row">
+                <div class="footer-brand-wrap">
+                    <img src="footer_logo.png" alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'">
+                </div>
+                <div class="footer-social-icons">
+                    <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://x.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="X" class="social-icon social-x"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-offices-grid">
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-building"></i> Head Office</h4>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span>
+                        <p>OFFICE 1&2, F – MADHUKOSH SOCIETY, SINHGAD ROAD, NEXT TO WARJE, PUNE, MAHARASHTRA - 411041</p>
+                    </div>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span>
+                        <p><a href="tel:8484914844">+91 84849 14844</a></p>
+                    </div>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span>
+                        <p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p>
+                    </div>
+                </div>
+
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-city"></i> Vishal Nagar Office</h4>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span>
+                        <p>G-201-202 WATER’S SQUARE, VISHAL NAGAR, PIMPLE NILAKH, PUNE, MAHARASHTRA - 411027</p>
+                    </div>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span>
+                        <p><a href="tel:7506151314">+91 75061 51314</a></p>
+                    </div>
+                    <div class="footer-info-item">
+                        <span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span>
+                        <p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">© 2026 SRH World. All rights reserved.</p>
+                <div class="footer-legal-links">
+                    <a href="./index.html">Home</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms & Conditions</a>
+                    <a href="./manage.html">Staff Portal</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Top Button -->
+    <button class="back-to-catalogue-btn" id="other-top-btn" aria-label="Back to Top">
+        <i class="fas fa-arrow-up"></i> <span>Top</span>
+    </button>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/918484914844" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Floating Top Button & Footer Hide for WhatsApp
+        const topBtn = document.getElementById('other-top-btn');
+        const msmeSection = document.getElementById('msme');
+        const footerElement = document.getElementById('site-footer');
+        const floatingWhatsApp = document.getElementById('whatsapp-btn');
+
+        function handleScrollEvents() {
+            if (topBtn && msmeSection) {
+                const msmeRect = msmeSection.getBoundingClientRect();
+                if (msmeRect.bottom <= 150) {
+                    topBtn.classList.add('show-catalogue-btn');
+                } else {
+                    topBtn.classList.remove('show-catalogue-btn');
+                }
+            }
+
+            if (footerElement && floatingWhatsApp) {
+                if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
+                    floatingWhatsApp.classList.add('hide-floating-btn');
+                } else {
+                    floatingWhatsApp.classList.remove('hide-floating-btn');
+                }
+            }
+        }
+
+        if (topBtn) {
+            topBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        window.addEventListener('scroll', handleScrollEvents, { passive: true });
+        window.addEventListener('resize', handleScrollEvents, { passive: true });
+        window.addEventListener('DOMContentLoaded', handleScrollEvents);
+
+        // Side Anchor Observer for Stacking Sections
+        const slides = document.querySelectorAll('.stack-slide');
+        const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
+        const slideObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`));
+                }
+            });
+        }, { threshold: 0.25 });
+        slides.forEach(slide => slideObserver.observe(slide));
+
+        // Universal Navigation Menu & Dropdowns
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const headerNavigationMenu = document.getElementById('header-navigation-menu');
+        if (menuToggleBtn && headerNavigationMenu) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                headerNavigationMenu.classList.toggle('mobile-open');
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
+                        }
+                    }
+                });
+            });
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

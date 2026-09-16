@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRH EXIM Enterprises | SRH World</title>
+
+    <link rel="icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="apple-touch-icon" href="./fevicon.png?v=2">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Your main styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Your targeted EXIM page fix -->
+    <link rel="stylesheet" href="exim.css">
+
+    <style>
+        /* Hero Section with Enhanced Video Visibility */
+        .exim-hero-section { 
+            position: relative; 
+            overflow: hidden; 
+            color: #ffffff; 
+            padding: 90px 20px 40px 20px; 
+            text-align: center; 
+        }
+        .exim-hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        .exim-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Lighter overlay opacity (0.4) for high video visibility and clarity */
+            background-color: rgba(15, 23, 42, 0.4); 
+            z-index: 1;
+        }
+        .exim-hero-container { 
+            position: relative; 
+            z-index: 2; 
+            max-width: 900px; 
+            margin: 0 auto; 
+        }
+
+        .exim-tagline-badge { background-color: rgba(16, 185, 129, 0.25); color: var(--accent-green); font-size: 13px; font-weight: 800; padding: 6px 18px; border-radius: 20px; display: inline-block; margin-bottom: 18px; text-transform: uppercase; letter-spacing: 1px; border: 1px solid rgba(16, 185, 129, 0.4); text-shadow: 0 1px 3px rgba(0,0,0,0.5); }
+        .exim-main-title { font-size: 38px; font-weight: 800; line-height: 1.25; margin-bottom: 18px; letter-spacing: -0.5px; text-shadow: 0 2px 6px rgba(0,0,0,0.6); }
+        .exim-hero-intro { font-size: 16px; color: #f1f5f9; line-height: 1.7; margin-bottom: 25px; text-shadow: 0 1px 4px rgba(0,0,0,0.6); }
+        
+        .exim-content-section { max-width: 1240px; margin: 60px auto; padding: 0 20px; }
+        
+        /* New Tab System Styles for Product Range Panes */
+        .exim-tabs { display: flex; justify-content: center; gap: 12px; margin-top: 30px; margin-bottom: 25px; flex-wrap: wrap; }
+        .exim-tab-btn { background: #f1f5f9; border: 1px solid var(--border-color); padding: 12px 24px; font-size: 15px; font-weight: 700; color: var(--text-muted); cursor: pointer; border-radius: var(--radius-sm); transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .exim-tab-btn:hover { background: #e2e8f0; color: var(--primary-dark); }
+        .exim-tab-btn.active { background: var(--primary-dark); color: #ffffff; border-color: var(--primary-dark); }
+        .exim-tab-btn.active i { color: #ffffff !important; }
+        .exim-tab-pane { display: none; animation: fadeIn 0.4s ease; }
+        .exim-tab-pane.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        .exim-product-table-wrapper { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow-x: auto; box-shadow: var(--shadow-sm); }
+        .exim-product-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        .exim-product-table th { background-color: #f8fafc; color: var(--primary-dark); font-size: 14px; font-weight: 800; padding: 14px 20px; border-bottom: 2px solid var(--border-color); text-align: left; }
+        .exim-product-table td { padding: 12px 20px; font-size: 13.5px; color: var(--text-muted); border-bottom: 1px solid #f1f5f9; vertical-align: top; }
+        .exim-product-table tr:hover td { background-color: #f8fafc; color: var(--primary-dark); }
+        
+        .cert-badge-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-top: 24px; }
+        .cert-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 22px 14px; text-align: center; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+        .cert-card i { font-size: 26px; color: var(--accent-green); }
+        .cert-card span { font-size: 13px; font-weight: 700; color: var(--primary-dark); }
+        .capabilities-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 24px; }
+        .capability-card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 24px; box-shadow: var(--shadow-sm); }
+        .capability-card i { font-size: 24px; color: var(--accent-blue); margin-bottom: 12px; display: inline-block; }
+        .capability-card h4 { font-size: 16px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px; }
+        .capability-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+        .custom-solution-banner { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; border-radius: var(--radius-lg); padding: 36px; margin-top: 40px; display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
+        .custom-solution-banner h3 { font-size: 22px; font-weight: 800; margin-bottom: 8px; }
+        .custom-solution-banner p { font-size: 14px; color: #cbd5e1; max-width: 700px; line-height: 1.6; }
+        
+        @media (max-width: 992px) { .cert-badge-grid, .capabilities-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 650px) { .cert-badge-grid, .capabilities-grid { grid-template-columns: 1fr; } .exim-main-title { font-size: 28px; } }
+    </style>
+</head>
+<body>
+
+    <div class="header-sticky-wrapper header-visible">
+        <header class="main-header">
+            <div class="header-container">
+                <div class="logo-area"><a href="./index.html"><img src="exim-logo.png" alt="SRH EXIM Logo" class="client-logo" onerror="this.src='Logo_SRH_World.png'"></a></div>
+                <div class="header-right-actions">
+                    <!-- Updated Circular Home Button -->
+                    <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page" style="width: 42px; height: 42px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">
+                        <i class="fas fa-home" style="margin: 0;"></i>
+                    </a>
+                    
+                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+                </div>
+                <nav class="nav-bar" id="header-navigation-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="./index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="./about.html" class="nav-link">About Us</a></li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="#" class="nav-link">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./about.html"><i class="fas fa-chart-line dropdown-icon"></i> Equity</a></li>
+                                <li><a href="./about.html"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
+                                <li><a href="./about.html"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
+                                <li><a href="./about.html"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-building-columns dropdown-icon"></i> Unlisted Stocks</a></li>
+                                <li><a href="./about.html"><i class="fas fa-shield-halved dropdown-icon"></i> Insurance</a></li>
+                                <li><a href="./about.html"><i class="fas fa-vault dropdown-icon"></i> Fixed Income Securities</a></li>
+                                <li><a href="./about.html"><i class="fas fa-tag dropdown-icon"></i> Offer for Sale (OFS)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-seedling dropdown-icon"></i> New Fund Offering (NFO)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-cubes dropdown-icon"></i> Structured Product</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./services.html" class="nav-link">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./services.html#pms"><i class="fas fa-briefcase dropdown-icon"></i> Customised Portfolio Management</a></li>
+                                <li><a href="./services.html#technical"><i class="fas fa-bolt dropdown-icon"></i> Technical Stock Analysis</a></li>
+                                <li><a href="./services.html#fundamental"><i class="fas fa-magnifying-glass-chart dropdown-icon"></i> Fundamental Stock Analysis</a></li>
+                                <li><a href="./services.html#derivative"><i class="fas fa-arrow-trend-up dropdown-icon"></i> Derivative Analysis</a></li>
+                                <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
+                            </ul>
+                        </li>
+                        <!-- Updated Nav Links to sme.html -->
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./sme.html" class="nav-link active">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./sme.html#loans"><i class="fas fa-landmark dropdown-icon"></i> Loans & Credit Procurement</a></li>
+                                <li><a href="./sme.html#msme"><i class="fas fa-industry dropdown-icon"></i> MSME & SME Loans</a></li>
+                                <li><a href="./sme.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
+                                <li><a href="./sme.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
+                                <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="#" class="nav-link">Knowledge Centre <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./blogs.html"><i class="fas fa-book-open dropdown-icon"></i> Blogs</a></li>
+                                <li><a href="./media.html"><i class="fas fa-photo-film dropdown-icon"></i> Media</a></li>
+                                <li><a href="./manage.html"><i class="fas fa-tasks dropdown-icon"></i> Manage</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a href="./contact.html" class="nav-link">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- Hero Section with Background Video Loop -->
+    <section class="exim-hero-section">
+        <video class="exim-hero-video" autoplay loop muted playsinline>
+            <source src="Ship_SRH.mp4" type="video/mp4">
+        </video>
+        <div class="exim-hero-overlay"></div>
+
+        <div class="exim-hero-container">
+            <span class="exim-tagline-badge">Global Export & Supply Chain Solutions</span>
+            <h1 class="exim-main-title">Ship With Complete Accuracy</h1>
+            <p class="exim-hero-intro">Welcome to <strong>SRH EXIM ENTERPRISES</strong>, your premier export partner for quality products and services. We specialize in delivering high-quality products and services to customers across Asia, Europe, Middle East, North America, and more. Whether you are looking for high-quality products or sustainable services, SRH EXIM ENTERPRISES ensures seamless supply chain solutions tailored to your needs.</p>
+            <a href="#contact-exim" class="admin-btn-primary" style="padding: 12px 28px; font-size: 14px;"><i class="fas fa-paper-plane"></i> Request Export Quote</a>
+        </div>
+    </section>
+
+    <!-- About Us, Mission, Vision -->
+    <section class="exim-content-section exim-stack-slide">
+        <div class="about-overview-container">
+            <div class="about-text-block">
+                <span class="about-tagline">About SRH EXIM Enterprises</span>
+                <h2>Bridging Global Markets with Value & Precision</h2>
+                <p>At SRH EXIM ENTERPRISES, we believe in bridging markets and delivering value. Since our establishment, we have consistently met the needs of international buyers with accuracy, dedication, and transparency.</p>
+                <p>Our expertise spans across multiple products like dry fruits, fresh fruits and vegetables, engineering goods, stationery, and more, and we pride ourselves on being a one-stop solution for reliable exports.</p>
+            </div>
+            <div class="about-mission-cards">
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Mission</h3>
+                    <p>Globally connecting businesses by delivering exceptional products and fostering long-term relationships.</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Vision</h3>
+                    <p>Become a global leader in the export industry, driven by innovation, integrity, and unparalleled services.</p>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px;">
+            <h3 class="section-heading-title" style="text-align: center; margin-bottom: 30px;">Our Core Values</h3>
+            <div class="values-grid">
+                <div class="value-box"><i class="fas fa-award value-icon"></i><h4>Excellence</h4><p>Delivering the best superior quality products and services across all consignment stages.</p></div>
+                <div class="value-box"><i class="fas fa-leaf value-icon" style="color: var(--accent-green);"></i><h4>Sustainability</h4><p>Adopting and ensuring eco-friendly and socially responsible global supply practices.</p></div>
+                <div class="value-box"><i class="fas fa-handshake value-icon"></i><h4>Customer Focus</h4><p>Developing trust through superior, transparent, and strictly timely dispatch schedules.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Range (Now with Panes/Tabs) -->
+    <section class="exim-content-section exim-stack-slide" id="products">
+        <h2 class="section-heading-title">Our Diverse Product Range</h2>
+        <p style="color: var(--text-muted); font-size: 15px; margin-bottom: 10px;">We offer a diverse portfolio tailored to meet the unique requirements of international markets.</p>
+
+        <!-- Product Panes Controller -->
+        <div class="exim-tabs">
+            <button class="exim-tab-btn active" id="btn-edible" onclick="switchEximTab('edible')">
+                <i class="fas fa-utensils" style="color: var(--accent-green);"></i> Edible Items
+            </button>
+            <button class="exim-tab-btn" id="btn-non-edible" onclick="switchEximTab('non-edible')">
+                <i class="fas fa-cogs" style="color: var(--accent-blue);"></i> Non-Edible Items
+            </button>
+        </div>
+
+        <!-- Edible Pane -->
+        <div id="pane-edible" class="exim-tab-pane active">
+            <div class="exim-product-table-wrapper">
+                <table class="exim-product-table">
+                    <thead><tr><th>Dehydrated Products</th><th>Dry Fruits</th><th>Masalas and Spices</th></tr></thead>
+                    <tbody>
+                        <tr><td>Pink Onion Flakes</td><td>Cashew</td><td>Turmeric</td></tr>
+                        <tr><td>White Onion Flakes</td><td>Pistachio</td><td>Red Chilli</td></tr>
+                        <tr><td>Fresh Fried Pink Onion</td><td>Walnuts</td><td>Garam Masala</td></tr>
+                        <tr><td>Soyabean Granules</td><td>Figs</td><td>Cumin Powder</td></tr>
+                        <tr><td>Garlic Full Cloves</td><td>Raisins</td><td>Coriander Powder</td></tr>
+                        <tr><td>Chopped Garlic</td><td>Apricots</td><td>Fenugreek Powder</td></tr>
+                        <tr><td>Garlic Powder</td><td>Almonds</td><td>Goda Masala</td></tr>
+                        <tr><td>Ginger Powder</td><td>Fox Nuts</td><td>Onion Garlic Masala</td></tr>
+                        <tr><td>Potato Flakes</td><td>—</td><td>All Indian Masalas</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Non-Edible Pane -->
+        <div id="pane-non-edible" class="exim-tab-pane">
+            <div class="exim-product-table-wrapper">
+                <table class="exim-product-table">
+                    <thead><tr><th>Engineering Goods</th><th>Stationery</th></tr></thead>
+                    <tbody>
+                        <tr><td>Ring Gaskets</td><td>Long Notebooks</td></tr>
+                        <tr><td>Precision Brass and Copper Components</td><td>Diaries</td></tr>
+                        <tr><td>Castings</td><td>Artist Pad</td></tr>
+                        <tr><td>Machined Components</td><td>Mini Notebooks</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="custom-solution-banner">
+            <div>
+                <h3>Custom Sourcing, Branding & Packaging</h3>
+                <p>We offer customized solutions, from direct product sourcing to bespoke branding and export-grade packaging tailored to your specific requirements.</p>
+            </div>
+            <a href="#contact-exim" class="admin-btn-primary" style="white-space: nowrap;">Inquire Custom Order</a>
+        </div>
+    </section>
+
+    <!-- Logistics Capabilities -->
+    <section class="exim-content-section exim-stack-slide">
+        <h2 class="section-heading-title">Seamless Shipping Worldwide</h2>
+        <p style="color: var(--text-muted); font-size: 15px;">Our efficient logistics network ensures your products arrive on time, every time.</p>
+        <div class="capabilities-grid">
+            <div class="capability-card"><i class="fas fa-plane-departure"></i><h4>Freight Options</h4><p>Air, Sea, and Land freight services tailored to volume and speed needs.</p></div>
+            <div class="capability-card"><i class="fas fa-passport"></i><h4>Customs Clearance</h4><p>Expertise in navigating complex international trade regulations.</p></div>
+            <div class="capability-card"><i class="fas fa-warehouse"></i><h4>Warehousing Solutions</h4><p>Safe, temperature-controlled, and secure storage facilities.</p></div>
+            <div class="capability-card"><i class="fas fa-satellite-dish"></i><h4>Real-Time Tracking</h4><p>Complete visibility at every milestone from dispatch to port arrival.</p></div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="exim-content-section exim-stack-slide">
+        <h2 class="section-heading-title" style="text-align: center;">Certifications & Compliance</h2>
+        <div class="cert-badge-grid">
+            <div class="cert-card"><i class="fas fa-certificate"></i><span>IEC Registered</span></div>
+            <div class="cert-card"><i class="fas fa-award"></i><span>APEDA / RCMC</span></div>
+            <div class="cert-card"><i class="fas fa-shield-halved"></i><span>FSSAI Certified</span></div>
+            <div class="cert-card"><i class="fas fa-pepper-hot"></i><span>Spices Board of India</span></div>
+            <div class="cert-card"><i class="fas fa-file-shield"></i><span>Phyto Sanitary</span></div>
+        </div>
+    </section>
+
+    <!-- Contact & Inquiry -->
+    <section class="contact-master-section exim-stack-slide" id="contact-exim">
+        <div class="contact-grid-container">
+            <div class="contact-info-column">
+                <div class="office-location-card">
+                    <div class="office-header"><div class="office-icon-box"><i class="fas fa-globe-asia"></i></div><div><h3 class="office-title">SRH EXIM Head Office</h3><span class="office-badge badge-primary">Export Division</span></div></div>
+                    <p class="office-address"><i class="fas fa-map-marker-alt"></i> Office No. 1, Madhukosh Apartments, Near Dhayari Phata, Sinhagad Road, Pune, Maharashtra – 411041, India</p>
+                    <div class="office-contact-links">
+                        <a href="tel:7506151314" class="contact-link-pill"><i class="fas fa-phone-alt"></i> +91 75061 51314</a>
+                        <a href="mailto:mody@srhworld.com" class="contact-link-pill"><i class="fas fa-envelope"></i> mody@srhworld.com</a>
+                    </div>
+                </div>
+                <div class="direct-connect-card">
+                    <div><h4>Have Immediate Export Queries?</h4><p>Chat directly with our global trade desk on WhatsApp.</p></div>
+                    <a href="https://wa.me/917506151314" target="_blank" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
+                </div>
+            </div>
+
+            <div class="contact-form-column">
+                <div class="contact-form-card" id="exim-form-card">
+                    <div id="exim-form-inner">
+                        <div class="form-card-header"><h2>We’re Here to Help!</h2><p>Have questions or ready to partner with us? Reach out today.</p></div>
+                        <form id="exim-inquiry-form">
+                            <div class="form-group"><label for="exim-name">Full Name / Company Representative <span class="required-star">*</span></label><input type="text" id="exim-name" class="form-control" placeholder="e.g. John Doe" required></div>
+                            <div class="form-row">
+                                <div class="form-group flex-1"><label for="exim-phone">Phone / WhatsApp <span class="required-star">*</span></label><input type="tel" id="exim-phone" class="form-control" placeholder="with country code" required></div>
+                                <div class="form-group flex-1"><label for="exim-email">Business Email <span class="required-star">*</span></label><input type="email" id="exim-email" class="form-control" placeholder="e.g. john@company.com" required></div>
+                            </div>
+                            <div class="form-group"><label for="exim-query">Products Required / Destination Port <span class="required-star">*</span></label><textarea id="exim-query" class="form-control" rows="4" placeholder="Specify products, quantity, and delivery country..." required></textarea></div>
+                            <button type="submit" class="admin-btn-primary full-width-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
+                        </form>
+                    </div>
+                    <div id="exim-success-state" class="form-success-flip-card">
+                        <div class="big-tick-circle"><i class="fas fa-check"></i></div>
+                        <h3 style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;">Inquiry Received!</h3>
+                        <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">Thank you for contacting SRH EXIM. Our trade representative will review your request and get back shortly.</p>
+                        <button type="button" class="admin-btn-secondary" id="reset-exim-form-btn"><i class="fas fa-redo"></i> Submit Another Request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer-compact" id="site-footer">
+        <div class="footer-custom-container">
+            <div class="footer-top-row">
+                <div class="footer-brand-wrap"><img src="footer_logo.png" alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'"></div>
+                <div class="footer-social-icons">
+                    <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-offices-grid">
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-building"></i> Head Office</h4>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span><p>OFFICE 1&2, F – MADHUKOSH SOCIETY, SINHGAD ROAD, NEXT TO WARJE, PUNE, MAHARASHTRA - 411041</p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span><p><a href="tel:8484914844">+91 84849 14844</a></p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span><p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p></div>
+                </div>
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-city"></i> Wakad Office</h4>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span><p>G-201-202 WATER’S SQUARE, WAKAD, PIMPLE NILAKH, PUNE, MAHARASHTRA - 411027</p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span><p><a href="tel:7506151314">+91 75061 51314</a></p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span><p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">© 2026 SRH World. All rights reserved.</p>
+                <div class="footer-legal-links"><a href="./index.html">Home</a><a href="#">Privacy Policy</a><a href="#">Terms & Conditions</a><a href="./manage.html">Staff Portal</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/919920531076" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        // --- Tab Switching Logic ---
+        function switchEximTab(tabId) {
+            document.querySelectorAll('.exim-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.exim-tab-pane').forEach(pane => pane.classList.remove('active'));
+
+            if(tabId === 'edible') {
+                document.getElementById('btn-edible').classList.add('active');
+                document.getElementById('pane-edible').classList.add('active');
+            } else if (tabId === 'non-edible') {
+                document.getElementById('btn-non-edible').classList.add('active');
+                document.getElementById('pane-non-edible').classList.add('active');
+            }
+        }
+
+        // --- Form Handling Logic ---
+        const eximForm = document.getElementById('exim-inquiry-form');
+        const formInner = document.getElementById('exim-form-inner');
+        const successState = document.getElementById('exim-success-state');
+        const resetBtn = document.getElementById('reset-exim-form-btn');
+        if (eximForm) {
+            eximForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newInquiry = {
+                    id: 'exim_' + Date.now(),
+                    timestamp: new Date().toLocaleDateString('en-IN') + ' at ' + new Date().toLocaleTimeString('en-IN'),
+                    name: document.getElementById('exim-name').value.trim(),
+                    phone: document.getElementById('exim-phone').value.trim(),
+                    email: document.getElementById('exim-email').value.trim(),
+                    query: '[EXIM Inquiry] ' + document.getElementById('exim-query').value.trim(),
+                    status: 'New'
+                };
+                const existing = JSON.parse(localStorage.getItem('srh_inquiries') || '[]');
+                existing.unshift(newInquiry);
+                localStorage.setItem('srh_inquiries', JSON.stringify(existing));
+                formInner.style.display = 'none';
+                successState.style.display = 'flex';
+            });
+        }
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => { eximForm.reset(); successState.style.display = 'none'; formInner.style.display = 'block'; });
+        }
+
+        const footerElement = document.getElementById('site-footer');
+        const floatingWhatsApp = document.getElementById('whatsapp-btn');
+        function checkFooterVisibility() {
+            if (!footerElement || !floatingWhatsApp) return;
+            if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) floatingWhatsApp.classList.add('hide-floating-btn');
+            else floatingWhatsApp.classList.remove('hide-floating-btn');
+        }
+        window.addEventListener('scroll', checkFooterVisibility, { passive: true });
+        window.addEventListener('resize', checkFooterVisibility, { passive: true });
+        window.addEventListener('DOMContentLoaded', checkFooterVisibility);
+
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const headerNavigationMenu = document.getElementById('header-navigation-menu');
+        if (menuToggleBtn && headerNavigationMenu) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                headerNavigationMenu.classList.toggle('mobile-open');
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
+                        }
+                    }
+                });
+            });
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        }
+    </script>
+</body>
+</html>

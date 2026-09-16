@@ -1,0 +1,313 @@
+/* ==========================================================================
+   CONTACT PAGE SPECIFIC STYLES (contact.css)
+   ========================================================================== */
+
+/* Main Container */
+.contact-master-section {
+    max-width: 1240px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.contact-grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+/* Left Column: Info Cards */
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.office-location-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.office-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.office-icon-box {
+    background: #f1f5f9;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #10b981;
+    font-size: 20px;
+}
+
+.office-title {
+    font-size: 20px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.office-badge {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    color: #475569;
+    display: inline-block;
+}
+
+.office-badge.badge-primary {
+    background: #ecfdf5;
+    color: #10b981;
+}
+
+.office-address {
+    font-size: 14px;
+    color: #475569;
+    display: flex;
+    gap: 10px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.office-address i {
+    color: #10b981;
+    margin-top: 4px;
+}
+
+.office-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-link-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #0f172a;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.contact-link-pill i {
+    color: #10b981;
+    width: 16px;
+    text-align: center;
+}
+
+.contact-link-pill:hover {
+    color: #10b981;
+}
+
+/* Direct Connect Card (WhatsApp) */
+.direct-connect-card {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: #ffffff;
+    border-radius: 14px;
+    padding: 30px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.direct-connect-card h4 {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.direct-connect-card p {
+    font-size: 14px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.contact-whatsapp-btn {
+    background: #25D366;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    text-decoration: none;
+    transition: background 0.3s;
+    width: fit-content;
+}
+
+.contact-whatsapp-btn:hover {
+    background: #1ebd5a;
+}
+
+/* Right Column: Contact Form */
+.contact-form-column {
+    width: 100%;
+}
+
+.contact-form-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+
+.form-card-header {
+    margin-bottom: 30px;
+}
+
+.form-card-header h2 {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.form-card-header p {
+    font-size: 14px;
+    color: #475569;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.form-group label {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.required-star {
+    color: #ef4444;
+}
+
+.form-control {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    background: #ffffff;
+    color: #0f172a;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control::placeholder {
+    color: #94a3b8;
+}
+
+.form-control:focus {
+    border-color: #10b981;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.admin-btn-primary {
+    background: #0f172a;
+    color: #ffffff;
+    border: none;
+    padding: 14px 24px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-btn-primary.full-width-btn {
+    width: 100%;
+}
+
+.admin-btn-primary:hover {
+    background: #10b981;
+}
+
+/* Success State */
+.form-success-flip-card {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.big-tick-circle {
+    width: 80px;
+    height: 80px;
+    background: #ecfdf5;
+    color: #10b981;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 35px;
+    margin-bottom: 20px;
+}
+
+.admin-btn-secondary {
+    background: #f1f5f9;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+}
+
+.admin-btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .contact-grid-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+}

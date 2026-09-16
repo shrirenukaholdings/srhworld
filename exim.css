@@ -1,0 +1,834 @@
+/* ==========================================================================
+   EXIM PAGE SPECIFIC STYLES (exim.css)
+   ========================================================================== */
+
+/* --- PAGE BANNER --- */
+.page-header-banner { 
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+    color: #ffffff; 
+    padding: 130px 20px 80px 20px; 
+    text-align: center; 
+}
+.page-header-banner h1 { 
+    font-size: 38px; 
+    font-weight: 800; 
+    margin-bottom: 12px; 
+}
+.page-header-banner p { 
+    font-size: 16px; 
+    color: #cbd5e1; 
+    max-width: 650px; 
+    margin: 0 auto; 
+    line-height: 1.6; 
+}
+
+/* --- EXIM CONTENT & GRIDS --- */
+.exim-page-container { 
+    max-width: 1240px; 
+    margin: 60px auto; 
+    padding: 0 20px; 
+}
+.exim-hero-card { 
+    background: var(--card-bg, #ffffff); 
+    border: 1px solid var(--border-color, #e2e8f0); 
+    border-radius: var(--radius-lg, 20px); 
+    padding: 45px; 
+    box-shadow: var(--shadow-sm, 0 4px 14px rgba(0,0,0,0.04)); 
+    margin-bottom: 40px; 
+}
+.exim-hero-card h2 { 
+    font-size: 30px; 
+    font-weight: 800; 
+    color: var(--primary-dark, #0f172a); 
+    margin-bottom: 30px; 
+    text-align: center; 
+}
+
+.exim-product-grid { 
+    display: grid; 
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 20px; 
+}
+.exim-item-box { 
+    background-color: #ffffff; 
+    border: 1px solid var(--border-color, #e2e8f0); 
+    border-radius: var(--radius-md, 14px); 
+    padding: 28px; 
+    box-shadow: var(--shadow-sm, 0 4px 14px rgba(0,0,0,0.04)); 
+    text-align: center; 
+    transition: transform 0.3s ease; 
+}
+.exim-item-box:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06); 
+    border-color: var(--accent-green, #10b981); 
+}
+.exim-item-box h4 { 
+    font-size: 15px; 
+    font-weight: 800; 
+    color: var(--primary-dark, #0f172a); 
+    margin-top: 15px; 
+}
+.exim-item-box i { 
+    font-size: 32px; 
+    color: var(--accent-green, #10b981); 
+}
+
+/* --- EXIM CONTACT FORM SECTION --- */
+.exim-contact-wrapper { 
+    display: grid; 
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 40px; 
+    max-width: 1240px; 
+    margin: 60px auto; 
+    padding: 0 20px; 
+    align-items: flex-start; 
+}
+.contact-info-box, .contact-form-box { 
+    background: #ffffff; 
+    border: 1px solid var(--border-color, #e2e8f0); 
+    border-radius: var(--radius-md, 14px); 
+    padding: 40px; 
+    box-shadow: var(--shadow-sm, 0 4px 14px rgba(0,0,0,0.04)); 
+}
+
+.contact-info-box h2, .contact-form-box h2 { 
+    font-size: 26px; 
+    font-weight: 800; 
+    color: var(--primary-dark, #0f172a); 
+    margin-bottom: 8px; 
+}
+.contact-info-box p.sub-text, .contact-form-box p.sub-text { 
+    color: var(--text-muted, #475569); 
+    font-size: 14.5px; 
+    margin-bottom: 25px; 
+}
+
+.contact-detail-item { 
+    display: flex; 
+    align-items: flex-start; 
+    gap: 15px; 
+    margin-bottom: 20px; 
+    font-size: 14.5px; 
+    color: var(--text-muted, #475569); 
+    line-height: 1.6; 
+}
+.contact-detail-item i { 
+    color: var(--accent-green, #10b981); 
+    font-size: 20px; 
+    margin-top: 2px; 
+}
+
+.whatsapp-contact-link { 
+    color: #25D366; 
+    font-weight: 700; 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    font-size: 15px; 
+    transition: color 0.3s; 
+}
+.whatsapp-contact-link:hover { 
+    color: #1ebd5a; 
+}
+.whatsapp-contact-link i { 
+    font-size: 20px; 
+}
+
+/* Form Controls */
+.form-group { 
+    margin-bottom: 20px; 
+}
+.form-group label { 
+    display: block; 
+    font-size: 14px; 
+    font-weight: 700; 
+    color: var(--primary-dark, #0f172a); 
+    margin-bottom: 8px; 
+}
+.form-control { 
+    width: 100%; 
+    padding: 14px 16px; 
+    border: 1px solid #cbd5e1; 
+    border-radius: var(--radius-sm, 8px); 
+    font-size: 14px; 
+    font-family: inherit; 
+    background: #ffffff; 
+    color: var(--primary-dark, #0f172a); 
+    transition: border-color 0.3s, box-shadow 0.3s; 
+}
+.form-control:focus { 
+    border-color: var(--accent-green, #10b981); 
+    outline: none; 
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); 
+}
+.submit-btn { 
+    background: var(--primary-dark, #0f172a); 
+    color: #ffffff; 
+    border: none; 
+    padding: 14px 24px; 
+    font-size: 15px; 
+    font-weight: 700; 
+    border-radius: var(--radius-sm, 8px); 
+    cursor: pointer; 
+    transition: background 0.3s; 
+    width: 100%; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 10px; 
+}
+.submit-btn:hover { 
+    background: var(--accent-green, #10b981); 
+}
+
+/* --- MOBILE RESPONSIVE --- */
+@media (max-width: 992px) {
+    .exim-contact-wrapper { 
+        grid-template-columns: 1fr; 
+        gap: 30px; 
+    }
+    .exim-product-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 600px) {
+    .exim-product-grid { 
+        grid-template-columns: 1fr; 
+    }
+}
+/* ==========================================================================
+   SRH EXIM - CONTACT / INQUIRY FORM
+   ========================================================================== */
+
+/* Main contact section */
+.contact-master-section {
+    background: #f8fafc;
+    padding: 70px 20px;
+    margin-top: 20px;
+}
+
+.contact-grid-container {
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 35px;
+    align-items: stretch;
+}
+
+/* ==========================================================================
+   LEFT CONTACT INFORMATION
+   ========================================================================== */
+
+.contact-info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.office-location-card,
+.direct-connect-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06);
+}
+
+.office-location-card {
+    padding: 30px;
+}
+
+.office-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 22px;
+}
+
+.office-icon-box {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+    border-radius: 12px;
+    font-size: 22px;
+}
+
+.office-title {
+    margin: 0 0 6px;
+    font-size: 19px;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.office-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #059669;
+    background: #ecfdf5;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+.office-address {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 0 0 22px;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.office-address i {
+    color: #10b981;
+    margin-top: 4px;
+}
+
+.office-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-link-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    color: #334155;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+}
+
+.contact-link-pill i {
+    width: 18px;
+    color: #10b981;
+    text-align: center;
+}
+
+.contact-link-pill:hover {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #047857;
+}
+
+/* WhatsApp card */
+.direct-connect-card {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.direct-connect-card h4 {
+    margin: 0 0 5px;
+    color: #0f172a;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.direct-connect-card p {
+    margin: 0;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.contact-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #25d366;
+    color: #ffffff;
+    padding: 11px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+}
+
+.contact-whatsapp-btn:hover {
+    background: #1ebe5d;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   RIGHT FORM CARD
+   ========================================================================== */
+
+.contact-form-column {
+    min-width: 0;
+}
+
+.contact-form-card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 35px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, 0.07);
+    min-height: 100%;
+}
+
+/* Form heading */
+.form-card-header {
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.form-card-header h2 {
+    margin: 0 0 7px;
+    color: #0f172a;
+    font-size: 25px;
+    line-height: 1.3;
+    font-weight: 800;
+}
+
+.form-card-header p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Form */
+#exim-inquiry-form {
+    width: 100%;
+}
+
+#exim-inquiry-form .form-group {
+    margin: 0 0 20px;
+}
+
+#exim-inquiry-form label {
+    display: block;
+    margin: 0 0 8px;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.required-star {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+/* Two-column fields */
+#exim-inquiry-form .form-row {
+    display: flex;
+    gap: 18px;
+    width: 100%;
+}
+
+#exim-inquiry-form .flex-1 {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+/* Inputs */
+#exim-inquiry-form .form-control {
+    display: block;
+    width: 100%;
+    min-height: 48px;
+    box-sizing: border-box;
+    padding: 12px 14px;
+    margin: 0;
+    border: 1px solid #cbd5e1;
+    border-radius: 9px;
+    background: #ffffff;
+    color: #0f172a;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.5;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+#exim-inquiry-form .form-control::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+#exim-inquiry-form .form-control:hover {
+    border-color: #94a3b8;
+}
+
+#exim-inquiry-form .form-control:focus {
+    border-color: #10b981;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+}
+
+#exim-inquiry-form textarea.form-control {
+    min-height: 125px;
+    resize: vertical;
+}
+
+/* Button */
+#exim-inquiry-form .full-width-btn {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: none;
+    border-radius: 9px;
+    background: #0f172a;
+    color: #ffffff;
+    padding: 13px 20px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+#exim-inquiry-form .full-width-btn:hover {
+    background: #10b981;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.2);
+}
+
+#exim-inquiry-form .full-width-btn:active {
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   SUCCESS STATE
+   ========================================================================== */
+
+.form-success-flip-card {
+    min-height: 420px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 35px 25px;
+}
+
+.big-tick-circle {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #ecfdf5;
+    color: #10b981;
+    font-size: 30px;
+    border: 1px solid #a7f3d0;
+}
+
+#exim-success-state h3 {
+    margin-top: 0;
+}
+
+#exim-success-state p {
+    max-width: 500px;
+}
+
+.admin-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.admin-btn-secondary:hover {
+    border-color: #10b981;
+    color: #059669;
+    background: #ecfdf5;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 992px) {
+
+    .contact-grid-container {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .contact-form-card {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 650px) {
+
+    .contact-master-section {
+        padding: 45px 15px;
+    }
+
+    .contact-form-card {
+        padding: 22px 18px;
+        border-radius: 14px;
+    }
+
+    .form-card-header {
+        margin-bottom: 22px;
+        padding-bottom: 16px;
+    }
+
+    .form-card-header h2 {
+        font-size: 21px;
+    }
+
+    #exim-inquiry-form .form-row {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    #exim-inquiry-form .form-group {
+        margin-bottom: 18px;
+    }
+
+    .office-location-card {
+        padding: 22px;
+    }
+
+    .direct-connect-card {
+        padding: 20px;
+        align-items: flex-start;
+    }
+
+    .contact-whatsapp-btn {
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   EXIM STICKY STACK SLIDE EFFECT
+   Applied to: About, Products, Logistics, Certifications, Contact
+   Hero and Footer remain normal-flow sections.
+   ========================================================================== */
+
+.exim-stack-slide {
+    position: sticky;
+    top: 75px;
+    min-height: calc(100vh - 75px);
+    width: 100%;
+    z-index: 1;
+    box-sizing: border-box;
+}
+
+/* Remove the old fixed-width/margin behavior from content slides so each
+   slide can occupy the full viewport width while its inner content remains
+   constrained by the existing page layout. */
+.exim-content-section.exim-stack-slide {
+    max-width: none;
+    margin: 0;
+}
+
+.exim-stack-slide:nth-of-type(2) { z-index: 1; }
+.exim-stack-slide:nth-of-type(3) { z-index: 2; }
+.exim-stack-slide:nth-of-type(4) { z-index: 3; }
+.exim-stack-slide:nth-of-type(5) { z-index: 4; }
+.exim-stack-slide:nth-of-type(6) { z-index: 5; }
+
+/* Give alternating slides a clean surface so the incoming slide visibly
+   covers the previous one instead of blending with it. */
+.exim-stack-slide:nth-of-type(2),
+.exim-stack-slide:nth-of-type(4),
+.exim-stack-slide:nth-of-type(6) {
+    background: #ffffff;
+}
+
+.exim-stack-slide:nth-of-type(3),
+.exim-stack-slide:nth-of-type(5) {
+    background: #f8fafc;
+}
+
+/* The contact section already has its own background; preserve it. */
+.contact-master-section.exim-stack-slide {
+    background: #f8fafc;
+}
+
+/* Keep the contact grid and all existing content inside the viewport width. */
+.exim-stack-slide .contact-grid-container,
+.exim-stack-slide .exim-page-container,
+.exim-stack-slide .about-overview-container,
+.exim-stack-slide .values-grid,
+.exim-stack-slide .capabilities-grid,
+.exim-stack-slide .cert-badge-grid {
+    position: relative;
+}
+
+/* Tablet: retain the sticky behavior instead of disabling it. */
+@media (max-width: 992px) {
+    .exim-stack-slide {
+        position: sticky;
+        top: 70px;
+        min-height: calc(100vh - 70px);
+        width: 100%;
+    }
+
+    .exim-content-section.exim-stack-slide {
+        max-width: none;
+        margin: 0;
+    }
+}
+
+@media (max-width: 650px) {
+    .exim-stack-slide {
+        top: 64px;
+        min-height: calc(100vh - 64px);
+    }
+}
+
+/* IMPORTANT: the stack must not include the footer. */
+.site-footer-compact {
+    position: relative;
+    z-index: 20;
+}
+
+/* ==========================================================
+   EXIM STACK — FLOWLESS / CONTENT-FIT REVISION
+   ========================================================== */
+.exim-stack-slide {
+    position: sticky;
+    top: 76px;
+    min-height: auto !important;
+    height: auto;
+    align-items: flex-start;
+    padding: 55px 20px;
+    overflow: visible;
+}
+
+.exim-stack-slide .exim-page-container {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.exim-stack-slide:nth-child(1) { z-index: 1; }
+.exim-stack-slide:nth-child(2) { z-index: 2; }
+.exim-stack-slide:nth-child(3) { z-index: 3; }
+.exim-stack-slide:nth-child(4) { z-index: 4; }
+.exim-stack-slide:nth-child(5) { z-index: 5; }
+
+.exim-stack-slide.certifications-slide,
+.exim-stack-slide#certifications {
+    padding-top: 45px;
+    padding-bottom: 45px;
+}
+
+.exim-product-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.exim-item-box {
+    min-width: 0;
+    padding: 24px 16px;
+}
+
+.exim-item-box h4 {
+    line-height: 1.35;
+    word-break: normal;
+    overflow-wrap: break-word;
+}
+
+.logistics-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.logistics-card {
+    min-width: 0;
+}
+
+@media (max-width: 1100px) {
+    .exim-stack-slide {
+        top: 70px;
+        padding: 45px 18px;
+    }
+
+    .exim-product-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .logistics-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 700px) {
+    .exim-stack-slide {
+        position: sticky;
+        top: 64px;
+        min-height: auto !important;
+        padding: 35px 15px;
+    }
+
+    .exim-product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .exim-item-box {
+        padding: 18px 12px;
+    }
+
+    .exim-item-box i {
+        font-size: 27px;
+    }
+
+    .exim-item-box h4 {
+        font-size: 13px;
+    }
+
+    .logistics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 450px) {
+    .exim-product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .exim-stack-slide {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+}

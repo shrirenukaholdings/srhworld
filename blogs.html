@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Centre - Market Blogs | SRH World</title>
+
+    <link rel="icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
+    <link rel="apple-touch-icon" href="./fevicon.png?v=2">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="header-sticky-wrapper header-visible">
+        <header class="main-header">
+            <div class="header-container">
+                <div class="logo-area"><a href="./index.html"><img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo"></a></div>
+                <div class="header-right-actions">
+                    <a href="./sip-calculator.html" class="header-calc-pill" aria-label="Smart Calculator"><i class="fas fa-calculator"></i><span class="calc-btn-text">Smart Calculator</span></a>
+                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+                </div>
+                <nav class="nav-bar" id="header-navigation-menu">
+                    <ul class="nav-list">
+                        <li class="nav-item"><a href="./index.html" class="nav-link">Home</a></li>
+                        <li class="nav-item"><a href="./about.html" class="nav-link">About Us</a></li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="#" class="nav-link">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./about.html"><i class="fas fa-chart-line dropdown-icon"></i> Equity</a></li>
+                                <li><a href="./about.html"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
+                                <li><a href="./about.html"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
+                                <li><a href="./about.html"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-building-columns dropdown-icon"></i> Unlisted Stocks</a></li>
+                                <li><a href="./about.html"><i class="fas fa-shield-halved dropdown-icon"></i> Insurance</a></li>
+                                <li><a href="./about.html"><i class="fas fa-vault dropdown-icon"></i> Fixed Income Securities</a></li>
+                                <li><a href="./about.html"><i class="fas fa-tag dropdown-icon"></i> Offer for Sale (OFS)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-seedling dropdown-icon"></i> New Fund Offering (NFO)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
+                                <li><a href="./about.html"><i class="fas fa-cubes dropdown-icon"></i> Structured Product</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./services.html" class="nav-link">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./services.html#pms"><i class="fas fa-briefcase dropdown-icon"></i> Customised Portfolio Management</a></li>
+                                <li><a href="./services.html#technical"><i class="fas fa-bolt dropdown-icon"></i> Technical Stock Analysis</a></li>
+                                <li><a href="./services.html#fundamental"><i class="fas fa-magnifying-glass-chart dropdown-icon"></i> Fundamental Stock Analysis</a></li>
+                                <li><a href="./services.html#derivative"><i class="fas fa-arrow-trend-up dropdown-icon"></i> Derivative Analysis</a></li>
+                                <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="./other-services.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./other-services.html#loans"><i class="fas fa-landmark dropdown-icon"></i> Loans & Credit Procurement</a></li>
+                                <li><a href="./other-services.html#msme"><i class="fas fa-industry dropdown-icon"></i> MSME & SME Loans</a></li>
+                                <li><a href="./other-services.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
+                                <li><a href="./other-services.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
+                                <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-horizontal-dropdown">
+                            <a href="#" class="nav-link active">Knowledge Centre <i class="fas fa-chevron-down mobile-arrow"></i></a>
+                            <ul class="horizontal-dropdown">
+                                <li><a href="./blogs.html"><i class="fas fa-book-open dropdown-icon"></i> Blogs</a></li>
+                                <li><a href="./media.html"><i class="fas fa-photo-film dropdown-icon"></i> Media</a></li>
+                                <li><a href="./manage.html"><i class="fas fa-tasks dropdown-icon"></i> Manage</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a href="./contact.html" class="nav-link">Contact Us</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+    </div>
+
+    <!-- Hero -->
+    <section class="blogs-page-hero" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 130px 20px 50px 20px; text-align: center;">
+        <div style="max-width: 860px; margin: 0 auto;">
+            <span class="hero-category-label">Knowledge Centre</span>
+            <h1 class="blogs-hero-title" style="font-size: 36px; font-weight: 800; margin-bottom: 12px;">Market Intelligence, Insights & Analysis</h1>
+            <p class="blogs-hero-sub" style="font-size: 15.5px; color: #cbd5e1;">Stay ahead with structured macroeconomic viewpoints and investment strategy breakdowns.</p>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="blogs-filter-container">
+        <div class="category-pills" id="blog-filter-pills">
+            <button class="pill-btn active" data-cat="All">All Articles</button>
+            <button class="pill-btn" data-cat="Market Analysis">Market Analysis</button>
+            <button class="pill-btn" data-cat="Wealth Planning">Wealth Planning</button>
+            <button class="pill-btn" data-cat="Mutual Funds">Mutual Funds</button>
+            <button class="pill-btn" data-cat="Fixed Income">Fixed Income</button>
+        </div>
+        <div class="blog-search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="blog-search-input" placeholder="Search articles...">
+        </div>
+    </section>
+
+    <!-- Blogs Grid -->
+    <main class="blogs-grid-section">
+        <div class="blogs-card-grid" id="blogs-container-grid"></div>
+    </main>
+
+    <!-- Article Reader Modal -->
+    <div class="admin-modal" id="article-reader-modal">
+        <div class="admin-modal-dialog" style="max-width: 780px;">
+            <div class="admin-modal-header">
+                <span class="modal-badge-category" id="reader-category">Market Analysis</span>
+                <button class="close-modal-btn" id="close-reader-modal">&times;</button>
+            </div>
+            <div class="modal-article-body" style="padding-top: 10px;">
+                <img src="Equities.jpg" id="reader-img" alt="Hero" class="article-hero-img" style="width: 100%; height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 18px;">
+                <div style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 8px;"><i class="far fa-calendar-alt"></i> <span id="reader-date">August 2026</span> &nbsp;•&nbsp; By <span id="reader-author">Admin</span></div>
+                <h2 id="reader-title" style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 16px;"></h2>
+                <div id="reader-content" style="font-size: 15px; color: var(--text-muted); line-height: 1.8; white-space: pre-line;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="site-footer-compact" id="site-footer">
+        <div class="footer-custom-container">
+            <div class="footer-top-row">
+                <div class="footer-brand-wrap"><img src="footer_logo.png" alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'"></div>
+                <div class="footer-social-icons">
+                    <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://x.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="X" class="social-icon social-x"><i class="fab fa-x-twitter"></i></a>
+                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
+                    <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-offices-grid">
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-building"></i> Head Office</h4>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span><p>OFFICE 1&2, F – MADHUKOSH SOCIETY, SINHGAD ROAD, NEXT TO WARJE, PUNE, MAHARASHTRA - 411041</p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span><p><a href="tel:8484914844">+91 84849 14844</a></p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span><p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p></div>
+                </div>
+                <div class="footer-office-col">
+                    <h4 class="footer-office-heading"><i class="fas fa-city"></i> Vishal Nagar Office</h4>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-location-dot"></i> <strong>Address:</strong></span><p>G-201-202 WATER’S SQUARE, VISHAL NAGAR, PIMPLE NILAKH, PUNE, MAHARASHTRA - 411027</p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="fas fa-phone-alt"></i> <strong>Contact:</strong></span><p><a href="tel:8291008616">+91 82910 08616</a></p></div>
+                    <div class="footer-info-item"><span class="footer-label"><i class="far fa-envelope"></i> <strong>Email:</strong></span><p><a href="mailto:info@srhworld.com">info@srhworld.com</a></p></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom-bar">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">© 2026 SRH World. All rights reserved.</p>
+                <div class="footer-legal-links"><a href="./index.html">Home</a><a href="#">Privacy Policy</a><a href="#">Terms & Conditions</a><a href="./manage.html">Staff Portal</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <a href="https://wa.me/917506151413" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+    <script>
+        const DEFAULT_BLOGS = [
+            { id: 'post_1', title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: 'August 2026', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.', content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.' },
+            { id: 'post_2', title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: 'August 2026', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.', content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.' }
+        ];
+
+        function getStoredBlogs() {
+            try {
+                const stored = localStorage.getItem('srh_blogs');
+                return stored ? JSON.parse(stored) : DEFAULT_BLOGS;
+            } catch (e) { return DEFAULT_BLOGS; }
+        }
+
+        let currentCategory = 'All';
+        let searchQuery = '';
+
+        function renderBlogs() {
+            const container = document.getElementById('blogs-container-grid');
+            if (!container) return;
+            const blogs = getStoredBlogs();
+            const filtered = blogs.filter(b => {
+                const matchCat = currentCategory === 'All' || b.category === currentCategory;
+                const matchSearch = b.title.toLowerCase().includes(searchQuery.toLowerCase()) || (b.excerpt && b.excerpt.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchCat && matchSearch;
+            });
+
+            container.innerHTML = '';
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);"><i class="fas fa-newspaper" style="font-size: 40px; margin-bottom: 12px; display:block;"></i>No articles found matching your criteria.</div>';
+                return;
+            }
+
+            filtered.forEach(blog => {
+                const card = document.createElement('article');
+                card.className = 'blog-square-card';
+                card.innerHTML = `
+                    <div class="blog-image-frame">
+                        <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
+                        <span class="blog-category-badge">${blog.category || 'Insights'}</span>
+                    </div>
+                    <div class="blog-body-content">
+                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${blog.date || 'August 2026'} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
+                        <h3 class="blog-article-title">${blog.title}</h3>
+                        <p class="blog-summary-text">${blog.excerpt || ''}</p>
+                        <button class="blog-read-btn" onclick="openArticleModal('${blog.id}')">Read Full Article <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        window.openArticleModal = function(id) {
+            const blogs = getStoredBlogs();
+            const blog = blogs.find(b => b.id === id);
+            if (!blog) return;
+            document.getElementById('reader-category').innerText = blog.category || 'Insights';
+            document.getElementById('reader-img').src = blog.image || 'Equities.jpg';
+            document.getElementById('reader-date').innerText = blog.date || 'August 2026';
+            document.getElementById('reader-author').innerText = blog.author || 'Admin';
+            document.getElementById('reader-title').innerText = blog.title;
+            document.getElementById('reader-content').innerText = blog.content || blog.excerpt || '';
+            document.getElementById('article-reader-modal').classList.add('modal-active');
+        };
+
+        document.getElementById('close-reader-modal').addEventListener('click', () => {
+            document.getElementById('article-reader-modal').classList.remove('modal-active');
+        });
+
+        document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-cat');
+                renderBlogs();
+            });
+        });
+
+        document.getElementById('blog-search-input').addEventListener('input', (e) => {
+            searchQuery = e.target.value.trim();
+            renderBlogs();
+        });
+
+        renderBlogs();
+
+        const footerElement = document.getElementById('site-footer');
+        const floatingWhatsApp = document.getElementById('whatsapp-btn');
+        function checkFooterVisibility() {
+            if (!footerElement || !floatingWhatsApp) return;
+            if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) floatingWhatsApp.classList.add('hide-floating-btn');
+            else floatingWhatsApp.classList.remove('hide-floating-btn');
+        }
+        window.addEventListener('scroll', checkFooterVisibility, { passive: true });
+        window.addEventListener('resize', checkFooterVisibility, { passive: true });
+        window.addEventListener('DOMContentLoaded', checkFooterVisibility);
+
+        const menuToggleBtn = document.getElementById('menu-toggle-btn');
+        const headerNavigationMenu = document.getElementById('header-navigation-menu');
+        if (menuToggleBtn && headerNavigationMenu) {
+            menuToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                headerNavigationMenu.classList.toggle('mobile-open');
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+            });
+            document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
+                anchor.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
+                        }
+                    }
+                });
+            });
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                });
+            });
+            document.addEventListener('click', (e) => {
+                if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
