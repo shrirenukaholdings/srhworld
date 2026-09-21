@@ -14,7 +14,7 @@
 </head>
 <body>
 <div class="site-wrapper" id="site-wrapper">
-<div class="header-sticky-wrapper" id="header-sticky-wrapper">
+<div class="header-sticky-wrapper header-visible" id="header-sticky-wrapper">
 <header class="main-header">
 <div class="header-container">
 <div class="logo-area">
@@ -91,10 +91,10 @@
 <section class="hero-interactive-section" id="hero-interactive-section">
 <div class="hero-product-layer" id="hero-product-layer">
 <div class="product-showcase-strip hero-product-catalog" id="product-showcase-section">
-<h2 class="section-heading-title" style="text-align: center; margin-bottom: 30px;">Our Products Offering</h2>
+<h2 class="section-heading-title" style="text-align: center; margin-bottom: 30px;">Product Offering</h2>
 <div class="slider-viewport carousel-with-arrows" id="main-carousel">
 <button aria-label="Previous products" class="carousel-arrow carousel-arrow-left" data-carousel="main-slider-track" type="button"><i class="fas fa-chevron-left"></i></button>
-<div class="slider-track" id="main-slider-track">
+<div class="slider-track js-interactive-track" id="main-slider-track">
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#equity"><i class="fas fa-chart-line product-minimal-icon"></i><span class="product-minimal-name">Equity</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#mutual-funds"><i class="fas fa-pie-chart product-minimal-icon"></i><span class="product-minimal-name">Mutual Funds</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#aif"><i class="fas fa-layer-group product-minimal-icon"></i><span class="product-minimal-name">Alternative Investment Funds (AIFs)</span></a></div>
@@ -264,7 +264,7 @@
 <div class="services-slider-container">
 <div class="services-viewport carousel-with-arrows" id="services-carousel">
 <button aria-label="Previous services" class="carousel-arrow carousel-arrow-left" data-carousel="services-slider-track" type="button"><i class="fas fa-chevron-left"></i></button>
-<div class="services-track" id="services-slider-track">
+<div class="services-track js-interactive-track" id="services-slider-track">
 <div class="services-slide"><div class="service-card"><div class="service-icon-box"><i class="fas fa-briefcase"></i></div><h3 class="service-card-title">Customised Portfolio Management</h3><p class="service-card-text">Selecting the right financial advisor is an important decision based on trust and transparent execution...</p><a class="service-read-more" href="./services.html#pms">Read More <i class="fas fa-arrow-right"></i></a></div></div>
 <div class="services-slide"><div class="service-card"><div class="service-icon-box"><i class="fas fa-chart-line"></i></div><h3 class="service-card-title">Technical Stock Analysis</h3><p class="service-card-text">Based on historical price actions, returns, and trade volumes, our desk projects future setups...</p><a class="service-read-more" href="./services.html#technical">Read More <i class="fas fa-arrow-right"></i></a></div></div>
 <div class="services-slide"><div class="service-card"><div class="service-icon-box"><i class="fas fa-chart-pie"></i></div><h3 class="service-card-title">Fundamental Stock Analysis</h3><p class="service-card-text">Analysts deploy qualitative and balance sheet indicators to determine enterprise valuation...</p><a class="service-read-more" href="./services.html#fundamental">Read More <i class="fas fa-arrow-right"></i></a></div></div>
@@ -512,9 +512,95 @@ OPEN FREE DEMAT ACCOUNT
             track.dataset.cloned = "true";
         }
     }
-    setupContinuousMarquee('main-slider-track');
-    setupContinuousMarquee('services-slider-track');
     setupContinuousMarquee('partners-slider-track');
+
+    /* =========================================================
+       JS-CONTROLLED INFINITE CAROUSEL WITH 3.5s PAUSE ON BUTTON CLICK
+       ========================================================= */
+    function initInfiniteCarousel(trackId, speed = 0.5) {
+        const track = document.getElementById(trackId);
+        if (!track) return;
+        const viewport = track.parentElement;
+
+        const originalChildren = Array.from(track.children);
+        originalChildren.forEach(child => track.appendChild(child.cloneNode(true)));
+        originalChildren.forEach(child => track.appendChild(child.cloneNode(true)));
+
+        let offset = 0;
+        let isPaused = false;
+        let pauseTimer = null;
+        let isManualAction = false;
+
+        function getCycleWidth() {
+            return track.scrollWidth / 3;
+        }
+
+        function step() {
+            if (!isPaused) {
+                offset -= speed;
+                const cycle = getCycleWidth();
+                if (Math.abs(offset) >= cycle) {
+                    offset += cycle;
+                }
+                track.style.transform = `translate3d(${offset}px, 0, 0)`;
+            }
+            requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+
+        function triggerManualPause() {
+            isPaused = true;
+            isManualAction = true;
+            if (viewport) viewport.classList.add('carousel-manual-pause');
+            clearTimeout(pauseTimer);
+            pauseTimer = setTimeout(() => {
+                isPaused = false;
+                isManualAction = false;
+                if (viewport) viewport.classList.remove('carousel-manual-pause');
+            }, 3500);
+        }
+
+        viewport.querySelectorAll(`.carousel-arrow[data-carousel="${trackId}"]`).forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const isLeft = btn.classList.contains('carousel-arrow-left');
+                const slide = track.querySelector('.product-minimal-slide, .services-slide');
+                const shift = slide ? (slide.offsetWidth + 24) : 254;
+
+                const cycle = getCycleWidth();
+                if (isLeft) {
+                    offset += shift;
+                    if (offset > 0) {
+                        offset -= cycle;
+                    }
+                } else {
+                    offset -= shift;
+                    if (Math.abs(offset) >= cycle) {
+                        offset += cycle;
+                    }
+                }
+
+                track.style.transition = 'transform 0.4s cubic-bezier(0.25, 1, 0.5, 1)';
+                track.style.transform = `translate3d(${offset}px, 0, 0)`;
+                setTimeout(() => {
+                    track.style.transition = 'none';
+                }, 400);
+
+                triggerManualPause();
+            });
+        });
+
+        viewport.addEventListener('mouseenter', () => {
+            if (!isManualAction) isPaused = true;
+        });
+        viewport.addEventListener('mouseleave', () => {
+            if (!isManualAction) isPaused = false;
+        });
+    }
+
+    initInfiniteCarousel('main-slider-track', 0.6);
+    initInfiniteCarousel('services-slider-track', 0.6);
 
     function syncFloatingButtons() {
         const weOfferSection = document.getElementById('we-offer');
@@ -523,12 +609,9 @@ OPEN FREE DEMAT ACCOUNT
         const footerElement = document.getElementById('site-footer');
         const header = document.getElementById('header-sticky-wrapper');
 
-        if (header) {
-            if (window.scrollY <= 10 || window.scrollY > 300) {
-                header.classList.add('header-visible');
-            } else {
-                header.classList.remove('header-visible');
-            }
+        // Always keep the header pinned & visible on screen
+        if (header && !header.classList.contains('header-visible')) {
+            header.classList.add('header-visible');
         }
 
         if (whatsappBtn) {
@@ -944,7 +1027,6 @@ OPEN FREE DEMAT ACCOUNT
         });
     }
 
-    // Capture-phase listener fallback for all clicks directly hitting nested SVG paths
     document.addEventListener('pointerdown', function(e) {
         if (e.target && e.target.closest && e.target.closest('#srh-mascot-character')) {
             window.openAssistantDirect(e);
