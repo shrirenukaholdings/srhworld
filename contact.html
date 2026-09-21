@@ -11,6 +11,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Google Firebase SDKs for Cloud Inquiries Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <!-- Your main styles -->
     <link rel="stylesheet" href="style.css">
     
@@ -66,7 +70,6 @@
                                 <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
                             </ul>
                         </li>
-                        <!-- Updated all other-services links to sme.html below -->
                         <li class="nav-item has-horizontal-dropdown">
                             <a href="./sme.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
@@ -116,7 +119,7 @@
 
                 <div class="direct-connect-card">
                     <div><h4>Need Instant Financial Advice?</h4><p>Chat directly with our portfolio advisory desk on WhatsApp.</p></div>
-                    <a href="https://wa.me/918484914844" target="_blank" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+                    <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
                 </div>
             </div>
 
@@ -131,11 +134,11 @@
                                 <div class="form-group flex-1"><label for="contact-email">Email Address <span class="required-star">*</span></label><input type="email" id="contact-email" class="form-control" placeholder="e.g. rahul@example.com" required></div>
                             </div>
                             <div class="form-group"><label for="contact-query">Query / Suggestion <span class="required-star">*</span></label><textarea id="contact-query" class="form-control" rows="5" placeholder="Tell us about your portfolio goals, loan inquiries, or queries..." required></textarea></div>
-                            <button type="submit" class="admin-btn-primary full-width-btn submit-inquiry-btn"><i class="fas fa-paper-plane"></i> Submit Inquiry</button>
+                            <button type="submit" class="admin-btn-primary full-width-btn submit-inquiry-btn" id="contact-submit-btn"><i class="fas fa-paper-plane"></i> Submit Inquiry</button>
                         </form>
                     </div>
 
-                    <div id="contact-success-state" class="form-success-flip-card">
+                    <div id="contact-success-state" class="form-success-flip-card" style="display: none;">
                         <div class="big-tick-circle"><i class="fas fa-check"></i></div>
                         <h3 style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;">Inquiry Received!</h3>
                         <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; max-width: 320px; margin-bottom: 24px;">Thank you for reaching out. Our wealth advisory desk will contact you within 24 hours.</p>
@@ -186,33 +189,80 @@
     <a href="https://wa.me/918484914844" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
     <script>
+        /* -------------------------------------------------------------
+           1. FIREBASE CONFIGURATION
+           ------------------------------------------------------------- */
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        /* -------------------------------------------------------------
+           2. CONTACT FORM TO FIRESTORE ("contact_inquiries")
+           ------------------------------------------------------------- */
         const contactForm = document.getElementById('public-contact-form');
         const formInner = document.getElementById('contact-form-inner');
         const successState = document.getElementById('contact-success-state');
         const resetBtn = document.getElementById('reset-contact-form-btn');
+        const submitBtn = document.getElementById('contact-submit-btn');
+
         if (contactForm) {
-            contactForm.addEventListener('submit', (e) => {
+            contactForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const newInquiry = {
-                    id: 'inq_' + Date.now(),
-                    timestamp: new Date().toLocaleDateString('en-IN') + ' at ' + new Date().toLocaleTimeString('en-IN'),
-                    name: document.getElementById('contact-name').value.trim(),
-                    phone: document.getElementById('contact-phone').value.trim(),
-                    email: document.getElementById('contact-email').value.trim(),
-                    query: document.getElementById('contact-query').value.trim(),
-                    status: 'New'
-                };
-                const existing = JSON.parse(localStorage.getItem('srh_inquiries') || '[]');
-                existing.unshift(newInquiry);
-                localStorage.setItem('srh_inquiries', JSON.stringify(existing));
-                formInner.style.display = 'none';
-                successState.style.display = 'flex';
+
+                const nameVal = document.getElementById('contact-name').value.trim();
+                const phoneVal = document.getElementById('contact-phone').value.trim();
+                const emailVal = document.getElementById('contact-email').value.trim();
+                const queryVal = document.getElementById('contact-query').value.trim();
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+                try {
+                    // Saves directly into the exact Firestore collection manage.html listens to
+                    await db.collection("contact_inquiries").add({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        message: queryVal,
+                        status: 'New',
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    // Hide form and show success state
+                    formInner.style.display = 'none';
+                    successState.style.display = 'flex';
+                } catch (error) {
+                    console.error("Error submitting contact inquiry:", error);
+                    alert("Submission error: " + error.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Inquiry';
+                }
             });
         }
+
         if (resetBtn) {
-            resetBtn.addEventListener('click', () => { contactForm.reset(); successState.style.display = 'none'; formInner.style.display = 'block'; });
+            resetBtn.addEventListener('click', () => {
+                contactForm.reset();
+                successState.style.display = 'none';
+                formInner.style.display = 'block';
+            });
         }
 
+        /* -------------------------------------------------------------
+           3. UI HELPERS & MOBILE NAV
+           ------------------------------------------------------------- */
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
         function checkFooterVisibility() {
