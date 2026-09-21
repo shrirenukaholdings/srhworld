@@ -11,6 +11,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- Google Firebase SDKs for Cloud Inquiries Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    
     <!-- Your main styles -->
     <link rel="stylesheet" href="style.css">
     
@@ -99,7 +103,7 @@
             <div class="header-container">
                 <div class="logo-area"><a href="./index.html"><img src="exim-logo.png" alt="SRH EXIM Logo" class="client-logo" onerror="this.src='Logo_SRH_World.png'"></a></div>
                 <div class="header-right-actions">
-                    <!-- Updated Circular Home Button -->
+                    <!-- Circular Home Button -->
                     <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page" style="width: 42px; height: 42px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">
                         <i class="fas fa-home" style="margin: 0;"></i>
                     </a>
@@ -308,7 +312,7 @@
                 </div>
                 <div class="direct-connect-card">
                     <div><h4>Have Immediate Export Queries?</h4><p>Chat directly with our global trade desk on WhatsApp.</p></div>
-                    <a href="https://wa.me/917506151314" target="_blank" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
+                    <a href="https://wa.me/917506151314" target="_blank" rel="noopener noreferrer" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
                 </div>
             </div>
 
@@ -323,10 +327,10 @@
                                 <div class="form-group flex-1"><label for="exim-email">Business Email <span class="required-star">*</span></label><input type="email" id="exim-email" class="form-control" placeholder="e.g. john@company.com" required></div>
                             </div>
                             <div class="form-group"><label for="exim-query">Products Required / Destination Port <span class="required-star">*</span></label><textarea id="exim-query" class="form-control" rows="4" placeholder="Specify products, quantity, and delivery country..." required></textarea></div>
-                            <button type="submit" class="admin-btn-primary full-width-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
+                            <button type="submit" class="admin-btn-primary full-width-btn" id="exim-submit-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
                         </form>
                     </div>
-                    <div id="exim-success-state" class="form-success-flip-card">
+                    <div id="exim-success-state" class="form-success-flip-card" style="display: none;">
                         <div class="big-tick-circle"><i class="fas fa-check"></i></div>
                         <h3 style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;">Inquiry Received!</h3>
                         <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">Thank you for contacting SRH EXIM. Our trade representative will review your request and get back shortly.</p>
@@ -377,6 +381,24 @@
     <a href="https://wa.me/919920531076" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
     <script>
+        /* ---------------------------------------------------------
+           1. Firebase Initialization
+           --------------------------------------------------------- */
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
         // --- Tab Switching Logic ---
         function switchEximTab(tabId) {
             document.querySelectorAll('.exim-tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -391,32 +413,57 @@
             }
         }
 
-        // --- Form Handling Logic ---
+        // --- Form Handling Logic (Cloud Firestore Integration) ---
         const eximForm = document.getElementById('exim-inquiry-form');
         const formInner = document.getElementById('exim-form-inner');
         const successState = document.getElementById('exim-success-state');
         const resetBtn = document.getElementById('reset-exim-form-btn');
+        const submitBtn = document.getElementById('exim-submit-btn');
+
         if (eximForm) {
-            eximForm.addEventListener('submit', (e) => {
+            eximForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
-                const newInquiry = {
-                    id: 'exim_' + Date.now(),
-                    timestamp: new Date().toLocaleDateString('en-IN') + ' at ' + new Date().toLocaleTimeString('en-IN'),
-                    name: document.getElementById('exim-name').value.trim(),
-                    phone: document.getElementById('exim-phone').value.trim(),
-                    email: document.getElementById('exim-email').value.trim(),
-                    query: '[EXIM Inquiry] ' + document.getElementById('exim-query').value.trim(),
-                    status: 'New'
-                };
-                const existing = JSON.parse(localStorage.getItem('srh_inquiries') || '[]');
-                existing.unshift(newInquiry);
-                localStorage.setItem('srh_inquiries', JSON.stringify(existing));
-                formInner.style.display = 'none';
-                successState.style.display = 'flex';
+
+                const nameVal = document.getElementById('exim-name').value.trim();
+                const phoneVal = document.getElementById('exim-phone').value.trim();
+                const emailVal = document.getElementById('exim-email').value.trim();
+                const queryVal = document.getElementById('exim-query').value.trim();
+
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                }
+
+                try {
+                    await db.collection("contact_inquiries").add({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal || 'Not Provided',
+                        message: '[EXIM Inquiry] ' + queryVal,
+                        status: 'New',
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    formInner.style.display = 'none';
+                    successState.style.display = 'flex';
+                } catch (error) {
+                    console.error("Error submitting EXIM inquiry:", error);
+                    alert("Submission error: " + error.message);
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Export Inquiry';
+                    }
+                }
             });
         }
+
         if (resetBtn) {
-            resetBtn.addEventListener('click', () => { eximForm.reset(); successState.style.display = 'none'; formInner.style.display = 'block'; });
+            resetBtn.addEventListener('click', () => { 
+                eximForm.reset(); 
+                successState.style.display = 'none'; 
+                formInner.style.display = 'block'; 
+            });
         }
 
         const footerElement = document.getElementById('site-footer');
