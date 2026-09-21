@@ -11,6 +11,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs for Live Cloud Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -104,7 +108,12 @@
 
     <!-- Blogs Grid -->
     <main class="blogs-grid-section">
-        <div class="blogs-card-grid" id="blogs-container-grid"></div>
+        <div class="blogs-card-grid" id="blogs-container-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 32px; margin-bottom: 12px; display:block;"></i>
+                Loading latest articles...
+            </div>
+        </div>
     </main>
 
     <!-- Article Reader Modal -->
@@ -163,28 +172,68 @@
     <a href="https://wa.me/917506151413" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
     <script>
+        /* -------------------------------------------------------------
+           1. FIREBASE CONFIGURATION (Same project as manage.html)
+           ------------------------------------------------------------- */
+               const firebaseConfig = {
+  apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+  authDomain: "srhworld-17653.firebaseapp.com",
+  projectId: "srhworld-17653",
+  storageBucket: "srhworld-17653.firebasestorage.app",
+  messagingSenderId: "161943112081",
+  appId: "1:161943112081:web:888219f6314793b3e73230",
+  measurementId: "G-LXZMQZ9NPH"
+};
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // Default initial fallback blogs if the collection is empty
         const DEFAULT_BLOGS = [
             { id: 'post_1', title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: 'August 2026', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.', content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.' },
             { id: 'post_2', title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: 'August 2026', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.', content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.' }
         ];
 
-        function getStoredBlogs() {
-            try {
-                const stored = localStorage.getItem('srh_blogs');
-                return stored ? JSON.parse(stored) : DEFAULT_BLOGS;
-            } catch (e) { return DEFAULT_BLOGS; }
-        }
-
+        let loadedBlogs = [];
         let currentCategory = 'All';
         let searchQuery = '';
 
+        /* -------------------------------------------------------------
+           2. REAL-TIME CLOUD LISTENER (FIRESTORE)
+           ------------------------------------------------------------- */
+        function startLiveBlogsListener() {
+            // Automatically listens for additions, edits, and deletions in Firestore
+            db.collection("blogs").onSnapshot((snapshot) => {
+                if (!snapshot.empty) {
+                    loadedBlogs = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                } else {
+                    loadedBlogs = DEFAULT_BLOGS;
+                }
+                renderBlogs();
+            }, (error) => {
+                console.warn("Live listener note (falling back to cached data):", error);
+                const localData = localStorage.getItem('srh_blogs');
+                loadedBlogs = localData ? JSON.parse(localData) : DEFAULT_BLOGS;
+                renderBlogs();
+            });
+        }
+
+        /* -------------------------------------------------------------
+           3. RENDER BLOG CARDS
+           ------------------------------------------------------------- */
         function renderBlogs() {
             const container = document.getElementById('blogs-container-grid');
             if (!container) return;
-            const blogs = getStoredBlogs();
-            const filtered = blogs.filter(b => {
+
+            const filtered = loadedBlogs.filter(b => {
                 const matchCat = currentCategory === 'All' || b.category === currentCategory;
-                const matchSearch = b.title.toLowerCase().includes(searchQuery.toLowerCase()) || (b.excerpt && b.excerpt.toLowerCase().includes(searchQuery.toLowerCase()));
+                const matchSearch = (b.title && b.title.toLowerCase().includes(searchQuery.toLowerCase())) || 
+                                    (b.excerpt && b.excerpt.toLowerCase().includes(searchQuery.toLowerCase()));
                 return matchCat && matchSearch;
             });
 
@@ -213,9 +262,11 @@
             });
         }
 
+        /* -------------------------------------------------------------
+           4. MODAL ARTICLE VIEWER
+           ------------------------------------------------------------- */
         window.openArticleModal = function(id) {
-            const blogs = getStoredBlogs();
-            const blog = blogs.find(b => b.id === id);
+            const blog = loadedBlogs.find(b => b.id === id);
             if (!blog) return;
             document.getElementById('reader-category').innerText = blog.category || 'Insights';
             document.getElementById('reader-img').src = blog.image || 'Equities.jpg';
@@ -230,6 +281,9 @@
             document.getElementById('article-reader-modal').classList.remove('modal-active');
         });
 
+        /* -------------------------------------------------------------
+           5. FILTERS & SEARCH
+           ------------------------------------------------------------- */
         document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
@@ -244,8 +298,12 @@
             renderBlogs();
         });
 
-        renderBlogs();
+        // Initialize listener
+        startLiveBlogsListener();
 
+        /* -------------------------------------------------------------
+           6. FOOTER & NAVIGATION UI HANDLERS
+           ------------------------------------------------------------- */
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
         function checkFooterVisibility() {
