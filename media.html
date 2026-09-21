@@ -11,6 +11,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDKs for Cloud Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -103,7 +107,12 @@
 
     <!-- Media Grid -->
     <main class="blogs-grid-section">
-        <div class="blogs-card-grid" id="media-container-grid"></div>
+        <div class="blogs-card-grid" id="media-container-grid">
+            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 32px; margin-bottom: 12px; display:block;"></i>
+                Loading media & press releases...
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
@@ -146,56 +155,110 @@
     <a href="https://wa.me/918484914844" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
     <script>
+        /* -------------------------------------------------------------
+           1. FIREBASE CONFIGURATION (Matches manage.html)
+           ------------------------------------------------------------- */
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        // Default initial fallback media items
         const DEFAULT_MEDIA = [
             { id: 'media_1', title: 'SRH World Annual Investment Conclave 2026', type: 'Events & Conferences', date: 'August 2026', author: 'Admin', image: 'bonds.jpg', link: '', description: 'Key stakeholders and private wealth clients gathered to discuss strategic portfolio positioning and alternate investment opportunities.' },
             { id: 'media_2', title: 'CNBC-TV18 Market Outlook: Fixed Income Dynamics', type: 'Interviews & Videos', date: 'July 2026', author: 'Wasu', image: 'Fix-income.jpg', link: 'https://youtube.com', description: 'Our senior research desk breaks down macroeconomic indicators, interest rate cycles, and high-yield debenture allocations.' }
         ];
 
-        function getStoredMedia() {
-            try {
-                const stored = localStorage.getItem('srh_media');
-                return stored ? JSON.parse(stored) : DEFAULT_MEDIA;
-            } catch (e) { return DEFAULT_MEDIA; }
-        }
-
+        let loadedMedia = [];
         let currentMediaCat = 'All';
         let searchMediaQuery = '';
 
+        // Formats Firestore timestamps or strings into standard dd-mmm-yyyy
+        function toStandardDate(val) {
+            if (!val) return 'Recent';
+            if (typeof val === 'string' && val.includes('-')) return val;
+            const d = val.toDate ? val.toDate() : new Date(val);
+            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+        }
+
+        /* -------------------------------------------------------------
+           2. REAL-TIME CLOUD LISTENER (FIRESTORE)
+           ------------------------------------------------------------- */
+        function startLiveMediaListener() {
+            db.collection("media").onSnapshot((snapshot) => {
+                if (!snapshot.empty) {
+                    loadedMedia = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                } else {
+                    loadedMedia = DEFAULT_MEDIA;
+                }
+                renderMediaGrid();
+            }, (error) => {
+                console.warn("Live listener note (falling back):", error);
+                const localData = localStorage.getItem('srh_media');
+                loadedMedia = localData ? JSON.parse(localData) : DEFAULT_MEDIA;
+                renderMediaGrid();
+            });
+        }
+
+        /* -------------------------------------------------------------
+           3. RENDER MEDIA CARDS
+           ------------------------------------------------------------- */
         function renderMediaGrid() {
             const container = document.getElementById('media-container-grid');
             if (!container) return;
-            const media = getStoredMedia();
-            const filtered = media.filter(m => {
+
+            const filtered = loadedMedia.filter(m => {
                 const matchCat = currentMediaCat === 'All' || m.type === currentMediaCat;
-                const matchSearch = m.title.toLowerCase().includes(searchMediaQuery.toLowerCase()) || (m.description && m.description.toLowerCase().includes(searchMediaQuery.toLowerCase()));
+                const matchSearch = (m.title && m.title.toLowerCase().includes(searchMediaQuery.toLowerCase())) || 
+                                    (m.description && m.description.toLowerCase().includes(searchMediaQuery.toLowerCase()));
                 return matchCat && matchSearch;
             });
 
             container.innerHTML = '';
             if (filtered.length === 0) {
-                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);"><i class="fas fa-photo-film" style="font-size: 40px; margin-bottom: 12px; display:block;"></i>No media items found.</div>';
+                container.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);"><i class="fas fa-photo-film" style="font-size: 40px; margin-bottom: 12px; display:block;"></i>No media items found matching your criteria.</div>';
                 return;
             }
 
             filtered.forEach(item => {
                 const card = document.createElement('article');
                 card.className = 'blog-square-card';
+                const formattedDate = toStandardDate(item.date);
+                const imageSource = item.image || 'bonds.jpg';
+
                 card.innerHTML = `
                     <div class="blog-image-frame">
-                        <img src="${item.image || 'bonds.jpg'}" alt="${item.title}" class="blog-img" onerror="this.src='bonds.jpg'">
-                        <span class="blog-category-badge" style="background-color: #fef3c7; color: #b45309;">${item.type}</span>
+                        <img src="${imageSource}" alt="${item.title}" class="blog-img" onerror="this.src='bonds.jpg'">
+                        <span class="blog-category-badge" style="background-color: #fef3c7; color: #b45309;">${item.type || 'Media'}</span>
                     </div>
                     <div class="blog-body-content">
-                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${item.date || 'August 2026'} &nbsp;•&nbsp; By ${item.author || 'Admin'}</div>
+                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${formattedDate} &nbsp;•&nbsp; By ${item.author || 'Admin'}</div>
                         <h3 class="blog-article-title">${item.title}</h3>
                         <p class="blog-summary-text">${item.description || ''}</p>
-                        ${item.link ? `<a href="${item.link}" target="_blank" class="blog-read-btn">Watch Coverage <i class="fas fa-external-link-alt"></i></a>` : ''}
+                        ${item.link ? `<a href="${item.link}" target="_blank" rel="noopener noreferrer" class="blog-read-btn">Watch Coverage <i class="fas fa-external-link-alt"></i></a>` : ''}
                     </div>
                 `;
                 container.appendChild(card);
             });
         }
 
+        /* -------------------------------------------------------------
+           4. FILTERS & SEARCH
+           ------------------------------------------------------------- */
         document.querySelectorAll('#media-filter-pills .pill-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('#media-filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
@@ -210,8 +273,12 @@
             renderMediaGrid();
         });
 
-        renderMediaGrid();
+        // Initialize listener
+        startLiveMediaListener();
 
+        /* -------------------------------------------------------------
+           5. FOOTER & NAVIGATION UI HANDLERS
+           ------------------------------------------------------------- */
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
         function checkFooterVisibility() {
