@@ -10,20 +10,24 @@
     <link rel="apple-touch-icon" href="./fevicon.png?v=2">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Firebase SDKs for Global Cloud Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
     <style>
-        /* --- EMBEDDED COMPLETE STYLES FOR MANAGE.HTML --- */
         :root {
-            --primary-dark: #0f172a;
-            --primary-navy: #1e293b;
+            --primary-dark: #090d16;
+            --primary-navy: #0f172a;
             --accent-green: #10b981;
             --accent-green-hover: #059669;
-            --accent-blue: #2563eb;
-            --accent-blue-hover: #1d4ed8;
-            --bg-light: #f1f5f9;
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --bg-light: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-muted: #475569;
-            --text-sub: #64748b;
+            --text-muted: #64748b;
             --border-color: #e2e8f0;
             --border-subtle: #cbd5e1;
             --radius-sm: 8px;
@@ -42,15 +46,205 @@
             color: var(--text-main);
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
+        a { color: inherit; text-decoration: none; }
+
+        /* --- ANIMATED BACKGROUND FOR AUTH --- */
+        .auth-container {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #090d16;
+            overflow: hidden;
+            padding: 24px;
         }
 
-        /* --- ADMIN TOP NAVBAR --- */
+        .ambient-mesh {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .mesh-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.45;
+            animation: floatOrb 18s ease-in-out infinite alternate;
+        }
+
+        .mesh-orb-1 {
+            width: 480px;
+            height: 480px;
+            background: linear-gradient(135deg, #2563eb, #38bdf8);
+            top: -100px;
+            left: -100px;
+        }
+
+        .mesh-orb-2 {
+            width: 420px;
+            height: 420px;
+            background: linear-gradient(135deg, #7c3aed, #ec4899);
+            bottom: -80px;
+            right: -80px;
+            animation-duration: 22s;
+            animation-delay: -5s;
+        }
+
+        .mesh-orb-3 {
+            width: 320px;
+            height: 320px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            top: 45%;
+            left: 55%;
+            animation-duration: 15s;
+            animation-delay: -8s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(60px, 40px) scale(1.08); }
+            100% { transform: translate(-40px, 80px) scale(0.95); }
+        }
+
+        .glass-card {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 440px;
+            background: rgba(15, 23, 42, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 42px 36px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.65), 0 0 40px rgba(59, 130, 246, 0.15);
+            animation: cardEntrance 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes cardEntrance {
+            from { opacity: 0; transform: translateY(30px) scale(0.96); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .auth-logo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            padding: 7px 16px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+        }
+
+        .auth-logo-badge img { height: 28px; width: auto; display: block; }
+
+        .auth-badge-tag {
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            padding: 3px 7px;
+            border-radius: 5px;
+            letter-spacing: 0.5px;
+        }
+
+        .auth-header h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -0.3px;
+            margin-bottom: 6px;
+        }
+
+        .auth-header p {
+            font-size: 13.5px;
+            color: #94a3b8;
+            margin-bottom: 26px;
+        }
+
+        .input-group-animated {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-icon-left {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            font-size: 14px;
+            transition: color 0.25s ease;
+        }
+
+        .glass-input {
+            width: 100%;
+            padding: 13px 16px 13px 44px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .glass-input::placeholder { color: #64748b; }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.25);
+        }
+
+        .glass-input:focus + .input-icon-left { color: #3b82f6; }
+
+        .animated-submit-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 18px rgba(37, 99, 235, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .animated-submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.6);
+        }
+
+        .auth-error {
+            color: #f87171;
+            font-size: 13px;
+            margin-bottom: 14px;
+            min-height: 18px;
+            font-weight: 500;
+        }
+
+        /* --- DASHBOARD STYLING --- */
         .admin-top-nav {
             background-color: var(--primary-dark);
             color: #ffffff;
@@ -58,11 +252,11 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #1e293b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .admin-nav-container {
-            max-width: 1300px;
+            max-width: 1320px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -71,7 +265,6 @@
             gap: 16px;
         }
 
-        /* Fixed Crisp Logo Badge */
         .admin-brand {
             display: inline-flex;
             align-items: center;
@@ -79,55 +272,19 @@
             background-color: #ffffff;
             padding: 6px 14px;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
 
-        .admin-brand a {
-            display: flex;
-            align-items: center;
-        }
-
-        .admin-logo {
-            height: 32px;
-            width: auto;
-            display: block;
-            filter: none !important;
-        }
-
-        .admin-badge {
-            background-color: var(--accent-blue);
-            color: #ffffff;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .admin-nav-actions,
-        .admin-user-controls {
+        .admin-logo { height: 30px; display: block; }
+        
+        .admin-nav-actions, .admin-user-controls {
             display: flex;
             align-items: center;
             gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .user-greeting {
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #94a3b8;
-            margin-right: 4px;
-        }
-
-        .user-greeting span {
-            color: #ffffff;
-            font-weight: 700;
         }
 
         .admin-btn-primary {
             background-color: var(--accent-green);
-            color: #ffffff;
+            color: #fff;
             border: none;
             padding: 9px 18px;
             border-radius: var(--radius-sm);
@@ -137,17 +294,15 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background-color 0.2s ease;
+            transition: 0.2s;
         }
 
-        .admin-btn-primary:hover {
-            background-color: var(--accent-green-hover);
-        }
+        .admin-btn-primary:hover { background-color: var(--accent-green-hover); }
 
         .admin-btn-secondary {
-            background-color: #334155;
-            color: #ffffff;
-            border: none;
+            background-color: #1e293b;
+            color: #cbd5e1;
+            border: 1px solid rgba(255,255,255,0.08);
             padding: 8px 14px;
             border-radius: var(--radius-sm);
             font-weight: 600;
@@ -156,132 +311,23 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            transition: background-color 0.2s ease;
         }
 
-        .admin-btn-secondary:hover {
-            background-color: #475569;
-        }
+        .admin-btn-secondary:hover { background-color: #334155; color: #fff; }
 
         .admin-btn-danger {
             background-color: #ef4444;
-            color: #ffffff;
+            color: #fff;
             border: none;
             padding: 8px 14px;
             border-radius: var(--radius-sm);
             font-weight: 600;
             font-size: 12.5px;
             cursor: pointer;
-            transition: background-color 0.2s ease;
         }
 
-        .admin-btn-danger:hover {
-            background-color: #dc2626;
-        }
-
-        .full-width-btn {
-            width: 100%;
-            justify-content: center;
-            padding: 12px;
-            margin-top: 6px;
-        }
-
-        /* --- LOGIN & FIRST TIME AUTH SCREENS --- */
-        .auth-card-section {
-            min-height: calc(100vh - 80px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 20px;
-        }
-
-        .auth-box {
-            background-color: #ffffff;
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 36px;
-            width: 100%;
-            max-width: 420px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
-        }
-
-        .auth-header {
-            text-align: center;
-            margin-bottom: 22px;
-        }
-
-        .auth-icon {
-            font-size: 38px;
-            color: var(--accent-blue);
-            margin-bottom: 10px;
-        }
-
-        .warning-icon {
-            color: #f59e0b;
-        }
-
-        .auth-header h2 {
-            font-size: 22px;
-            color: var(--primary-dark);
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .auth-header p {
-            font-size: 13.5px;
-            color: var(--text-sub);
-            line-height: 1.5;
-        }
-
-        .auth-error-text {
-            color: #ef4444;
-            font-size: 12.5px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            min-height: 18px;
-        }
-
-        .form-group {
-            margin-bottom: 16px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12.5px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            margin-bottom: 6px;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            font-size: 13.5px;
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-sm);
-            background-color: #f8fafc;
-            color: var(--primary-dark);
-            outline: none;
-            font-family: inherit;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-blue);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .form-row {
-            display: flex;
-            gap: 14px;
-        }
-
-        .flex-1 { flex: 1; }
-        .flex-2 { flex: 2; }
-
-        /* --- DASHBOARD SECTION --- */
         .admin-main-container {
-            max-width: 1300px;
+            max-width: 1320px;
             margin: 30px auto;
             padding: 0 20px;
         }
@@ -300,13 +346,12 @@
             padding: 12px 20px;
             font-size: 14px;
             font-weight: 700;
-            color: var(--text-sub);
+            color: var(--text-muted);
             cursor: pointer;
             border-radius: 8px 8px 0 0;
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: all 0.2s ease;
         }
 
         .dash-tab-btn:hover {
@@ -320,16 +365,10 @@
             border: 1px solid var(--border-color);
             border-bottom: 2px solid #ffffff;
             margin-bottom: -2px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.03);
         }
 
-        .tab-content-pane {
-            display: none;
-        }
-
-        .tab-content-pane.active {
-            display: block;
-        }
+        .tab-content-pane { display: none; }
+        .tab-content-pane.active { display: block; }
 
         .dashboard-header-bar {
             display: flex;
@@ -340,21 +379,8 @@
             padding: 20px 24px;
             border-radius: var(--radius-md);
             border: 1px solid var(--border-color);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
             flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .dashboard-header-bar h2 {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--primary-dark);
-            margin-bottom: 4px;
-        }
-
-        .dashboard-header-bar p {
-            font-size: 13px;
-            color: var(--text-sub);
+            gap: 12px;
         }
 
         .admin-table-container {
@@ -362,7 +388,6 @@
             border: 1px solid var(--border-color);
             border-radius: var(--radius-md);
             overflow-x: auto;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
         }
 
         .admin-table {
@@ -374,13 +399,12 @@
 
         .admin-table th {
             background-color: #f8fafc;
-            color: var(--text-sub);
+            color: var(--text-muted);
             font-size: 12px;
             font-weight: 700;
             padding: 14px 18px;
             border-bottom: 1px solid var(--border-color);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .admin-table td {
@@ -388,11 +412,6 @@
             border-bottom: 1px solid #f1f5f9;
             font-size: 13.5px;
             vertical-align: middle;
-            color: #334155;
-        }
-
-        .admin-table tr:hover {
-            background-color: #f8fafc;
         }
 
         .table-thumb {
@@ -400,45 +419,6 @@
             height: 38px;
             object-fit: cover;
             border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .table-category-tag {
-            background-color: #eff6ff;
-            color: var(--accent-blue);
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 10px;
-        }
-
-        .tag-media {
-            background-color: #fef3c7 !important;
-            color: #b45309 !important;
-        }
-
-        .author-tag {
-            font-weight: 600;
-            color: #475569;
-        }
-
-        .reorder-btns {
-            display: flex;
-            gap: 4px;
-        }
-
-        .order-btn {
-            background: #f1f5f9;
-            border: 1px solid var(--border-subtle);
-            border-radius: 4px;
-            padding: 3px 7px;
-            cursor: pointer;
-            font-size: 10px;
-        }
-
-        .order-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
         }
 
         .action-btn {
@@ -448,67 +428,46 @@
             font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            margin-left: 4px;
-            transition: background-color 0.2s ease;
         }
 
-        .edit-action { background-color: #e0f2fe; color: #0369a1; }
-        .edit-action:hover { background-color: #bae6fd; }
         .delete-action { background-color: #fee2e2; color: #b91c1c; }
-        .delete-action:hover { background-color: #fecaca; }
 
-        .badge-count {
+        .sync-banner {
+            background-color: #ecfdf5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tab-badge {
             background-color: #ef4444;
-            color: #ffffff;
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 7px;
+            color: #fff;
             border-radius: 10px;
-            margin-left: 4px;
+            padding: 2px 7px;
+            font-size: 11px;
+            font-weight: 800;
         }
 
-        .inq-timestamp {
-            font-size: 12px;
-            color: var(--text-sub);
-            white-space: nowrap;
-        }
-
-        .table-phone-link, .table-email-link {
-            color: var(--accent-blue);
-            font-weight: 600;
-            font-size: 13px;
-        }
-
-        .table-phone-link:hover, .table-email-link:hover {
-            text-decoration: underline;
-        }
-
-        .inq-query-box {
-            max-width: 320px;
-            font-size: 13px;
-            color: var(--primary-dark);
-            background-color: #f8fafc;
+        .lead-message-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
             padding: 8px 12px;
             border-radius: 6px;
-            border: 1px solid var(--border-color);
-            line-height: 1.5;
-        }
-
-        .empty-table-text {
-            text-align: center;
-            padding: 40px !important;
-            color: var(--text-sub);
-            font-size: 14.5px;
+            max-width: 320px;
+            font-size: 13px;
         }
 
         /* --- MODAL DIALOGS --- */
         .admin-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(15, 23, 42, 0.6);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(4px);
             z-index: 3000;
             display: flex;
@@ -516,14 +475,11 @@
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.2s ease, visibility 0.2s ease;
+            transition: all 0.2s ease;
             padding: 20px;
         }
 
-        .admin-modal.modal-active {
-            opacity: 1;
-            visibility: visible;
-        }
+        .admin-modal.modal-active { opacity: 1; visibility: visible; }
 
         .admin-modal-dialog {
             background-color: #ffffff;
@@ -533,10 +489,7 @@
             max-height: 90vh;
             overflow-y: auto;
             padding: 26px;
-            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
         }
-
-        .modal-dialog-sm { max-width: 420px; }
 
         .admin-modal-header {
             display: flex;
@@ -547,180 +500,107 @@
             margin-bottom: 18px;
         }
 
-        .admin-modal-header h3 {
-            font-size: 18px;
-            font-weight: 800;
-            color: var(--primary-dark);
-        }
-
-        .close-modal-btn {
-            background: none;
-            border: none;
-            font-size: 22px;
-            color: var(--text-sub);
-            cursor: pointer;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 16px;
-        }
-
-        .image-upload-wrapper {
-            background-color: #f8fafc;
-            border: 1px dashed var(--border-subtle);
-            border-radius: 8px;
-            padding: 14px;
-        }
-
-        .file-drop-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .file-input-hidden { display: none; }
-
-        .file-custom-btn {
-            background-color: var(--primary-dark);
-            color: #ffffff;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .file-or-span {
-            font-size: 12px;
-            color: var(--text-sub);
-        }
-
-        .image-preview-box {
-            margin-top: 10px;
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 6px; }
+        .form-control {
             width: 100%;
-            height: 110px;
-            border-radius: 6px;
-            overflow: hidden;
-            background-color: #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .image-preview-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+            padding: 10px 12px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            outline: none;
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Admin Header -->
-    <header class="admin-top-nav">
-        <div class="admin-nav-container">
-            <div class="admin-brand">
-                <a href="./index.html" title="Go to SRH World Home">
-                    <img src="Logo_SRH_World.png" alt="SRH World Logo" class="admin-logo">
-                </a>
-                <span class="admin-badge">Admin Portal</span>
+    <!-- SCREEN 1: ANIMATED LOGIN SCREEN -->
+    <div class="auth-container" id="login-section">
+        <div class="ambient-mesh">
+            <div class="mesh-orb mesh-orb-1"></div>
+            <div class="mesh-orb mesh-orb-2"></div>
+            <div class="mesh-orb mesh-orb-3"></div>
+        </div>
+
+        <div class="glass-card">
+            <div class="auth-logo-badge">
+                <img src="Logo_SRH_World.png" alt="SRH World" onerror="this.style.display='none'">
+                <span class="auth-badge-tag">Management</span>
             </div>
             
-            <div class="admin-nav-actions">
-                <a href="./index.html" class="admin-btn-secondary"><i class="fas fa-home"></i> Back to Home</a>
+            <div class="auth-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage blogs, media, contact forms & bot enquiries live.</p>
+            </div>
+
+            <form id="login-form">
+                <div class="input-group-animated">
+                    <input type="text" id="login-username" class="glass-input" placeholder="Admin username / email" required autocomplete="off">
+                    <i class="fas fa-user input-icon-left"></i>
+                </div>
+
+                <div class="input-group-animated">
+                    <input type="password" id="login-password" class="glass-input" placeholder="Enter password" required autocomplete="current-password">
+                    <i class="fas fa-lock input-icon-left"></i>
+                </div>
+
+                <div id="login-error-msg" class="auth-error"></div>
+
+                <button type="submit" class="animated-submit-btn" id="login-btn">
+                    <span>Access Dashboard</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCREEN 2: MAIN DASHBOARD -->
+    <div id="dashboard-wrapper" style="display: none;">
+        <header class="admin-top-nav">
+            <div class="admin-nav-container">
+                <div class="admin-brand">
+                    <a href="./index.html">
+                        <img src="Logo_SRH_World.png" alt="SRH World Logo" class="admin-logo">
+                    </a>
+                </div>
                 
-                <div class="admin-user-controls" id="admin-user-controls" style="display: none;">
-                    <span class="user-greeting"><i class="fas fa-user-circle"></i> <span id="current-user-name">User</span></span>
-                    <button class="admin-btn-secondary" id="open-change-pass-btn"><i class="fas fa-key"></i> Change Password</button>
-                    <a href="./blogs.html" class="admin-btn-secondary" target="_blank"><i class="fas fa-book-open"></i> Blogs</a>
-                    <a href="./media.html" class="admin-btn-secondary" target="_blank"><i class="fas fa-photo-film"></i> Media</a>
+                <div class="admin-user-controls">
+                    <span style="font-size: 13.5px; color: #94a3b8;"><i class="fas fa-circle-user"></i> <strong id="current-user-name" style="color: #fff;">Admin</strong></span>
+                    <a href="./blogs.html" class="admin-btn-secondary" target="_blank"><i class="fas fa-external-link-alt"></i> Live Site</a>
                     <button class="admin-btn-danger" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <main class="admin-main-container">
-        
-        <!-- Screen 1: Login Card -->
-        <section class="auth-card-section" id="login-section">
-            <div class="auth-box">
-                <div class="auth-header">
-                    <i class="fas fa-lock auth-icon"></i>
-                    <h2>Portal Login</h2>
-                    <p>Enter your credentials to manage SRH World content & inquiries</p>
-                </div>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="login-username">Username</label>
-                        <input type="text" id="login-username" class="form-control" placeholder="Enter username" required autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Password</label>
-                        <input type="password" id="login-password" class="form-control" placeholder="Enter password" required autocomplete="current-password">
-                    </div>
-                    <div id="login-error-msg" class="auth-error-text"></div>
-                    <button type="submit" class="admin-btn-primary full-width-btn">Login to Dashboard</button>
-                </form>
+        <main class="admin-main-container">
+            <!-- Sync Indicator -->
+            <div class="sync-banner" id="cloud-status-banner">
+                <span><i class="fas fa-cloud-check"></i> <strong id="sync-mode-label">Cloud Sync Active:</strong> Changes sync immediately across all visitors.</span>
             </div>
-        </section>
 
-        <!-- Screen 2: First-Time Mandatory Password Change -->
-        <section class="auth-card-section" id="first-time-pass-section" style="display: none;">
-            <div class="auth-box">
-                <div class="auth-header">
-                    <i class="fas fa-shield-alt auth-icon warning-icon"></i>
-                    <h2>Update Initial Password</h2>
-                    <p>For security, please change your default password before proceeding.</p>
-                </div>
-                <form id="first-time-pass-form">
-                    <div class="form-group">
-                        <label for="new-pass-first">New Password</label>
-                        <input type="password" id="new-pass-first" class="form-control" placeholder="Minimum 6 characters" required autocomplete="new-password">
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm-pass-first">Confirm New Password</label>
-                        <input type="password" id="confirm-pass-first" class="form-control" placeholder="Re-enter password" required autocomplete="new-password">
-                    </div>
-                    <div id="first-pass-error" class="auth-error-text"></div>
-                    <button type="submit" class="admin-btn-primary full-width-btn">Save Password & Continue</button>
-                </form>
-            </div>
-        </section>
-
-        <!-- Screen 3: Main Management Dashboard -->
-        <section class="dashboard-section" id="dashboard-section" style="display: none;">
-            
             <div class="admin-dashboard-tabs">
-                <button class="dash-tab-btn active" id="tab-btn-blogs" onclick="switchDashboardTab('blogs')">
-                    <i class="fas fa-newspaper"></i> Blog Posts Manager
+                <button class="dash-tab-btn active" id="tab-btn-blogs" onclick="switchTab('blogs')">
+                    <i class="fas fa-newspaper"></i> Blog Posts
                 </button>
-                <button class="dash-tab-btn" id="tab-btn-media" onclick="switchDashboardTab('media')">
-                    <i class="fas fa-photo-film"></i> Media & Press Manager
+                <button class="dash-tab-btn" id="tab-btn-media" onclick="switchTab('media')">
+                    <i class="fas fa-photo-film"></i> Media & Press
                 </button>
-                <button class="dash-tab-btn" id="tab-btn-inquiries" onclick="switchDashboardTab('inquiries')">
-                    <i class="fas fa-envelope-open-text"></i> Contact Us Inquiries <span class="badge-count" id="inquiry-count-badge">0</span>
+                <button class="dash-tab-btn" id="tab-btn-contacts" onclick="switchTab('contacts')">
+                    <i class="fas fa-envelope-open-text"></i> Contact Form Inquiries <span class="tab-badge" id="contact-count-badge">0</span>
+                </button>
+                <button class="dash-tab-btn" id="tab-btn-chatbot" onclick="switchTab('chatbot')">
+                    <i class="fas fa-robot"></i> Chatbot Leads <span class="tab-badge" id="bot-count-badge">0</span>
                 </button>
             </div>
 
-            <!-- TAB 1: BLOGS MANAGER -->
+            <!-- TAB 1: BLOGS -->
             <div id="pane-blogs" class="tab-content-pane active">
                 <div class="dashboard-header-bar">
                     <div>
-                        <h2>Blog Post Manager</h2>
-                        <p>Create, edit, reorder, and publish market insights</p>
+                        <h2 style="font-size: 20px; font-weight: 800;">Articles & Insights</h2>
+                        <p style="font-size: 13px; color: var(--text-muted);">Manage real-time updates for the public blog section</p>
                     </div>
                     <button class="admin-btn-primary" id="open-create-blog-modal-btn">
-                        <i class="fas fa-plus"></i> Create New Blog Post
+                        <i class="fas fa-plus"></i> New Article
                     </button>
                 </div>
 
@@ -728,13 +608,12 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th style="width: 70px;">Order</th>
-                                <th>Image</th>
+                                <th>Thumbnail</th>
                                 <th>Article Title</th>
                                 <th>Category</th>
                                 <th>Date</th>
                                 <th>Author</th>
-                                <th style="width: 170px; text-align: right;">Actions</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="admin-posts-tbody"></tbody>
@@ -742,15 +621,15 @@
                 </div>
             </div>
 
-            <!-- TAB 2: MEDIA MANAGER -->
+            <!-- TAB 2: MEDIA -->
             <div id="pane-media" class="tab-content-pane">
                 <div class="dashboard-header-bar">
                     <div>
-                        <h2>Media & Press Manager</h2>
-                        <p>Upload photos, press releases, video coverages, and events</p>
+                        <h2 style="font-size: 20px; font-weight: 800;">Media & Press Releases</h2>
+                        <p style="font-size: 13px; color: var(--text-muted);">Upload coverage, video links, and event updates</p>
                     </div>
                     <button class="admin-btn-primary" id="open-create-media-modal-btn">
-                        <i class="fas fa-upload"></i> Upload / Add Media Item
+                        <i class="fas fa-upload"></i> Upload Media
                     </button>
                 </div>
 
@@ -758,13 +637,12 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th style="width: 70px;">Order</th>
-                                <th>Media Preview</th>
-                                <th>Title / Caption</th>
-                                <th>Media Type</th>
+                                <th>Thumbnail</th>
+                                <th>Title</th>
+                                <th>Type</th>
                                 <th>Date</th>
                                 <th>Author</th>
-                                <th style="width: 170px; text-align: right;">Actions</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
                         <tbody id="admin-media-tbody"></tbody>
@@ -772,15 +650,15 @@
                 </div>
             </div>
 
-            <!-- TAB 3: INQUIRIES & LEADS -->
-            <div id="pane-inquiries" class="tab-content-pane">
+            <!-- TAB 3: CONTACT FORM INQUIRIES -->
+            <div id="pane-contacts" class="tab-content-pane">
                 <div class="dashboard-header-bar">
                     <div>
-                        <h2>Customer Inquiries</h2>
-                        <p>Inquiries submitted via the Contact Us and Other Business pages</p>
+                        <h2 style="font-size: 20px; font-weight: 800;">Contact Us Form Submissions</h2>
+                        <p style="font-size: 13px; color: var(--text-muted);">Inquiries sent from the Contact Us page forms</p>
                     </div>
-                    <button class="admin-btn-secondary" onclick="exportInquiriesCSV()">
-                        <i class="fas fa-file-csv"></i> Export to CSV
+                    <button class="admin-btn-secondary" onclick="exportDataCSV('contact_inquiries', 'SRH_Contact_Forms')">
+                        <i class="fas fa-file-csv"></i> Export Inquiries
                     </button>
                 </div>
 
@@ -790,754 +668,422 @@
                             <tr>
                                 <th>Date & Time</th>
                                 <th>Client Name</th>
-                                <th>Phone Number</th>
+                                <th>Phone</th>
                                 <th>Email</th>
-                                <th>Query / Details</th>
-                                <th style="width: 100px; text-align: right;">Action</th>
+                                <th>Message / Details</th>
+                                <th style="text-align: right;">Action</th>
                             </tr>
                         </thead>
-                        <tbody id="admin-inquiries-tbody"></tbody>
+                        <tbody id="admin-contacts-tbody"></tbody>
                     </table>
                 </div>
             </div>
 
-        </section>
+            <!-- TAB 4: CHATBOT LEADS -->
+            <div id="pane-chatbot" class="tab-content-pane">
+                <div class="dashboard-header-bar">
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 800;">AI Chatbot Leads & Enquiries</h2>
+                        <p style="font-size: 13px; color: var(--text-muted);">Visitor queries captured by the automated assistant</p>
+                    </div>
+                    <button class="admin-btn-secondary" onclick="exportDataCSV('chatbot_leads', 'SRH_Chatbot_Leads')">
+                        <i class="fas fa-file-csv"></i> Export Leads
+                    </button>
+                </div>
 
-    </main>
+                <div class="admin-table-container">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Time Captured</th>
+                                <th>Lead Name</th>
+                                <th>Phone Number</th>
+                                <th>Conversation Summary / Need</th>
+                                <th style="text-align: right;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-chatbot-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
 
-    <!-- Modal 1: Create / Edit Blog Post -->
+        </main>
+    </div>
+
+    <!-- POST MODAL -->
     <div class="admin-modal" id="post-modal">
         <div class="admin-modal-dialog">
             <div class="admin-modal-header">
                 <h3 id="modal-form-title">Create Blog Post</h3>
-                <button class="close-modal-btn" id="close-post-modal">&times;</button>
+                <button type="button" style="background:none; border:none; font-size:20px; cursor:pointer;" id="close-post-modal">&times;</button>
             </div>
             <form id="post-editor-form">
                 <input type="hidden" id="edit-post-id">
-                <div class="form-row">
-                    <div class="form-group flex-2">
-                        <label for="post-title">Article Title</label>
-                        <input type="text" id="post-title" class="form-control" placeholder="Enter article title" required>
-                    </div>
-                    <div class="form-group flex-1">
-                        <label for="post-category">Category</label>
-                        <select id="post-category" class="form-control" required>
-                            <option value="Market Analysis">Market Analysis</option>
-                            <option value="Wealth Planning">Wealth Planning</option>
-                            <option value="Mutual Funds">Mutual Funds</option>
-                            <option value="Fixed Income">Fixed Income</option>
-                            <option value="PMS Insights">PMS Insights</option>
-                        </select>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label>Article Cover Image</label>
-                    <div class="image-upload-wrapper">
-                        <div class="file-drop-area">
-                            <input type="file" id="post-image-file" accept="image/*" class="file-input-hidden">
-                            <label for="post-image-file" class="file-custom-btn"><i class="fas fa-cloud-upload-alt"></i> Upload from Device</label>
-                            <span class="file-or-span">or enter filename/URL</span>
-                        </div>
-                        <input type="text" id="post-image" class="form-control" style="margin-top: 8px;" placeholder="e.g. Equities.jpg" value="Equities.jpg" required>
-                        <div class="image-preview-box">
-                            <img src="Equities.jpg" id="post-preview-img" alt="Cover Preview">
-                        </div>
-                    </div>
+                    <label>Title</label>
+                    <input type="text" id="post-title" class="form-control" required>
                 </div>
-
-                <div class="form-row">
-                    <div class="form-group flex-1">
-                        <label for="post-date">Publish Date</label>
-                        <input type="text" id="post-date" class="form-control" value="August 2026" required>
-                    </div>
-                </div>
-
                 <div class="form-group">
-                    <label for="post-excerpt">Short Summary (Excerpt)</label>
-                    <textarea id="post-excerpt" class="form-control" rows="2" placeholder="Brief summary preview..." required></textarea>
+                    <label>Category</label>
+                    <select id="post-category" class="form-control">
+                        <option value="Market Analysis">Market Analysis</option>
+                        <option value="Wealth Planning">Wealth Planning</option>
+                        <option value="Mutual Funds">Mutual Funds</option>
+                        <option value="Fixed Income">Fixed Income</option>
+                    </select>
                 </div>
-
                 <div class="form-group">
-                    <label for="post-content">Full Blog Content</label>
-                    <textarea id="post-content" class="form-control" rows="7" placeholder="Write the full article content..." required></textarea>
+                    <label>Image (URL or Filename)</label>
+                    <input type="text" id="post-image" class="form-control" placeholder="e.g. Equities.jpg" required>
                 </div>
-
-                <div class="modal-actions">
+                <div class="form-group">
+                    <label>Excerpt Summary</label>
+                    <textarea id="post-excerpt" class="form-control" rows="2" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Full Content</label>
+                    <textarea id="post-content" class="form-control" rows="6" required></textarea>
+                </div>
+                <div style="display: flex; justify-content: flex-end; gap: 10px;">
                     <button type="button" class="admin-btn-secondary" id="cancel-post-modal">Cancel</button>
-                    <button type="submit" class="admin-btn-primary">Save Article</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal 2: Create / Edit Media Item -->
-    <div class="admin-modal" id="media-modal">
-        <div class="admin-modal-dialog">
-            <div class="admin-modal-header">
-                <h3 id="media-modal-form-title">Add Media Item</h3>
-                <button class="close-modal-btn" id="close-media-modal">&times;</button>
-            </div>
-            <form id="media-editor-form">
-                <input type="hidden" id="edit-media-id">
-                <div class="form-row">
-                    <div class="form-group flex-2">
-                        <label for="media-title">Media Title / Headline</label>
-                        <input type="text" id="media-title" class="form-control" placeholder="e.g. Annual Investor Conclave" required>
-                    </div>
-                    <div class="form-group flex-1">
-                        <label for="media-type">Media Type / Category</label>
-                        <select id="media-type" class="form-control" required>
-                            <option value="Press Releases">Press Releases</option>
-                            <option value="Events & Conferences">Events & Conferences</option>
-                            <option value="Interviews & Videos">Interviews & Videos</option>
-                            <option value="Market Insights">Market Insights</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Upload Media Photograph / Graphic</label>
-                    <div class="image-upload-wrapper">
-                        <div class="file-drop-area">
-                            <input type="file" id="media-image-file" accept="image/*" class="file-input-hidden">
-                            <label for="media-image-file" class="file-custom-btn"><i class="fas fa-cloud-upload-alt"></i> Choose Image File</label>
-                            <span class="file-or-span">or link image filename</span>
-                        </div>
-                        <input type="text" id="media-image" class="form-control" style="margin-top: 8px;" placeholder="e.g. bonds.jpg" value="bonds.jpg" required>
-                        <div class="image-preview-box">
-                            <img src="bonds.jpg" id="media-preview-img" alt="Media Preview">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group flex-1">
-                        <label for="media-date">Release Date</label>
-                        <input type="text" id="media-date" class="form-control" value="August 2026" required>
-                    </div>
-                    <div class="form-group flex-1">
-                        <label for="media-link">External Link / Video URL (Optional)</label>
-                        <input type="text" id="media-link" class="form-control" placeholder="https://youtube.com/...">
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="media-description">Description / Brief</label>
-                    <textarea id="media-description" class="form-control" rows="4" placeholder="Describe the media coverage..." required></textarea>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="admin-btn-secondary" id="cancel-media-modal">Cancel</button>
-                    <button type="submit" class="admin-btn-primary">Save Media</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal 3: On-Demand Password Change -->
-    <div class="admin-modal" id="change-pass-modal">
-        <div class="admin-modal-dialog modal-dialog-sm">
-            <div class="admin-modal-header">
-                <h3>Change Account Password</h3>
-                <button class="close-modal-btn" id="close-pass-modal">&times;</button>
-            </div>
-            <form id="account-pass-form">
-                <div class="form-group">
-                    <label for="current-password-input">Current Password</label>
-                    <input type="password" id="current-password-input" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="new-password-input">New Password</label>
-                    <input type="password" id="new-password-input" class="form-control" placeholder="Minimum 6 characters" required>
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password-input">Confirm New Password</label>
-                    <input type="password" id="confirm-password-input" class="form-control" required>
-                </div>
-                <div id="modal-pass-error" class="auth-error-text"></div>
-                <div class="modal-actions">
-                    <button type="button" class="admin-btn-secondary" id="cancel-pass-modal">Cancel</button>
-                    <button type="submit" class="admin-btn-primary">Update Password</button>
+                    <button type="submit" class="admin-btn-primary">Publish to Cloud</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        const DEFAULT_USERS = {
-            'Admin': { password: 'SRH@1234', firstLogin: true },
-            'Wasu': { password: 'SRH@1234', firstLogin: true },
-            'Srushti': { password: 'SRH@1234', firstLogin: true }
-        };
+        /* -------------------------------------------------------------
+           1. BACKEND CLOUD CONFIGURATION
+           Paste your Firebase Project Config here to enable cloud sync
+           ------------------------------------------------------------- */
+        const firebaseConfig = {
+  apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+  authDomain: "srhworld-17653.firebaseapp.com",
+  projectId: "srhworld-17653",
+  storageBucket: "srhworld-17653.firebasestorage.app",
+  messagingSenderId: "161943112081",
+  appId: "1:161943112081:web:888219f6314793b3e73230",
+  measurementId: "G-LXZMQZ9NPH"
+};
+        let isCloudEnabled = false;
+        let db = null;
 
-        const INITIAL_POSTS = [
-            {
-                id: 'post_1',
-                title: 'Understanding Market Volatility and Portfolio Diversification',
-                category: 'Market Analysis',
-                date: 'August 2026',
-                author: 'Admin',
-                image: 'Equities.jpg',
-                excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.',
-                content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.'
-            },
-            {
-                id: 'post_2',
-                title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth',
-                category: 'Wealth Planning',
-                date: 'August 2026',
-                author: 'Wasu',
-                image: 'mutual-fund.jpg',
-                excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.',
-                content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.'
+        if (firebaseConfig.apiKey !== "YOUR_API_KEY") {
+            try {
+                firebase.initializeApp(firebaseConfig);
+                db = firebase.firestore();
+                isCloudEnabled = true;
+            } catch (err) {
+                console.warn("Database init error:", err);
             }
-        ];
-
-        const INITIAL_MEDIA = [
-            {
-                id: 'media_1',
-                title: 'SRH World Annual Investment Conclave 2026',
-                type: 'Events & Conferences',
-                date: 'August 2026',
-                author: 'Admin',
-                image: 'bonds.jpg',
-                link: '',
-                description: 'Key stakeholders and private wealth clients gathered to discuss strategic portfolio positioning and alternate investment opportunities.'
-            },
-            {
-                id: 'media_2',
-                title: 'CNBC-TV18 Market Outlook: Fixed Income Dynamics',
-                type: 'Interviews & Videos',
-                date: 'July 2026',
-                author: 'Wasu',
-                image: 'Fix-income.jpg',
-                link: 'https://youtube.com',
-                description: 'Our senior research desk breaks down macroeconomic indicators, interest rate cycles, and high-yield debenture allocations.'
-            }
-        ];
-
-        function getUsers() {
-            const data = localStorage.getItem('srh_users');
-            return data ? JSON.parse(data) : DEFAULT_USERS;
         }
 
-        function saveUsers(users) {
-            localStorage.setItem('srh_users', JSON.stringify(users));
+        const banner = document.getElementById('sync-mode-label');
+        if (!isCloudEnabled) {
+            banner.innerText = "Local Preview Mode (Paste Firebase keys above for live updates):";
+            banner.parentElement.style.backgroundColor = "#fffbeb";
+            banner.parentElement.style.color = "#92400e";
+            banner.parentElement.style.borderColor = "#fde68a";
         }
 
-        function getPosts() {
-            const data = localStorage.getItem('srh_blogs');
-            if (!data) {
-                localStorage.setItem('srh_blogs', JSON.stringify(INITIAL_POSTS));
-                return INITIAL_POSTS;
+        /* -------------------------------------------------------------
+           2. FIRESTORE / LOCAL STORAGE ADAPTER
+           ------------------------------------------------------------- */
+        async function fetchCollection(colName) {
+            if (isCloudEnabled) {
+                try {
+                    const snap = await db.collection(colName).orderBy("timestamp", "desc").get();
+                    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                } catch (e) {
+                    const snap = await db.collection(colName).get();
+                    return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                }
             }
-            return JSON.parse(data);
+            return JSON.parse(localStorage.getItem(`srh_${colName}`) || '[]');
         }
 
-        function savePosts(posts) {
+        async function deleteDocument(colName, docId) {
+            if (isCloudEnabled) {
+                await db.collection(colName).doc(docId).delete();
+                return;
+            }
+            let data = JSON.parse(localStorage.getItem(`srh_${colName}`) || '[]');
+            data = data.filter(d => d.id !== docId);
+            localStorage.setItem(`srh_${colName}`, JSON.stringify(data));
+        }
+
+        async function saveBlog(post) {
+            if (isCloudEnabled) {
+                if (post.id) {
+                    await db.collection("blogs").doc(post.id).set(post, { merge: true });
+                } else {
+                    delete post.id;
+                    await db.collection("blogs").add({ ...post, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+                }
+                return;
+            }
+            let posts = JSON.parse(localStorage.getItem('srh_blogs') || '[]');
+            if (post.id) {
+                const idx = posts.findIndex(p => p.id === post.id);
+                if (idx !== -1) posts[idx] = post;
+            } else {
+                post.id = 'local_' + Date.now();
+                posts.unshift(post);
+            }
             localStorage.setItem('srh_blogs', JSON.stringify(posts));
         }
 
-        function getMedia() {
-            const data = localStorage.getItem('srh_media');
-            if (!data) {
-                localStorage.setItem('srh_media', JSON.stringify(INITIAL_MEDIA));
-                return INITIAL_MEDIA;
-            }
-            return JSON.parse(data);
-        }
+        /* -------------------------------------------------------------
+   3. SECURE FIREBASE AUTHENTICATION
+   ------------------------------------------------------------- */
+const USER_EMAIL_MAP = {
+    'admin': 'onkard999@gmail.com',
+    'wasu': 'deshpande@srhworld.com',
+    'srushti': 'mody@srhworld.com'
+};
 
-        function saveMedia(media) {
-            localStorage.setItem('srh_media', JSON.stringify(media));
-        }
+const loginForm = document.getElementById('login-form');
+const loginErrorMsg = document.getElementById('login-error-msg');
+const loginSection = document.getElementById('login-section');
+const dashboardWrapper = document.getElementById('dashboard-wrapper');
+const loginBtn = document.getElementById('login-btn');
 
-        function getInquiries() {
-            return JSON.parse(localStorage.getItem('srh_inquiries') || '[]');
-        }
-
-        function saveInquiries(inquiries) {
-            localStorage.setItem('srh_inquiries', JSON.stringify(inquiries));
-        }
-
-        function getCurrentSession() {
-            return sessionStorage.getItem('srh_active_user');
-        }
-
-        function setCurrentSession(username) {
-            sessionStorage.setItem('srh_active_user', username);
-        }
-
-        function clearSession() {
-            sessionStorage.removeItem('srh_active_user');
-        }
-
-        if (!localStorage.getItem('srh_users')) {
-            saveUsers(DEFAULT_USERS);
-        }
-
-        const loginSection = document.getElementById('login-section');
-        const firstTimeSection = document.getElementById('first-time-pass-section');
-        const dashboardSection = document.getElementById('dashboard-section');
-        const userControls = document.getElementById('admin-user-controls');
-        const currentUserNameEl = document.getElementById('current-user-name');
+// Listen for secure authentication state changes across visits/reloads
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        let displayName = user.email.split('@')[0];
+        if (user.email === 'onkard999@gmail.com') displayName = 'Admin (Onkar)';
+        if (user.email === 'deshpande@srhworld.com') displayName = 'Wasu';
+        if (user.email === 'mody@srhworld.com') displayName = 'Srushti';
         
-        const loginForm = document.getElementById('login-form');
-        const loginErrorMsg = document.getElementById('login-error-msg');
-        const firstTimePassForm = document.getElementById('first-time-pass-form');
-        const firstPassError = document.getElementById('first-pass-error');
+        document.getElementById('current-user-name').innerText = displayName;
+        loginSection.style.display = 'none';
+        dashboardWrapper.style.display = 'block';
         
-        const adminPostsTbody = document.getElementById('admin-posts-tbody');
-        const adminMediaTbody = document.getElementById('admin-media-tbody');
-        const adminInquiriesTbody = document.getElementById('admin-inquiries-tbody');
-        const inquiryCountBadge = document.getElementById('inquiry-count-badge');
-        
-        const postModal = document.getElementById('post-modal');
-        const postEditorForm = document.getElementById('post-editor-form');
-        const mediaModal = document.getElementById('media-modal');
-        const mediaEditorForm = document.getElementById('media-editor-form');
-        
-        const changePassModal = document.getElementById('change-pass-modal');
-        const accountPassForm = document.getElementById('account-pass-form');
-        const modalPassError = document.getElementById('modal-pass-error');
+        // Load data securely now that auth token is active
+        renderPosts();
+        renderContacts();
+        renderChatbotLeads();
+    } else {
+        loginSection.style.display = 'flex';
+        dashboardWrapper.style.display = 'none';
+    }
+});
 
-        let activeUser = null;
+// Form Submission Event
+loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loginErrorMsg.innerText = '';
+    
+    let rawInput = document.getElementById('login-username').value.trim().toLowerCase();
+    const password = document.getElementById('login-password').value;
 
-        window.switchDashboardTab = function(tabKey) {
-            document.querySelectorAll('.dash-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content-pane').forEach(pane => pane.classList.remove('active'));
+    // Resolve shorthand usernames to the registered email
+    const email = USER_EMAIL_MAP[rawInput] || rawInput;
 
-            if (tabKey === 'blogs') {
-                document.getElementById('tab-btn-blogs').classList.add('active');
-                document.getElementById('pane-blogs').classList.add('active');
-                renderPostsTable();
-            } else if (tabKey === 'media') {
-                document.getElementById('tab-btn-media').classList.add('active');
-                document.getElementById('pane-media').classList.add('active');
-                renderMediaTable();
-            } else if (tabKey === 'inquiries') {
-                document.getElementById('tab-btn-inquiries').classList.add('active');
-                document.getElementById('pane-inquiries').classList.add('active');
-                renderInquiriesTable();
-            }
+    loginBtn.disabled = true;
+    const btnSpan = loginBtn.querySelector('span');
+    if (btnSpan) btnSpan.innerText = 'Authenticating...';
+
+    try {
+        await firebase.auth().signInWithEmailAndPassword(email, password);
+        loginForm.reset();
+    } catch (error) {
+        console.error("Auth error:", error);
+        if (
+            error.code === 'auth/wrong-password' || 
+            error.code === 'auth/user-not-found' || 
+            error.code === 'auth/invalid-credential'
+        ) {
+            loginErrorMsg.innerText = "Invalid username or password.";
+        } else if (error.code === 'auth/too-many-requests') {
+            loginErrorMsg.innerText = "Too many failed attempts. Please try again in a few minutes.";
+        } else {
+            loginErrorMsg.innerText = error.message;
+        }
+    } finally {
+        loginBtn.disabled = false;
+        if (btnSpan) btnSpan.innerText = 'Access Dashboard';
+    }
+});
+
+// Logout Handler
+document.getElementById('logout-btn').addEventListener('click', async () => {
+    await firebase.auth().signOut();
+});
+
+        /* -------------------------------------------------------------
+           4. TAB MANAGEMENT
+           ------------------------------------------------------------- */
+        window.switchTab = function(tab) {
+            document.querySelectorAll('.dash-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content-pane').forEach(p => p.classList.remove('active'));
+
+            document.getElementById(`tab-btn-${tab}`).classList.add('active');
+            document.getElementById(`pane-${tab}`).classList.add('active');
+
+            if (tab === 'blogs') renderPosts();
+            if (tab === 'contacts') renderContacts();
+            if (tab === 'chatbot') renderChatbotLeads();
         };
 
-        function checkAuthState() {
-            activeUser = getCurrentSession();
-            const users = getUsers();
-
-            if (!activeUser || !users[activeUser]) {
-                loginSection.style.display = 'flex';
-                firstTimeSection.style.display = 'none';
-                dashboardSection.style.display = 'none';
-                userControls.style.display = 'none';
-                return;
-            }
-
-            if (users[activeUser].firstLogin) {
-                loginSection.style.display = 'none';
-                firstTimeSection.style.display = 'flex';
-                dashboardSection.style.display = 'none';
-                userControls.style.display = 'none';
-                return;
-            }
-
-            loginSection.style.display = 'none';
-            firstTimeSection.style.display = 'none';
-            dashboardSection.style.display = 'block';
-            userControls.style.display = 'flex';
-            currentUserNameEl.innerText = activeUser;
-            
-            renderPostsTable();
-            renderMediaTable();
-            renderInquiriesTable();
-        }
-
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            loginErrorMsg.innerText = '';
-            const rawUser = document.getElementById('login-username').value.trim();
-            const pass = document.getElementById('login-password').value;
-
-            const users = getUsers();
-            const matchedUserKey = Object.keys(users).find(u => u.toLowerCase() === rawUser.toLowerCase());
-
-            if (matchedUserKey && users[matchedUserKey].password === pass) {
-                setCurrentSession(matchedUserKey);
-                loginForm.reset();
-                checkAuthState();
-            } else {
-                loginErrorMsg.innerText = 'Invalid username or password. Please try again.';
-            }
-        });
-
-        firstTimePassForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            firstPassError.innerText = '';
-            const newP = document.getElementById('new-pass-first').value;
-            const confP = document.getElementById('confirm-pass-first').value;
-
-            if (newP.length < 6) {
-                firstPassError.innerText = 'Password must be at least 6 characters long.';
-                return;
-            }
-            if (newP !== confP) {
-                firstPassError.innerText = 'Passwords do not match.';
-                return;
-            }
-
-            const users = getUsers();
-            users[activeUser].password = newP;
-            users[activeUser].firstLogin = false;
-            saveUsers(users);
-
-            firstTimePassForm.reset();
-            checkAuthState();
-        });
-
-        document.getElementById('logout-btn').addEventListener('click', () => {
-            clearSession();
-            checkAuthState();
-        });
-
-        document.getElementById('open-change-pass-btn').addEventListener('click', () => {
-            modalPassError.innerText = '';
-            accountPassForm.reset();
-            changePassModal.classList.add('modal-active');
-        });
-
-        document.getElementById('close-pass-modal').addEventListener('click', () => changePassModal.classList.remove('modal-active'));
-        document.getElementById('cancel-pass-modal').addEventListener('click', () => changePassModal.classList.remove('modal-active'));
-
-        accountPassForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            modalPassError.innerText = '';
-            const currP = document.getElementById('current-password-input').value;
-            const newP = document.getElementById('new-password-input').value;
-            const confP = document.getElementById('confirm-password-input').value;
-
-            const users = getUsers();
-            if (users[activeUser].password !== currP) {
-                modalPassError.innerText = 'Current password is incorrect.';
-                return;
-            }
-            if (newP.length < 6) {
-                modalPassError.innerText = 'New password must be at least 6 characters.';
-                return;
-            }
-            if (newP !== confP) {
-                modalPassError.innerText = 'New passwords do not match.';
-                return;
-            }
-
-            users[activeUser].password = newP;
-            saveUsers(users);
-            changePassModal.classList.remove('modal-active');
-            alert('Password updated successfully!');
-        });
-
-        function setupImageUploader(fileInputId, textInputId, previewImgId) {
-            const fileInput = document.getElementById(fileInputId);
-            const textInput = document.getElementById(textInputId);
-            const previewImg = document.getElementById(previewImgId);
-
-            fileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        textInput.value = event.target.result;
-                        previewImg.src = event.target.result;
-                    };
-                    reader.readAsDataURL(file);
-                }
-            });
-
-            textInput.addEventListener('input', (e) => {
-                previewImg.src = e.target.value.trim() || 'Equities.jpg';
-            });
-        }
-
-        setupImageUploader('post-image-file', 'post-image', 'post-preview-img');
-        setupImageUploader('media-image-file', 'media-image', 'media-preview-img');
-
-        function renderPostsTable() {
-            const posts = getPosts();
-            adminPostsTbody.innerHTML = '';
+        /* -------------------------------------------------------------
+           5. DATA RENDERING (Blogs, Contact Forms, Chatbot)
+           ------------------------------------------------------------- */
+        async function renderPosts() {
+            const tbody = document.getElementById('admin-posts-tbody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">Fetching articles...</td></tr>';
+            const posts = await fetchCollection('blogs');
+            tbody.innerHTML = '';
 
             if (posts.length === 0) {
-                adminPostsTbody.innerHTML = '<tr><td colspan="7" class="empty-table-text">No articles found.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No articles found.</td></tr>';
                 return;
             }
 
-            posts.forEach((post, index) => {
+            posts.forEach(post => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>
-                        <div class="reorder-btns">
-                            <button class="order-btn" onclick="movePost(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
-                            <button class="order-btn" onclick="movePost(${index}, 1)" ${index === posts.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                    </td>
-                    <td><img src="${post.image}" alt="Thumb" class="table-thumb" onerror="this.src='Equities.jpg'"></td>
-                    <td><strong class="table-post-title">${post.title}</strong></td>
-                    <td><span class="table-category-tag">${post.category}</span></td>
-                    <td>${post.date}</td>
-                    <td><span class="author-tag">${post.author || 'Admin'}</span></td>
+                    <td><img src="${post.image}" class="table-thumb" onerror="this.src='Equities.jpg'"></td>
+                    <td><strong>${post.title}</strong></td>
+                    <td>${post.category}</td>
+                    <td>${post.date || 'Live'}</td>
+                    <td>${post.author || 'Admin'}</td>
                     <td style="text-align: right;">
-                        <button class="action-btn edit-action" onclick="openEditPost('${post.id}')"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="action-btn delete-action" onclick="deletePost('${post.id}')"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn delete-action" onclick="deleteEntry('blogs', '${post.id}')"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
-                adminPostsTbody.appendChild(tr);
+                tbody.appendChild(tr);
             });
         }
 
-        function renderMediaTable() {
-            const media = getMedia();
-            adminMediaTbody.innerHTML = '';
+        async function renderContacts() {
+            const tbody = document.getElementById('admin-contacts-tbody');
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">Loading form entries...</td></tr>';
+            const contacts = await fetchCollection('contact_inquiries');
+            document.getElementById('contact-count-badge').innerText = contacts.length;
+            tbody.innerHTML = '';
 
-            if (media.length === 0) {
-                adminMediaTbody.innerHTML = '<tr><td colspan="7" class="empty-table-text">No media records found.</td></tr>';
+            if (contacts.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;">No contact inquiries received yet.</td></tr>';
                 return;
             }
 
-            media.forEach((item, index) => {
+            contacts.forEach(c => {
                 const tr = document.createElement('tr');
+                const dateStr = c.timestamp && c.timestamp.toDate ? c.timestamp.toDate().toLocaleString() : 'Recent';
                 tr.innerHTML = `
-                    <td>
-                        <div class="reorder-btns">
-                            <button class="order-btn" onclick="moveMedia(${index}, -1)" ${index === 0 ? 'disabled' : ''}><i class="fas fa-chevron-up"></i></button>
-                            <button class="order-btn" onclick="moveMedia(${index}, 1)" ${index === media.length - 1 ? 'disabled' : ''}><i class="fas fa-chevron-down"></i></button>
-                        </div>
-                    </td>
-                    <td><img src="${item.image}" alt="Thumb" class="table-thumb" onerror="this.src='bonds.jpg'"></td>
-                    <td><strong class="table-post-title">${item.title}</strong></td>
-                    <td><span class="table-category-tag tag-media">${item.type}</span></td>
-                    <td>${item.date}</td>
-                    <td><span class="author-tag">${item.author || 'Admin'}</span></td>
+                    <td>${dateStr}</td>
+                    <td><strong>${c.name || 'Anonymous'}</strong></td>
+                    <td><a href="tel:${c.phone}" style="color:var(--accent-blue); font-weight:600;">${c.phone || '-'}</a></td>
+                    <td><a href="mailto:${c.email}" style="color:var(--accent-blue);">${c.email || '-'}</a></td>
+                    <td><div class="lead-message-box">${c.message || c.query || '-'}</div></td>
                     <td style="text-align: right;">
-                        <button class="action-btn edit-action" onclick="openEditMedia('${item.id}')"><i class="fas fa-edit"></i> Edit</button>
-                        <button class="action-btn delete-action" onclick="deleteMedia('${item.id}')"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn delete-action" onclick="deleteEntry('contact_inquiries', '${c.id}')"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
-                adminMediaTbody.appendChild(tr);
+                tbody.appendChild(tr);
             });
         }
 
-        function renderInquiriesTable() {
-            const inquiries = getInquiries();
-            inquiryCountBadge.innerText = inquiries.length;
-            adminInquiriesTbody.innerHTML = '';
+        async function renderChatbotLeads() {
+            const tbody = document.getElementById('admin-chatbot-tbody');
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Loading bot logs...</td></tr>';
+            const leads = await fetchCollection('chatbot_leads');
+            document.getElementById('bot-count-badge').innerText = leads.length;
+            tbody.innerHTML = '';
 
-            if (inquiries.length === 0) {
-                adminInquiriesTbody.innerHTML = '<tr><td colspan="6" class="empty-table-text"><i class="fas fa-inbox" style="font-size: 28px; margin-bottom: 8px; display:block;"></i>No customer inquiries recorded yet.</td></tr>';
+            if (leads.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">No chatbot leads captured yet.</td></tr>';
                 return;
             }
 
-            inquiries.forEach((inq) => {
+            leads.forEach(lead => {
                 const tr = document.createElement('tr');
+                const dateStr = lead.timestamp && lead.timestamp.toDate ? lead.timestamp.toDate().toLocaleString() : 'Recent';
                 tr.innerHTML = `
-                    <td><span class="inq-timestamp"><i class="far fa-clock"></i> ${inq.timestamp}</span></td>
-                    <td><strong>${inq.name}</strong></td>
-                    <td><a href="tel:${inq.phone}" class="table-phone-link"><i class="fas fa-phone-alt"></i> ${inq.phone}</a></td>
-                    <td><a href="mailto:${inq.email}" class="table-email-link"><i class="fas fa-envelope"></i> ${inq.email}</a></td>
-                    <td><div class="inq-query-box">${inq.query}</div></td>
+                    <td>${dateStr}</td>
+                    <td><strong>${lead.userName || lead.name || 'Web Visitor'}</strong></td>
+                    <td><a href="tel:${lead.userPhone || lead.phone}" style="color:var(--accent-blue); font-weight:600;">${lead.userPhone || lead.phone || '-'}</a></td>
+                    <td><div class="lead-message-box">${lead.conversationSummary || lead.message || 'Expressed Interest'}</div></td>
                     <td style="text-align: right;">
-                        <button class="action-btn delete-action" onclick="deleteInquiry('${inq.id}')" title="Delete Inquiry"><i class="fas fa-trash"></i></button>
+                        <button class="action-btn delete-action" onclick="deleteEntry('chatbot_leads', '${lead.id}')"><i class="fas fa-trash"></i></button>
                     </td>
                 `;
-                adminInquiriesTbody.appendChild(tr);
+                tbody.appendChild(tr);
             });
         }
 
-        window.deleteInquiry = function(inqId) {
-            if (!confirm('Are you sure you want to delete this customer inquiry?')) return;
-            let inquiries = getInquiries();
-            inquiries = inquiries.filter(i => i.id !== inqId);
-            saveInquiries(inquiries);
-            renderInquiriesTable();
+        window.deleteEntry = async function(colName, id) {
+            if (!confirm(`Are you sure you want to delete this record?`)) return;
+            await deleteDocument(colName, id);
+            if (colName === 'blogs') renderPosts();
+            if (colName === 'contact_inquiries') renderContacts();
+            if (colName === 'chatbot_leads') renderChatbotLeads();
         };
 
-        window.exportInquiriesCSV = function() {
-            const inquiries = getInquiries();
-            if (inquiries.length === 0) {
-                alert('No inquiries available to export.');
+        window.exportDataCSV = async function(colName, filePrefix) {
+            const data = await fetchCollection(colName);
+            if (!data.length) {
+                alert('No records available to export.');
                 return;
             }
+            let csv = "data:text/csv;charset=utf-8,";
+            const keys = Object.keys(data[0]).filter(k => k !== 'id');
+            csv += keys.join(",") + "\n";
 
-            let csvContent = 'data:text/csv;charset=utf-8,Date and Time,Full Name,Phone Number,Email,Query\n';
-            inquiries.forEach(i => {
-                const cleanQuery = `"${i.query.replace(/"/g, '""')}"`;
-                csvContent += `"${i.timestamp}","${i.name}","${i.phone}","${i.email}",${cleanQuery}\n`;
+            data.forEach(item => {
+                let row = keys.map(k => `"${(item[k] || '').toString().replace(/"/g, '""')}"`);
+                csv += row.join(",") + "\n";
             });
 
-            const encodedUri = encodeURI(csvContent);
+            const encoded = encodeURI(csv);
             const link = document.createElement('a');
-            link.setAttribute('href', encodedUri);
-            link.setAttribute('download', `SRH_World_Inquiries_${Date.now()}.csv`);
+            link.setAttribute('href', encoded);
+            link.setAttribute('download', `${filePrefix}_${Date.now()}.csv`);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
         };
 
-        document.getElementById('open-create-blog-modal-btn').addEventListener('click', () => {
-            postEditorForm.reset();
+        /* Blog Modal Hooks */
+        const postModal = document.getElementById('post-modal');
+        const postForm = document.getElementById('post-editor-form');
+
+        document.getElementById('open-create-blog-modal-btn').onclick = () => {
+            postForm.reset();
             document.getElementById('edit-post-id').value = '';
-            document.getElementById('post-date').value = 'August 2026';
-            document.getElementById('post-image').value = 'Equities.jpg';
-            document.getElementById('post-preview-img').src = 'Equities.jpg';
-            document.getElementById('modal-form-title').innerText = 'Create New Blog Post';
-            postModal.classList.add('modal-active');
-        });
-
-        document.getElementById('close-post-modal').addEventListener('click', () => postModal.classList.remove('modal-active'));
-        document.getElementById('cancel-post-modal').addEventListener('click', () => postModal.classList.remove('modal-active'));
-
-        window.openEditPost = function(postId) {
-            const posts = getPosts();
-            const target = posts.find(p => p.id === postId);
-            if (!target) return;
-
-            document.getElementById('edit-post-id').value = target.id;
-            document.getElementById('post-title').value = target.title;
-            document.getElementById('post-category').value = target.category;
-            document.getElementById('post-image').value = target.image;
-            document.getElementById('post-preview-img').src = target.image;
-            document.getElementById('post-date').value = target.date;
-            document.getElementById('post-excerpt').value = target.excerpt;
-            document.getElementById('post-content').value = target.content;
-
-            document.getElementById('modal-form-title').innerText = 'Edit Blog Post';
             postModal.classList.add('modal-active');
         };
+        document.getElementById('close-post-modal').onclick = () => postModal.classList.remove('modal-active');
+        document.getElementById('cancel-post-modal').onclick = () => postModal.classList.remove('modal-active');
 
-        postEditorForm.addEventListener('submit', (e) => {
+        postForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const editId = document.getElementById('edit-post-id').value;
-            const posts = getPosts();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerText = 'Publishing...';
+            btn.disabled = true;
 
-            const postData = {
-                id: editId || 'post_' + Date.now(),
+            const post = {
+                id: document.getElementById('edit-post-id').value,
                 title: document.getElementById('post-title').value.trim(),
                 category: document.getElementById('post-category').value,
-                image: document.getElementById('post-image').value.trim() || 'Equities.jpg',
-                date: document.getElementById('post-date').value.trim() || 'August 2026',
+                image: document.getElementById('post-image').value.trim(),
                 excerpt: document.getElementById('post-excerpt').value.trim(),
                 content: document.getElementById('post-content').value.trim(),
-                author: activeUser || 'Admin'
+                date: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+                author: sessionStorage.getItem('srh_session') || 'Admin'
             };
 
-            if (editId) {
-                const idx = posts.findIndex(p => p.id === editId);
-                if (idx !== -1) posts[idx] = postData;
-            } else {
-                posts.unshift(postData);
-            }
-
-            savePosts(posts);
+            await saveBlog(post);
+            btn.innerText = 'Publish to Cloud';
+            btn.disabled = false;
             postModal.classList.remove('modal-active');
-            renderPostsTable();
+            renderPosts();
         });
 
-        document.getElementById('open-create-media-modal-btn').addEventListener('click', () => {
-            mediaEditorForm.reset();
-            document.getElementById('edit-media-id').value = '';
-            document.getElementById('media-date').value = 'August 2026';
-            document.getElementById('media-image').value = 'bonds.jpg';
-            document.getElementById('media-preview-img').src = 'bonds.jpg';
-            document.getElementById('media-modal-form-title').innerText = 'Upload / Add Media Item';
-            mediaModal.classList.add('modal-active');
-        });
 
-        document.getElementById('close-media-modal').addEventListener('click', () => mediaModal.classList.remove('modal-active'));
-        document.getElementById('cancel-media-modal').addEventListener('click', () => mediaModal.classList.remove('modal-active'));
-
-        window.openEditMedia = function(mediaId) {
-            const media = getMedia();
-            const target = media.find(m => m.id === mediaId);
-            if (!target) return;
-
-            document.getElementById('edit-media-id').value = target.id;
-            document.getElementById('media-title').value = target.title;
-            document.getElementById('media-type').value = target.type;
-            document.getElementById('media-image').value = target.image;
-            document.getElementById('media-preview-img').src = target.image;
-            document.getElementById('media-date').value = target.date;
-            document.getElementById('media-link').value = target.link || '';
-            document.getElementById('media-description').value = target.description;
-
-            document.getElementById('media-modal-form-title').innerText = 'Edit Media Item';
-            mediaModal.classList.add('modal-active');
-        };
-
-        mediaEditorForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const editId = document.getElementById('edit-media-id').value;
-            const media = getMedia();
-
-            const mediaData = {
-                id: editId || 'media_' + Date.now(),
-                title: document.getElementById('media-title').value.trim(),
-                type: document.getElementById('media-type').value,
-                image: document.getElementById('media-image').value.trim() || 'bonds.jpg',
-                date: document.getElementById('media-date').value.trim() || 'August 2026',
-                link: document.getElementById('media-link').value.trim(),
-                description: document.getElementById('media-description').value.trim(),
-                author: activeUser || 'Admin'
-            };
-
-            if (editId) {
-                const idx = media.findIndex(m => m.id === editId);
-                if (idx !== -1) media[idx] = mediaData;
-            } else {
-                media.unshift(mediaData);
-            }
-
-            saveMedia(media);
-            mediaModal.classList.remove('modal-active');
-            renderMediaTable();
-        });
-
-        window.deletePost = function(postId) {
-            if (!confirm('Are you sure you want to delete this article?')) return;
-            let posts = getPosts();
-            posts = posts.filter(p => p.id !== postId);
-            savePosts(posts);
-            renderPostsTable();
-        };
-
-        window.movePost = function(index, direction) {
-            const posts = getPosts();
-            const targetIndex = index + direction;
-            if (targetIndex < 0 || targetIndex >= posts.length) return;
-            const temp = posts[index];
-            posts[index] = posts[targetIndex];
-            posts[targetIndex] = temp;
-            savePosts(posts);
-            renderPostsTable();
-        };
-
-        window.deleteMedia = function(mediaId) {
-            if (!confirm('Are you sure you want to delete this media item?')) return;
-            let media = getMedia();
-            media = media.filter(m => m.id !== mediaId);
-            saveMedia(media);
-            renderMediaTable();
-        };
-
-        window.moveMedia = function(index, direction) {
-            const media = getMedia();
-            const targetIndex = index + direction;
-            if (targetIndex < 0 || targetIndex >= media.length) return;
-            const temp = media[index];
-            media[index] = media[targetIndex];
-            media[targetIndex] = temp;
-            saveMedia(media);
-            renderMediaTable();
-        };
-
-        checkAuthState();
     </script>
 </body>
-</html>
+</html> 
