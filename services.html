@@ -11,6 +11,10 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="service.css">
+
+    <!-- Google Firebase SDKs for Cloud Inquiries Sync -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
@@ -63,7 +67,6 @@
                                 <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
                             </ul>
                         </li>
-                        <!-- Updated other-services.html to sme.html -->
                         <li class="nav-item has-horizontal-dropdown">
                             <a href="./sme.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
@@ -234,7 +237,7 @@
 
     </main>
    
-     <!-- Contact & Inquiry -->
+    <!-- Contact & Inquiry -->
     <section class="contact-master-section" id="contact-exim">
         <div class="contact-grid-container">
             <div class="contact-info-column">
@@ -248,7 +251,7 @@
                 </div>
                 <div class="direct-connect-card">
                     <div><h4>Have Immediate Export Queries?</h4><p>Chat directly with our global trade desk on WhatsApp.</p></div>
-                    <a href="https://wa.me/917506151314" target="_blank" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
+                    <a href="https://wa.me/917506151314" target="_blank" rel="noopener noreferrer" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
                 </div>
             </div>
 
@@ -263,10 +266,10 @@
                                 <div class="form-group flex-1"><label for="exim-email">Business Email <span class="required-star">*</span></label><input type="email" id="exim-email" class="form-control" placeholder="e.g. john@company.com" required></div>
                             </div>
                             <div class="form-group"><label for="exim-query">Products Required / Destination Port <span class="required-star">*</span></label><textarea id="exim-query" class="form-control" rows="4" placeholder="Specify products, quantity, and delivery country..." required></textarea></div>
-                            <button type="submit" class="admin-btn-primary full-width-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
+                            <button type="submit" class="admin-btn-primary full-width-btn" id="exim-submit-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
                         </form>
                     </div>
-                    <div id="exim-success-state" class="form-success-flip-card">
+                    <div id="exim-success-state" class="form-success-flip-card" style="display: none;">
                         <div class="big-tick-circle"><i class="fas fa-check"></i></div>
                         <h3 style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;">Inquiry Received!</h3>
                         <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">Thank you for contacting SRH EXIM. Our trade representative will review your request and get back shortly.</p>
@@ -288,7 +291,6 @@
                     <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
-                    <!-- Updated Twitter Logo -->
                     <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
                     <a href="https://wa.me/917506151314" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
@@ -312,7 +314,6 @@
                     </div>
                 </div>
 
-                <!-- Updated Wakad Office -->
                 <div class="footer-office-col">
                     <h4 class="footer-office-heading"><i class="fas fa-city"></i> Wakad Office</h4>
                     <div class="footer-info-item">
@@ -355,7 +356,78 @@
     </a>
 
     <script>
-        // Floating Top Button & Footer Hide for WhatsApp
+        /* -------------------------------------------------------------
+           1. FIREBASE INITIALIZATION
+           ------------------------------------------------------------- */
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
+
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const db = firebase.firestore();
+
+        /* -------------------------------------------------------------
+           2. SERVICE / EXIM FORM TO FIRESTORE ("contact_inquiries")
+           ------------------------------------------------------------- */
+        const eximForm = document.getElementById('exim-inquiry-form');
+        const formInner = document.getElementById('exim-form-inner');
+        const successState = document.getElementById('exim-success-state');
+        const resetBtn = document.getElementById('reset-exim-form-btn');
+        const submitBtn = document.getElementById('exim-submit-btn');
+
+        if (eximForm) {
+            eximForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const nameVal = document.getElementById('exim-name').value.trim();
+                const phoneVal = document.getElementById('exim-phone').value.trim();
+                const emailVal = document.getElementById('exim-email').value.trim();
+                const queryVal = document.getElementById('exim-query').value.trim();
+
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+
+                try {
+                    await db.collection("contact_inquiries").add({
+                        name: nameVal,
+                        phone: phoneVal,
+                        email: emailVal,
+                        message: queryVal,
+                        status: 'New',
+                        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+
+                    formInner.style.display = 'none';
+                    successState.style.display = 'flex';
+                } catch (error) {
+                    console.error("Error submitting inquiry:", error);
+                    alert("Submission error: " + error.message);
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Export Inquiry';
+                }
+            });
+        }
+
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                eximForm.reset();
+                successState.style.display = 'none';
+                formInner.style.display = 'block';
+            });
+        }
+
+        /* -------------------------------------------------------------
+           3. UI HELPERS & MOBILE NAV
+           ------------------------------------------------------------- */
         const topBtn = document.getElementById('services-top-btn');
         const technicalSection = document.getElementById('technical');
         const footerElement = document.getElementById('site-footer');
