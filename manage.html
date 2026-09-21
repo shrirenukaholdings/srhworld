@@ -640,7 +640,6 @@
                     </select>
                 </div>
 
-                <!-- Custom User Image Upload (Direct, No Random Links) -->
                 <div class="form-group">
                     <label>Upload Article Image (Device only)</label>
                     <div class="file-drop-area">
@@ -754,17 +753,17 @@
 
     <script>
         /* -------------------------------------------------------------
-           1. FIREBASE CONFIGURATION (Paste your active keys here)
+           1. FIREBASE CONFIGURATION
            ------------------------------------------------------------- */
-               const firebaseConfig = {
-  apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
-  authDomain: "srhworld-17653.firebaseapp.com",
-  projectId: "srhworld-17653",
-  storageBucket: "srhworld-17653.firebasestorage.app",
-  messagingSenderId: "161943112081",
-  appId: "1:161943112081:web:888219f6314793b3e73230",
-  measurementId: "G-LXZMQZ9NPH"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
@@ -781,7 +780,18 @@
             return `${day}-${month}-${year}`;
         }
 
-        // Image Compressor (Prevents Firestore document payload errors)
+        // Author Display Name Mapper
+        function getAuthorDisplayName() {
+            const user = firebase.auth().currentUser;
+            if (!user) return 'Admin';
+            const email = (user.email || '').toLowerCase();
+            if (email === 'onkard999@gmail.com') return 'Admin';
+            if (email === 'deshpande@srhworld.com') return 'Wasu';
+            if (email === 'mody@srhworld.com') return 'Srushti';
+            return 'Admin';
+        }
+
+        // Image Compressor
         function processImageFile(file, callback) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -856,10 +866,11 @@
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                let displayName = user.email.split('@')[0];
-                if (user.email === 'onkard999@gmail.com') displayName = 'Admin (Onkar)';
-                if (user.email === 'deshpande@srhworld.com') displayName = 'Wasu';
-                if (user.email === 'mody@srhworld.com') displayName = 'Srushti';
+                const email = (user.email || '').toLowerCase();
+                let displayName = 'Admin';
+                if (email === 'onkard999@gmail.com') displayName = 'Admin';
+                if (email === 'deshpande@srhworld.com') displayName = 'Wasu';
+                if (email === 'mody@srhworld.com') displayName = 'Srushti';
                 
                 document.getElementById('current-user-name').innerText = displayName;
                 loginSection.style.display = 'none';
@@ -1000,7 +1011,7 @@
                 excerpt: document.getElementById('post-excerpt').value.trim(),
                 content: document.getElementById('post-content').value.trim(),
                 date: formatStandardDate(new Date()),
-                author: firebase.auth().currentUser ? firebase.auth().currentUser.email.split('@')[0] : 'Admin',
+                author: getAuthorDisplayName(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
@@ -1017,7 +1028,7 @@
         });
 
         /* -------------------------------------------------------------
-           5. MEDIA MANAGEMENT (UPLOAD BUTTON WORKING)
+           5. MEDIA MANAGEMENT
            ------------------------------------------------------------- */
         let cachedMedia = [];
 
@@ -1058,7 +1069,6 @@
         const mediaModal = document.getElementById('media-modal');
         const mediaForm = document.getElementById('media-editor-form');
 
-        // WORKING UPLOAD MEDIA BUTTON
         document.getElementById('open-create-media-modal-btn').onclick = () => {
             mediaForm.reset();
             document.getElementById('edit-media-id').value = '';
@@ -1112,7 +1122,7 @@
                 link: document.getElementById('media-link').value.trim(),
                 description: document.getElementById('media-description').value.trim(),
                 date: formatStandardDate(new Date()),
-                author: firebase.auth().currentUser ? firebase.auth().currentUser.email.split('@')[0] : 'Admin',
+                author: getAuthorDisplayName(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
 
