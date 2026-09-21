@@ -357,7 +357,7 @@ a {
 }
 
 /* ==========================================================
-   LEADERSHIP SECTION (STRICT 1:1 SQUARE FIX)
+   LEADERSHIP SECTION (SQUARE PORTRAITS & BALANCED CARD)
    ========================================================== */
 .leadership-section { 
     max-width: 1240px; 
@@ -394,12 +394,12 @@ a {
 
 .founders-grid { 
     display: grid !important; 
-    grid-template-columns: 1fr 1fr !important; 
+    grid-template-columns: repeat(2, 1fr) !important; 
     gap: 40px !important; 
-    align-items: start !important;
+    align-items: stretch !important;
 }
 
-/* Card container: remove all padding to make image full-bleed */
+/* Card container: full-bleed image top, flex column body */
 .founder-profile-card { 
     background-color: #ffffff !important; 
     border: 1px solid var(--border-color) !important; 
@@ -410,27 +410,33 @@ a {
     flex-direction: column !important; 
     padding: 0 !important;
     margin: 0 !important;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Force container to lock 1:1 using width and aspect-ratio, zeroing out fixed heights */
+.founder-profile-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md) !important;
+}
+
+/* Force container to lock 1:1 square */
 .founder-image-wrapper { 
     position: relative !important; 
     width: 100% !important; 
     height: auto !important; 
     aspect-ratio: 1 / 1 !important; 
-    background-color: #000000 !important; 
+    background-color: #f1f5f9 !important; 
     overflow: hidden !important;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-/* Force image to fill the exact 1:1 box with zero distortion */
+/* Force image to fill 1:1 box with centered focal points */
 .founder-photo { 
     width: 100% !important; 
     height: 100% !important; 
     aspect-ratio: 1 / 1 !important; 
     object-fit: cover !important; 
-    object-position: 50% 15% !important; /* Centers face and avoids cutting off heads */
+    object-position: 50% 15% !important; 
     display: block !important; 
     margin: 0 !important;
     padding: 0 !important;
@@ -470,45 +476,48 @@ a {
     font-weight: 700 !important; 
     color: var(--accent-green) !important; 
     text-transform: uppercase !important; 
+    letter-spacing: 0.5px;
 }
 
-.founder-skills-chips { 
-    display: flex !important; 
-    flex-wrap: wrap !important; 
-    gap: 8px !important; 
-    margin-top: 4px !important; 
+.founder-bio {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    flex-grow: 1; /* Aligns social link row across differing text lengths */
 }
 
-.founder-skills-chips span { 
-    background-color: #f8fafc !important; 
-    border: 1px solid var(--border-color) !important; 
-    color: var(--primary-dark) !important; 
-    font-size: 12px !important; 
-    font-weight: 600 !important; 
-    padding: 4px 10px !important; 
-    border-radius: 6px !important; 
-}
-
+/* Enhanced larger icon sizing & spacing */
 .founder-social-links { 
     display: flex !important; 
-    gap: 12px !important; 
-    margin-top: 8px !important; 
+    gap: 14px !important; 
+    margin-top: 16px !important; 
+    padding-top: 14px !important;
+    border-top: 1px solid #f1f5f9 !important;
 }
 
 .founder-social-links a { 
-    width: 36px !important; 
-    height: 36px !important; 
+    width: 46px !important; 
+    height: 46px !important; 
     border-radius: 50% !important; 
     background-color: #f1f5f9 !important; 
     color: var(--primary-dark) !important; 
     display: inline-flex !important; 
     align-items: center !important; 
     justify-content: center !important; 
-    font-size: 14px !important; 
-    transition: background-color 0.2s ease !important; 
+    font-size: 20px !important; 
+    transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease !important; 
 }
 
-.founder-social-links a:hover { 
+.founder-social-links a:hover {
+    transform: translateY(-2px);
+}
+
+.founder-social-links a[href*="linkedin"]:hover { 
+    background-color: #0A66C2 !important; 
+    color: #ffffff !important; 
+}
+
+.founder-social-links a[href^="mailto:"]:hover { 
     background-color: var(--accent-green) !important; 
     color: #ffffff !important; 
 }
@@ -733,7 +742,7 @@ a {
     .founders-grid,
     .values-grid,
     .footer-offices-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         gap: 30px;
     }
 }
