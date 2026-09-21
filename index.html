@@ -9,6 +9,10 @@
 <link href="./fevicon.png?v=2" rel="apple-touch-icon"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 
+<!-- Google Firebase SDKs for Cloud Sync -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <!-- Standalone Homepage CSS with all Mascot & Assistant Styles -->
 <link href="index.css" rel="stylesheet"/>
 </head>
@@ -135,7 +139,6 @@
     </div>
     <div class="kinetic-split-layout">
         <div class="kinetic-left-scroll">
-            <!-- 1. PMS & Mutual fund -->
             <div class="offer-scroll-card active" data-visual="visual-pms-mf" id="offer-pms-mf">
                 <div class="offer-card-top">
                     <h3 class="offer-card-heading"><i class="fas fa-briefcase"></i> PMS &amp; Mutual fund</h3>
@@ -146,7 +149,6 @@
                 <a class="offer-link-btn" href="./services.html#pms">Explore PMS &amp; Mutual Funds <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- 2. loans & Insurance -->
             <div class="offer-scroll-card" data-visual="visual-loans-insurance" id="offer-loans-insurance">
                 <div class="offer-card-top">
                     <h3 class="offer-card-heading"><i class="fas fa-landmark"></i> Loans &amp; Insurance</h3>
@@ -157,7 +159,6 @@
                 <a class="offer-link-btn" href="./sme.html">Explore Loans &amp; Insurance <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- 3. bonds -->
             <div class="offer-scroll-card" data-visual="visual-bonds" id="offer-bonds">
                 <div class="offer-card-top">
                     <h3 class="offer-card-heading"><i class="fas fa-file-invoice-dollar"></i> Bonds</h3>
@@ -168,7 +169,6 @@
                 <a class="offer-link-btn" href="./products.html#bonds">Explore Bonds <i class="fas fa-arrow-right"></i></a>
             </div>
 
-            <!-- 4. unlisted stocks -->
             <div class="offer-scroll-card" data-visual="visual-unlisted" id="offer-unlisted">
                 <div class="offer-card-top">
                     <h3 class="offer-card-heading"><i class="fas fa-building-columns"></i> Unlisted Stocks</h3>
@@ -181,7 +181,6 @@
         </div>
 
         <div class="kinetic-right-sticky">
-            <!-- 1. PMS & Mutual Fund Visual -->
             <div class="offer-visual-panel active" id="visual-pms-mf">
                 <div class="offer-matrix-card">
                     <div class="offer-matrix-title"><i class="fas fa-briefcase" style="color: #f59e0b;"></i> PMS &amp; Mutual Funds</div>
@@ -194,7 +193,6 @@
                 </div>
             </div>
 
-            <!-- 2. Loans & Insurance Visual -->
             <div class="offer-visual-panel" id="visual-loans-insurance">
                 <div class="offer-matrix-card">
                     <div class="offer-matrix-title"><i class="fas fa-landmark" style="color: #3b82f6;"></i> Loans &amp; Insurance</div>
@@ -207,7 +205,6 @@
                 </div>
             </div>
 
-            <!-- 3. Bonds Visual -->
             <div class="offer-visual-panel" id="visual-bonds">
                 <div class="offer-matrix-card">
                     <div class="offer-matrix-title"><i class="fas fa-file-invoice-dollar" style="color: #38bdf8;"></i> Fixed Income &amp; Bonds</div>
@@ -220,7 +217,6 @@
                 </div>
             </div>
 
-            <!-- 4. Unlisted Stocks Visual -->
             <div class="offer-visual-panel" id="visual-unlisted">
                 <div class="offer-matrix-card">
                     <div class="offer-matrix-title"><i class="fas fa-building-columns" style="color: #10b981;"></i> Unlisted &amp; Pre-IPO</div>
@@ -282,7 +278,12 @@
 <h2 class="section-heading-title">Latest from Our Blogs</h2>
 <a class="view-all-blogs-link" href="./blogs.html">View All Posts <i class="fas fa-arrow-right"></i></a>
 </div>
-<div class="blogs-two-square-grid" id="homepage-blogs-grid"></div>
+<div class="blogs-two-square-grid" id="homepage-blogs-grid">
+    <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+        <i class="fas fa-circle-notch fa-spin" style="font-size: 28px; margin-bottom: 8px; display:block;"></i>
+        Loading latest market insights...
+    </div>
+</div>
 </section>
 
 <!-- 7. Key Partners Section -->
@@ -470,32 +471,79 @@ OPEN FREE DEMAT ACCOUNT
 
 <!-- Scripts Engine -->
 <script>
+    /* -------------------------------------------------------------
+       1. FIREBASE INITIALIZATION FOR HOMEPAGE
+       ------------------------------------------------------------- */
+    const firebaseConfig = {
+        apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+        authDomain: "srhworld-17653.firebaseapp.com",
+        projectId: "srhworld-17653",
+        storageBucket: "srhworld-17653.firebasestorage.app",
+        messagingSenderId: "161943112081",
+        appId: "1:161943112081:web:888219f6314793b3e73230",
+        measurementId: "G-LXZMQZ9NPH"
+    };
+
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
+    const db = firebase.firestore();
+
+    // Standard dd-mmm-yyyy Formatter
+    function formatStandardDate(val) {
+        if (!val) return 'Recent';
+        if (typeof val === 'string' && val.includes('-')) return val;
+        const d = val.toDate ? val.toDate() : new Date(val);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${String(d.getDate()).padStart(2, '0')}-${months[d.getMonth()]}-${d.getFullYear()}`;
+    }
+
     const DEFAULT_HOME_BLOGS = [
         { id: 'post_1', title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: 'August 2026', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles...' },
         { id: 'post_2', title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: 'August 2026', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles...' }
     ];
 
+    /* -------------------------------------------------------------
+       2. REAL-TIME BLOGS LISTENER (FIRESTORE)
+       ------------------------------------------------------------- */
     function renderHomepageLatestBlogs() {
         const grid = document.getElementById('homepage-blogs-grid');
         if (!grid) return;
-        let blogs = [];
-        try {
-            const stored = localStorage.getItem('srh_blogs');
-            blogs = stored ? JSON.parse(stored) : DEFAULT_HOME_BLOGS;
-        } catch (e) { blogs = DEFAULT_HOME_BLOGS; }
-        if (!blogs || blogs.length === 0) blogs = DEFAULT_HOME_BLOGS;
 
+        db.collection("blogs").orderBy("timestamp", "desc").limit(2).onSnapshot((snapshot) => {
+            let blogs = [];
+            if (!snapshot.empty) {
+                blogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } else {
+                blogs = DEFAULT_HOME_BLOGS;
+            }
+            populateBlogCards(blogs);
+        }, (error) => {
+            console.warn("Firestore homepage listener fallback:", error);
+            db.collection("blogs").get().then((snap) => {
+                let fallbackBlogs = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                populateBlogCards(fallbackBlogs.length ? fallbackBlogs.slice(0, 2) : DEFAULT_HOME_BLOGS);
+            }).catch(() => populateBlogCards(DEFAULT_HOME_BLOGS));
+        });
+    }
+
+    function populateBlogCards(blogs) {
+        const grid = document.getElementById('homepage-blogs-grid');
+        if (!grid) return;
         grid.innerHTML = '';
         blogs.slice(0, 2).forEach(blog => {
             const article = document.createElement('article');
             article.className = 'blog-square-card';
+            const displayDate = formatStandardDate(blog.date);
+            const imageSrc = blog.image || 'Equities.jpg';
+            
             article.innerHTML = `
                 <div class="blog-image-frame">
-                    <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
+                    <img src="${imageSrc}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
                     <span class="blog-category-badge">${blog.category || 'Insights'}</span>
                 </div>
                 <div class="blog-body-content">
-                    <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${blog.date || 'August 2026'} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
+                    <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${displayDate} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
                     <h3 class="blog-article-title">${blog.title}</h3>
                     <p class="blog-summary-text">${blog.excerpt || ''}</p>
                     <a href="./blogs.html" class="blog-read-btn">Read Full Article <i class="fas fa-arrow-right"></i></a>
@@ -503,6 +551,24 @@ OPEN FREE DEMAT ACCOUNT
             `;
             grid.appendChild(article);
         });
+    }
+
+    /* -------------------------------------------------------------
+       3. SAVE CHATBOT LEADS DIRECTLY TO FIREBASE
+       ------------------------------------------------------------- */
+    async function saveChatbotLeadToCloud(leadObj) {
+        try {
+            await db.collection("chatbot_leads").add({
+                userName: leadObj.name || "Website Visitor",
+                userPhone: leadObj.mobile || "Not Provided",
+                conversationSummary: `Interested in: ${leadObj.interest || "General Advisory"}`,
+                date: formatStandardDate(new Date()),
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+            console.log("Chatbot lead saved to Firebase.");
+        } catch (err) {
+            console.error("Error pushing chatbot lead:", err);
+        }
     }
 
     function setupContinuousMarquee(trackId) {
@@ -609,7 +675,6 @@ OPEN FREE DEMAT ACCOUNT
         const footerElement = document.getElementById('site-footer');
         const header = document.getElementById('header-sticky-wrapper');
 
-        // Always keep the header pinned & visible on screen
         if (header && !header.classList.contains('header-visible')) {
             header.classList.add('header-visible');
         }
@@ -881,7 +946,7 @@ OPEN FREE DEMAT ACCOUNT
     })();
 
     /* =========================================================
-       DOJI CHAT PANEL OPEN/CLOSE & MESSAGING
+       DOJI CHAT PANEL OPEN/CLOSE & FIREBASE LEAD CAPTURE
        ========================================================= */
     const assistantPanel = document.getElementById('srh-assistant-panel');
     const assistantClose = document.getElementById('srh-assistant-close');
@@ -953,6 +1018,10 @@ OPEN FREE DEMAT ACCOUNT
             const digits = text.replace(/\D/g, '');
             if (digits.length >= 10) {
                 assistantLead.mobile = digits.slice(-10);
+                
+                // PUSH LEAD LIVE TO FIRESTORE
+                saveChatbotLeadToCloud(assistantLead);
+
                 addChatMessage('Thank you! Our advisory desk will get in touch with you shortly.');
                 renderQuickChips(['Chat on WhatsApp']);
             } else {
