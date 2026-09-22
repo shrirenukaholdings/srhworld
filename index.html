@@ -118,8 +118,8 @@
 </div>
 <div class="hero-sticky-container">
 <div class="hero-video-layer" id="hero-video-layer">
-<video autoplay="" class="hero-banner-video" id="hero-scroll-video" muted="" playsinline="" preload="metadata">
-<source src="banner.mp4" type="video/mp4"/>
+<video autoplay class="hero-banner-video" id="hero-scroll-video" playsinline preload="metadata">
+  <source src="banner.mp4" type="video/mp4"/>
 </video>
 <div class="hero-text-overlay">
 <div class="hero-statement statement-1">Build your path to financial stability</div>
@@ -820,33 +820,32 @@ OPEN FREE DEMAT ACCOUNT
 
         const video = document.getElementById('hero-scroll-video');
         const videoLayer = document.getElementById('hero-video-layer');
-        if (video) video.playbackRate = 1.5;
 
-        // -------------------------------------------------------------
-        // UNMUTE ON HOVER (STAYS UNMUTED WHEN LEAVING)
-        // -------------------------------------------------------------
-        function activateVideoSound() {
-            if (video && video.muted) {
-                video.muted = false;
-                video.volume = 1.0;
+        if (video) {
+            video.playbackRate = 1.5;
+            video.muted = false; // Attempt direct unmuted playback
+
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Fallback: If the browser blocks unmuted audio, play muted first
+                    video.muted = true;
+                    video.play();
+
+                    // Unmute automatically on the user's first click anywhere on the page
+                    window.addEventListener('click', () => {
+                        video.muted = false;
+                    }, { once: true });
+                });
             }
         }
-
-        if (videoLayer) {
-            videoLayer.addEventListener('mouseenter', activateVideoSound, { once: true });
-        }
-
-        // Mobile / Interaction fallback
-        ['click', 'touchstart', 'scroll'].forEach(evt => {
-            window.addEventListener(evt, activateVideoSound, { once: true });
-        });
 
         setTimeout(() => {
             if (videoLayer) videoLayer.classList.add('video-fade-out');
             setTimeout(() => { if (video) video.pause(); }, 2400);
         }, 3500);
     });
-
+    
     /* =========================================================
        MASCOT & DOJI INTERACTIVE LOGIC
        ========================================================= */
