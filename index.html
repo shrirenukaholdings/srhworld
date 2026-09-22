@@ -148,7 +148,6 @@
                 <a class="offer-link-btn" href="./services.html#pms">Explore PMS &amp; Mutual Funds <i class="fas fa-arrow-right"></i></a>
             </div>
 
-           
             <div class="offer-scroll-card" data-visual="visual-bonds" id="offer-bonds">
                 <div class="offer-card-top">
                     <h3 class="offer-card-heading"><i class="fas fa-file-invoice-dollar"></i> Bonds</h3>
@@ -232,7 +231,7 @@
     </div>
 </section>
 
-<!-- 4. CTA Video Section (Muted + Playsinline + Autoplay observer enabled) -->
+<!-- 4. CTA Video Section -->
 <section class="cta-video-section-block" id="cta-video-block">
 <div class="cta-video-inner-layout">
 <div class="cta-text-side">
@@ -783,10 +782,8 @@ OPEN FREE DEMAT ACCOUNT
         });
     }
 
-    // Expand / Collapse category dropdowns smoothly on click
     document.querySelectorAll('.has-horizontal-dropdown > .nav-link').forEach(link => {
         link.addEventListener('click', function(e) {
-            // Always toggle dropdown menu on click
             e.preventDefault();
             e.stopPropagation();
 
@@ -794,7 +791,6 @@ OPEN FREE DEMAT ACCOUNT
             const dropdown = parentItem.querySelector('.horizontal-dropdown');
             const arrow = this.querySelector('.mobile-arrow');
 
-            // Close other sibling dropdowns for clean accordion behavior
             document.querySelectorAll('.has-horizontal-dropdown').forEach(item => {
                 if (item !== parentItem) {
                     const otherDropdown = item.querySelector('.horizontal-dropdown');
@@ -804,13 +800,11 @@ OPEN FREE DEMAT ACCOUNT
                 }
             });
 
-            // Toggle selected dropdown
             if (dropdown) dropdown.classList.toggle('submenu-visible');
             if (arrow) arrow.classList.toggle('rotate-arrow');
         });
     });
 
-    // Close menu when clicking anywhere outside
     document.addEventListener('click', (e) => {
         if (headerNavigationMenu && !headerNavigationMenu.contains(e.target) && e.target !== menuToggleBtn) {
             headerNavigationMenu.classList.remove('mobile-open');
@@ -823,9 +817,30 @@ OPEN FREE DEMAT ACCOUNT
         renderHomepageLatestBlogs();
         initCtaVideoController();
         syncFloatingButtons();
+
         const video = document.getElementById('hero-scroll-video');
         const videoLayer = document.getElementById('hero-video-layer');
         if (video) video.playbackRate = 1.5;
+
+        // -------------------------------------------------------------
+        // UNMUTE ON HOVER (STAYS UNMUTED WHEN LEAVING)
+        // -------------------------------------------------------------
+        function activateVideoSound() {
+            if (video && video.muted) {
+                video.muted = false;
+                video.volume = 1.0;
+            }
+        }
+
+        if (videoLayer) {
+            videoLayer.addEventListener('mouseenter', activateVideoSound, { once: true });
+        }
+
+        // Mobile / Interaction fallback
+        ['click', 'touchstart', 'scroll'].forEach(evt => {
+            window.addEventListener(evt, activateVideoSound, { once: true });
+        });
+
         setTimeout(() => {
             if (videoLayer) videoLayer.classList.add('video-fade-out');
             setTimeout(() => { if (video) video.pause(); }, 2400);
