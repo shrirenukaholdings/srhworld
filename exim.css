@@ -838,12 +838,12 @@
     top: 50%;
     left: 50%;
     /* Gives the video extra width so we can translate/pan it without black bars */
-    min-width: 135%;
-    min-height: 135%;
+    min-width: 125%;
+    min-height: 125%;
     width: auto;
     height: auto;
     /* Shifts the entire video to the left so the ship ends at the left edge */
-    transform: translate(-72%, -50%);
+    transform: translate(-14%, -20%);
     object-fit: cover;
     z-index: 0;
     pointer-events: none;
