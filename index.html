@@ -231,7 +231,7 @@
     </div>
 </section>
 
-<!-- 4. CTA Video Section (Updated with muted, autoplay & playsinline) -->
+<!-- 4. CTA Video Section (Muted + Playsinline + Autoplay observer enabled) -->
 <section class="cta-video-section-block" id="cta-video-block">
 <div class="cta-video-inner-layout">
 <div class="cta-text-side">
@@ -674,7 +674,6 @@ OPEN FREE DEMAT ACCOUNT
         const replayOverlay = document.getElementById('cta-replay-overlay');
         if (!ctaVideo) return;
 
-        // Auto play when scrolled into view
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -770,14 +769,54 @@ OPEN FREE DEMAT ACCOUNT
         });
     }, { passive: true });
 
+    /* =========================================================
+       NAVIGATION BAR & CATEGORY ACCORDION / DROPDOWN CONTROLLER
+       ========================================================= */
     const menuToggleBtn = document.getElementById('menu-toggle-btn');
     const headerNavigationMenu = document.getElementById('header-navigation-menu');
+
     if (menuToggleBtn && headerNavigationMenu) {
         menuToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             headerNavigationMenu.classList.toggle('mobile-open');
         });
     }
+
+    // Expand / Collapse category dropdowns smoothly on click
+    document.querySelectorAll('.has-horizontal-dropdown > .nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Always toggle dropdown menu on click
+            e.preventDefault();
+            e.stopPropagation();
+
+            const parentItem = this.closest('.has-horizontal-dropdown');
+            const dropdown = parentItem.querySelector('.horizontal-dropdown');
+            const arrow = this.querySelector('.mobile-arrow');
+
+            // Close other sibling dropdowns for clean accordion behavior
+            document.querySelectorAll('.has-horizontal-dropdown').forEach(item => {
+                if (item !== parentItem) {
+                    const otherDropdown = item.querySelector('.horizontal-dropdown');
+                    const otherArrow = item.querySelector('.mobile-arrow');
+                    if (otherDropdown) otherDropdown.classList.remove('submenu-visible');
+                    if (otherArrow) otherArrow.classList.remove('rotate-arrow');
+                }
+            });
+
+            // Toggle selected dropdown
+            if (dropdown) dropdown.classList.toggle('submenu-visible');
+            if (arrow) arrow.classList.toggle('rotate-arrow');
+        });
+    });
+
+    // Close menu when clicking anywhere outside
+    document.addEventListener('click', (e) => {
+        if (headerNavigationMenu && !headerNavigationMenu.contains(e.target) && e.target !== menuToggleBtn) {
+            headerNavigationMenu.classList.remove('mobile-open');
+            document.querySelectorAll('.horizontal-dropdown').forEach(d => d.classList.remove('submenu-visible'));
+            document.querySelectorAll('.mobile-arrow').forEach(a => a.classList.remove('rotate-arrow'));
+        }
+    });
 
     window.addEventListener('DOMContentLoaded', () => {
         renderHomepageLatestBlogs();
