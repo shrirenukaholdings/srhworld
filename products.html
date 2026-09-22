@@ -12,12 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Smooth scrolling */
-        html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 85px;
-        }
-
         /* Card Stacking (Slide-Over) Architecture */
         .products-stack-deck {
             position: relative;
@@ -153,7 +147,7 @@
                             <a href="./products.html" class="nav-link active">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
                                 <li><a href="./products.html#equity"><i class="fas fa-chart-line dropdown-icon"></i> Equity</a></li>
-                                <li><a href="./products.html#mutual-funds"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds & SIF</a></li>
+                                <li><a href="./products.html#mutual-funds"><i class="fas fa-pie-chart dropdown-icon"></i> Mutual Funds</a></li>
                                 <li><a href="./products.html#aif"><i class="fas fa-layer-group dropdown-icon"></i> Alternative Investment Funds (AIFs)</a></li>
                                 <li><a href="./products.html#bonds"><i class="fas fa-file-invoice-dollar dropdown-icon"></i> Bonds</a></li>
                                 <li><a href="./products.html#ncd"><i class="fas fa-certificate dropdown-icon"></i> Non-Convertible Debentures (NCD)</a></li>
@@ -176,6 +170,7 @@
                                 <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
                             </ul>
                         </li>
+                        <!-- Updated other-services.html to sme.html -->
                         <li class="nav-item has-horizontal-dropdown">
                             <a href="./sme.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
@@ -204,7 +199,7 @@
     <!-- Side Quick-Jump Anchor Nav -->
     <nav class="services-anchor-nav" aria-label="Products Navigation">
         <a href="#equity" class="anchor-dot active" title="Equities"><span>Equities</span></a>
-        <a href="#mutual-funds" class="anchor-dot" title="Mutual Funds & SIF"><span>Mutual Funds</span></a>
+        <a href="#mutual-funds" class="anchor-dot" title="Mutual Funds"><span>Mutual Funds</span></a>
         <a href="#aif" class="anchor-dot" title="Alternative Investment Funds"><span>AIFs</span></a>
         <a href="#bonds" class="anchor-dot" title="Bonds & Fixed Income"><span>Bonds</span></a>
         <a href="#ncd" class="anchor-dot" title="Non-Convertible Debentures"><span>NCDs</span></a>
@@ -251,21 +246,15 @@
             </div>
         </section>
 
-        <!-- 2. MUTUAL FUNDS & SIF -->
+        <!-- 2. MUTUAL FUNDS -->
         <section class="stack-slide" id="mutual-funds">
             <div class="service-slide-container">
                 <div class="service-content-card">
                     <div class="service-tag-chip"><i class="fas fa-pie-chart"></i> Managed Funds</div>
-                    <h2 class="service-main-heading">Mutual Funds & SIF</h2>
+                    <h2 class="service-main-heading">Mutual Funds</h2>
                     <div class="service-body-copy">
                         <p>Indian mutual fund houses offer multiple types of schemes like equity, debt, and balanced funds. Within these categories, you can choose large, medium, and small cap funds, index funds, and many more options. Our team constantly reviews various schemes and identifies the best products based on multiple parameters like historical performance, investment portfolio, fund manager experience, and expense ratio.</p>
-                        <p><strong>Specialized Investment Funds (SIF):</strong> In addition to vanilla mutual funds, we facilitate Specialized Investment Funds designed for targeted thematic exposures and rule-driven investment strategies. SIF structures bridge standard diversified funds and alternative high-conviction portfolios, allowing investors to participate in niche sector transformations and tactical macro cycles.</p>
                         <p class="service-highlight-note">We provide clients with systematic investment plans, systematic transfer plans, and systematic withdrawal plans to meet their changing financial goals over the years.</p>
-                    </div>
-                    <div class="service-pill-list">
-                        <span><i class="fas fa-check-circle"></i> Equity, Hybrid & Debt Schemes</span>
-                        <span><i class="fas fa-check-circle"></i> Specialized Investment Funds (SIF)</span>
-                        <span><i class="fas fa-check-circle"></i> Systematic Plans (SIP, STP, SWP)</span>
                     </div>
                     <div class="service-action-bar">
                         <a href="./sip-calculator.html" class="admin-btn-primary"><i class="fas fa-calculator"></i> Calculate SIP / SWP</a>
@@ -276,12 +265,12 @@
                     <div class="visual-glass-card">
                         <div class="visual-card-header"><i class="fas fa-pie-chart" style="color: #10b981;"></i> <span>Scheme Selection Matrix</span></div>
                         <div class="allocation-bars">
-                            <div class="alloc-item"><div class="alloc-labels"><span>Large & Mid Cap Funds</span><strong>35%</strong></div><div class="alloc-progress"><span style="width: 35%; background: #2563eb;"></span></div></div>
-                            <div class="alloc-item"><div class="alloc-labels"><span>Specialized Funds (SIF) & Thematic</span><strong>25%</strong></div><div class="alloc-progress"><span style="width: 25%; background: #06b6d4;"></span></div></div>
-                            <div class="alloc-item"><div class="alloc-labels"><span>Small Cap & Mid Cap Growth</span><strong>25%</strong></div><div class="alloc-progress"><span style="width: 25%; background: #10b981;"></span></div></div>
-                            <div class="alloc-item"><div class="alloc-labels"><span>Debt, Liquid & Dynamic</span><strong>15%</strong></div><div class="alloc-progress"><span style="width: 15%; background: #64748b;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Large & Mid Cap Funds</span><strong>40%</strong></div><div class="alloc-progress"><span style="width: 40%; background: #2563eb;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Small Cap & Thematic</span><strong>25%</strong></div><div class="alloc-progress"><span style="width: 25%; background: #10b981;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Index & Dynamic Allocation</span><strong>20%</strong></div><div class="alloc-progress"><span style="width: 20%; background: #f59e0b;"></span></div></div>
+                            <div class="alloc-item"><div class="alloc-labels"><span>Debt & Liquid Funds</span><strong>15%</strong></div><div class="alloc-progress"><span style="width: 15%; background: #64748b;"></span></div></div>
                         </div>
-                        <div class="visual-stat-pill"><i class="fas fa-repeat"></i> Active SIP, STP & SIF Management</div>
+                        <div class="visual-stat-pill"><i class="fas fa-repeat"></i> Active SIP, STP & SWP Management</div>
                     </div>
                 </div>
             </div>
@@ -543,6 +532,7 @@
                     <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
+                    <!-- Updated Twitter Logo -->
                     <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
                     <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
@@ -566,6 +556,7 @@
                     </div>
                 </div>
 
+                <!-- Updated Wakad Office -->
                 <div class="footer-office-col">
                     <h4 class="footer-office-heading"><i class="fas fa-city"></i> Wakad Office</h4>
                     <div class="footer-info-item">
@@ -597,7 +588,7 @@
         </div>
     </footer>
 
-    <!-- Floating Top Button -->
+    <!-- Floating Top Button (Appears only after scrolling past Mutual Funds section) -->
     <button class="back-to-catalogue-btn" id="products-top-btn" aria-label="Back to Top">
         <i class="fas fa-arrow-up"></i> <span>Top</span>
     </button>
@@ -615,6 +606,7 @@
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
 
         function handleScrollEvents() {
+            // 1. Top button appears only after scrolling below Mutual Funds
             if (topBtn && mutualFundsSection) {
                 const mfRect = mutualFundsSection.getBoundingClientRect();
                 if (mfRect.bottom <= 120) {
@@ -624,6 +616,7 @@
                 }
             }
 
+            // 2. Hide WhatsApp when footer is in view
             if (footerElement && floatingWhatsApp) {
                 if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
                     floatingWhatsApp.classList.add('hide-floating-btn');
@@ -656,86 +649,42 @@
         }, { threshold: 0.25 });
         slides.forEach(slide => slideObserver.observe(slide));
 
-        // Universal Navigation Menu & Dropdown Handling
+        // Universal Navigation Menu & Dropdowns
         const menuToggleBtn = document.getElementById('menu-toggle-btn');
         const headerNavigationMenu = document.getElementById('header-navigation-menu');
-
-        function closeMobileMenu() {
-            if (headerNavigationMenu && menuToggleBtn) {
-                headerNavigationMenu.classList.remove('mobile-open');
-                menuToggleBtn.querySelector('i').className = 'fas fa-bars';
-            }
-        }
-
         if (menuToggleBtn && headerNavigationMenu) {
             menuToggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 headerNavigationMenu.classList.toggle('mobile-open');
                 menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
             });
-
-            // Handle parent dropdown arrows/clicks
             document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
-                    const isCurrentPage = anchor.getAttribute('href').replace('./', '').split('#')[0] === window.location.pathname.split('/').pop().replace('./', '');
-                    
-                    // On mobile, clicking toggles the sub-menu accordion
-                    if (window.innerWidth <= 992) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const currentDropdown = anchor.nextElementSibling;
-                        const arrow = anchor.querySelector('.mobile-arrow');
-                        if (currentDropdown) {
-                            const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
-                            document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
-                            document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
-                            if (!isAlreadyOpen) {
-                                currentDropdown.classList.add('submenu-visible');
-                                if (arrow) arrow.classList.add('rotate-arrow');
-                            }
-                        }
-                    } else if (isCurrentPage) {
-                        // Desktop same page: smooth scroll to top
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    }
-                });
-            });
-
-            // Smooth jump and close menu for all internal hash links (e.g., ./products.html#mutual-funds)
-            document.querySelectorAll('#header-navigation-menu a[href*="#"]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    const href = link.getAttribute('href');
-                    const hashIndex = href.indexOf('#');
-                    if (hashIndex !== -1) {
-                        const targetId = href.substring(hashIndex + 1);
-                        const targetElement = document.getElementById(targetId);
-                        if (targetElement) {
-                            e.preventDefault();
-                            closeMobileMenu();
-                            
-                            // Calculate proper offset for sticky header (75px)
-                            const headerOffset = 75;
-                            const elementPosition = targetElement.getBoundingClientRect().top;
-                            const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                            window.scrollTo({
-                                top: offsetPosition,
-                                behavior: 'smooth'
-                            });
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const currentDropdown = anchor.nextElementSibling;
+                    const arrow = anchor.querySelector('.mobile-arrow');
+                    if (currentDropdown) {
+                        const isAlreadyOpen = currentDropdown.classList.contains('submenu-visible');
+                        document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+                        document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+                        if (!isAlreadyOpen) {
+                            currentDropdown.classList.add('submenu-visible');
+                            if (arrow) arrow.classList.add('rotate-arrow');
                         }
                     }
                 });
             });
-
-            // Close menu on ordinary outgoing link clicks
-            document.querySelectorAll('#header-navigation-menu a:not([href*="#"]):not(.has-horizontal-dropdown > a)').forEach(link => {
-                link.addEventListener('click', closeMobileMenu);
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                });
             });
-
-            // Outside click closes menu
             document.addEventListener('click', (e) => {
                 if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
-                    closeMobileMenu();
+                    headerNavigationMenu.classList.remove('mobile-open');
+                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
                 }
             });
         }
