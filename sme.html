@@ -437,9 +437,8 @@
 
                     <div class="service-pill-list">
 
-                        
                         <span>
-                           <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle"></i>
                             Home Loan
                             <i class="fas fa-check-circle"></i>
                             Home Loan (Top-Up & Balance Transfer)
@@ -451,7 +450,6 @@
                             <i class="fas fa-check-circle"></i>
                             LAP (Loans,Top-Up & Balance Transfer)
                         </span>
-
 
                         <span>
                             <i class="fas fa-check-circle"></i>
@@ -470,10 +468,9 @@
                         <span>
                             <i class="fas fa-check-circle"></i>
                             Construction Finance
-                              <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle"></i>
                             SME Loans
                         </span>
-
 
                     </div>
 
@@ -650,7 +647,6 @@
                             relationships.
                         </p>
 
-
                     </div>
 
 
@@ -669,7 +665,6 @@
                             <i class="fas fa-check-circle"></i>
                             Equipment Funding
                         </span>
-
 
                         <span>
                             <i class="fas fa-check-circle"></i>
@@ -1712,6 +1707,47 @@
         window.addEventListener('DOMContentLoaded', handleScrollEvents);
 
         /* ---------------------------------------------------------
+           Robust Section Scroller Helper
+           Calculates absolute vertical offset in sticky deck
+           --------------------------------------------------------- */
+        function navigateToSection(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (!targetElement) return;
+
+            const isDesktopStack = window.innerWidth > 992;
+            const headerHeight = 75;
+
+            if (isDesktopStack) {
+                // In sticky stack deck, calculate index position inside parent deck
+                const deck = document.querySelector('.products-stack-deck');
+                const slidesList = Array.from(deck.querySelectorAll('.stack-slide'));
+                const targetIndex = slidesList.indexOf(targetElement);
+
+                if (targetIndex !== -1) {
+                    const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
+                    // First slide sits at deck top; subsequent slides scroll 1 full viewport each
+                    const targetScrollPos = (targetIndex === 0)
+                        ? (deckTop - headerHeight)
+                        : (deckTop + (targetIndex * window.innerHeight));
+
+                    window.scrollTo({
+                        top: Math.max(0, targetScrollPos),
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // On mobile/tablet, native scroll with offset margin
+                const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                    top: elementTop - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            history.pushState(null, null, `#${targetId}`);
+        }
+
+        /* ---------------------------------------------------------
            Side Anchor Observer for Stacking Sections
            --------------------------------------------------------- */
         const slides = document.querySelectorAll('.stack-slide');
@@ -1730,14 +1766,34 @@
 
         slides.forEach(slide => slideObserver.observe(slide));
 
+        /* Side Dots Click Navigation */
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = dot.getAttribute('href').replace('#', '');
+                navigateToSection(targetId);
+            });
+        });
+
         /* ---------------------------------------------------------
            Universal Navigation Menu & Dropdowns
            --------------------------------------------------------- */
         const menuToggleBtn = document.getElementById('menu-toggle-btn');
         const headerNavigationMenu = document.getElementById('header-navigation-menu');
 
+        function closeNavMenu() {
+            if (!headerNavigationMenu) return;
+            headerNavigationMenu.classList.remove('mobile-open');
+            document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+            document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+            if (menuToggleBtn) {
+                const icon = menuToggleBtn.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+
         if (menuToggleBtn && headerNavigationMenu) {
-            /* Mobile menu */
+            /* Mobile menu hamburger toggle */
             menuToggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 headerNavigationMenu.classList.toggle('mobile-open');
@@ -1747,7 +1803,7 @@
                         : 'fas fa-bars';
             });
 
-            /* Dropdowns */
+            /* Submenu parent dropdown toggle */
             document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -1777,19 +1833,34 @@
                 });
             });
 
-            /* Close mobile menu after normal link */
-            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
-                link.addEventListener('click', () => {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+            /* Handle Dropdown Links for Same-Page Hash Navigation (#loans, #msme, etc.) */
+            document.querySelectorAll('.horizontal-dropdown a').forEach(dropdownLink => {
+                dropdownLink.addEventListener('click', (e) => {
+                    const href = dropdownLink.getAttribute('href');
+
+                    if (href && (href.startsWith('#') || href.includes('sme.html#'))) {
+                        const targetId = href.split('#')[1];
+                        if (targetId && document.getElementById(targetId)) {
+                            e.preventDefault();
+                            navigateToSection(targetId);
+                        }
+                    }
+
+                    closeNavMenu();
                 });
             });
 
-            /* Click outside */
+            /* Close mobile menu when normal navigation links are clicked */
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a):not(.horizontal-dropdown a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    closeNavMenu();
+                });
+            });
+
+            /* Click outside to collapse menu */
             document.addEventListener('click', (e) => {
                 if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                    closeNavMenu();
                 }
             });
         }
