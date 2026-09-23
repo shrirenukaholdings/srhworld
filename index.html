@@ -118,6 +118,7 @@
 </div>
 <div class="hero-sticky-container">
 <div class="hero-video-layer" id="hero-video-layer">
+<!-- Added muted and preload="auto" to guarantee cross-browser autoplay compliance -->
 <video autoplay muted playsinline preload="auto" class="hero-banner-video" id="hero-scroll-video">
   <source src="banner.mp4" type="video/mp4"/>
 </video>
@@ -241,6 +242,7 @@
 </div>
 <div class="cta-video-side">
 <div class="cta-video-box-wrapper" style="position: relative;">
+<!-- Removed hardcoded muted attribute so audio plays if policy permits -->
 <video id="cta-scroll-video" playsinline preload="auto">
 <source src="cta.mp4" type="video/mp4"/>
 </video>
@@ -668,62 +670,58 @@ OPEN FREE DEMAT ACCOUNT
     initInfiniteCarousel('services-slider-track', 0.6);
 
     /* =========================================================
-      /* =========================================================
-   CTA VIDEO SCROLL AUTOPLAY OBSERVER & REPLAY
-   ========================================================= */
-function initCtaVideoController() {
-    const ctaVideo = document.getElementById('cta-scroll-video');
-    const replayOverlay = document.getElementById('cta-replay-overlay');
-    if (!ctaVideo) return;
+       CTA VIDEO SCROLL AUTOPLAY OBSERVER & REPLAY
+       ========================================================= */
+    function initCtaVideoController() {
+        const ctaVideo = document.getElementById('cta-scroll-video');
+        const replayOverlay = document.getElementById('cta-replay-overlay');
+        if (!ctaVideo) return;
 
-    let hasUnmutedOnce = false;
+        let hasUnmutedOnce = false;
 
-    // Helper function to play video unmuted if allowed
-    const playWithAudio = () => {
-        ctaVideo.muted = false;
-        const playPromise = ctaVideo.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                // If browser blocks unmuted autoplay, play muted first
-                ctaVideo.muted = true;
-                ctaVideo.play();
+        const playWithAudio = () => {
+            ctaVideo.muted = false;
+            const playPromise = ctaVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Browser policy blocked unmuted sound -> Play muted first
+                    ctaVideo.muted = true;
+                    ctaVideo.play();
 
-                // Unmute automatically upon the user's first click anywhere on the page
-                if (!hasUnmutedOnce) {
-                    window.addEventListener('click', () => {
-                        ctaVideo.muted = false;
-                        hasUnmutedOnce = true;
-                    }, { once: true });
+                    // Automatically unmute when user interacts with document
+                    if (!hasUnmutedOnce) {
+                        window.addEventListener('click', () => {
+                            ctaVideo.muted = false;
+                            hasUnmutedOnce = true;
+                        }, { once: true });
+                    }
+                });
+            }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    playWithAudio();
+                } else {
+                    ctaVideo.pause();
                 }
             });
-        }
-    };
+        }, { threshold: 0.35 });
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                playWithAudio();
-            } else {
-                ctaVideo.pause();
-            }
+        observer.observe(ctaVideo);
+
+        ctaVideo.addEventListener('ended', () => {
+            if (replayOverlay) replayOverlay.style.display = 'flex';
         });
-    }, { threshold: 0.35 });
 
-    observer.observe(ctaVideo);
-
-    ctaVideo.addEventListener('ended', () => {
-        if (replayOverlay) replayOverlay.style.display = 'flex';
-    });
-
-    if (replayOverlay) {
-        replayOverlay.addEventListener('click', () => {
-            replayOverlay.style.display = 'none';
-            ctaVideo.currentTime = 0;
-            ctaVideo.muted = false; // Always unmuted on direct user click
-            ctaVideo.play();
-        });
-    }
-}
+        if (replayOverlay) {
+            replayOverlay.addEventListener('click', () => {
+                replayOverlay.style.display = 'none';
+                ctaVideo.currentTime = 0;
+                ctaVideo.muted = false; // Always unmuted on direct user tap/click
+                ctaVideo.play();
+            });
         }
     }
 
@@ -840,6 +838,9 @@ function initCtaVideoController() {
         }
     });
 
+    /* =========================================================
+       DOM INITIALIZATION & HERO VIDEO FAILSAFE CONTROLLER
+       ========================================================= */
     window.addEventListener('DOMContentLoaded', () => {
         renderHomepageLatestBlogs();
         initCtaVideoController();
@@ -849,28 +850,46 @@ function initCtaVideoController() {
         const videoLayer = document.getElementById('hero-video-layer');
 
         if (video) {
+            // Keep muted so modern browsers decode and run frames without blocking
+            video.muted = true;
             video.playbackRate = 1.5;
-            video.muted = false; // Attempt direct unmuted playback
 
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Fallback: If the browser blocks unmuted audio, play muted first
-                    video.muted = true;
-                    video.play();
+            const triggerHeroPlay = () => {
+                const playPromise = video.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        // Strict touch devices: force play on the very first gesture
+                        const gestureTrigger = () => {
+                            video.play();
+                            window.removeEventListener('pointerdown', gestureTrigger);
+                            window.removeEventListener('scroll', gestureTrigger);
+                        };
+                        window.addEventListener('pointerdown', gestureTrigger, { once: true });
+                        window.addEventListener('scroll', gestureTrigger, { once: true });
+                    });
+                }
+            };
 
-                    // Unmute automatically on the user's first click anywhere on the page
-                    window.addEventListener('click', () => {
-                        video.muted = false;
-                    }, { once: true });
-                });
-            }
+            triggerHeroPlay();
+
+            // Unmute seamlessly on user's first tap/click anywhere
+            window.addEventListener('click', () => {
+                video.muted = false;
+            }, { once: true });
+
+            // Fade layer when the video finishes playing
+            video.addEventListener('ended', () => {
+                if (videoLayer) videoLayer.classList.add('video-fade-out');
+            });
+
+            // Smooth fallback fade-out in case of video stall or looping
+            setTimeout(() => {
+                if (videoLayer && !videoLayer.classList.contains('video-fade-out')) {
+                    videoLayer.classList.add('video-fade-out');
+                    setTimeout(() => { if (video) video.pause(); }, 1500);
+                }
+            }, 4500);
         }
-
-        setTimeout(() => {
-            if (videoLayer) videoLayer.classList.add('video-fade-out');
-            setTimeout(() => { if (video) video.pause(); }, 2400);
-        }, 3500);
     });
     
     /* =========================================================
@@ -1120,7 +1139,7 @@ function initCtaVideoController() {
     function handleLocalResponse(text) {
         const lower = text.toLowerCase();
         
-        // 1. Interest check (Equity -> Trading)
+        // 1. Interest check
         if (!assistantLead.interest && /trading|equity|stock|share|mutual|sif|sip|ipo|ofs|nfo|bond|fixed income|unlisted|block deal|loan|finance/i.test(lower)) {
             assistantLead.interest = text;
             addChatMessage('Great choice. We can certainly guide you through that. What is your full name?');
@@ -1134,7 +1153,7 @@ function initCtaVideoController() {
             return;
         }
         
-        // 3. Mobile check -> Now asks for Current City
+        // 3. Mobile check -> Prompts for current city
         if (!assistantLead.mobile) {
             const digits = text.replace(/\D/g, '');
             if (digits.length >= 10) {
@@ -1146,7 +1165,7 @@ function initCtaVideoController() {
             return;
         }
 
-        // 4. Current City check -> Saves lead to Firestore
+        // 4. Current City check -> Commits lead to Firestore
         if (!assistantLead.city) {
             assistantLead.city = text;
             saveChatbotLeadToCloud(assistantLead);
