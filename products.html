@@ -9,114 +9,11 @@
     <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
     <link rel="apple-touch-icon" href="./fevicon.png?v=2">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <style>
-        /* Card Stacking (Slide-Over) Architecture */
-        .products-stack-deck {
-            position: relative;
-            width: 100%;
-            padding-top: 75px;
-        }
-
-        .stack-slide {
-            position: sticky;
-            top: 75px;
-            min-height: calc(100vh - 75px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-            border-top: 1px solid var(--border-color);
-            box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease-out;
-        }
-
-        /* Solid backgrounds & sequential stacking order */
-        .stack-slide:nth-child(1) { background-color: #ffffff; z-index: 1; }
-        .stack-slide:nth-child(2) { background-color: #f8fafc; z-index: 2; }
-        .stack-slide:nth-child(3) { background-color: #ffffff; z-index: 3; }
-        .stack-slide:nth-child(4) { background-color: #f8fafc; z-index: 4; }
-        .stack-slide:nth-child(5) { background-color: #ffffff; z-index: 5; }
-        .stack-slide:nth-child(6) { background-color: #f8fafc; z-index: 6; }
-        .stack-slide:nth-child(7) { background-color: #ffffff; z-index: 7; }
-        .stack-slide:nth-child(8) { background-color: #f8fafc; z-index: 8; }
-        .stack-slide:nth-child(9) { background-color: #ffffff; z-index: 9; }
-
-        /* Client & Sector Specific Grids */
-        .client-chips-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 14px;
-            margin: 18px 0;
-        }
-
-        .client-chip-card {
-            background-color: #f8fafc;
-            border: 1px solid var(--border-color);
-            border-radius: var(--radius-sm);
-            padding: 14px 18px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--primary-dark);
-            box-shadow: var(--shadow-sm);
-        }
-
-        .client-chip-card i {
-            color: var(--accent-green);
-            font-size: 18px;
-        }
-
-        .sector-badge-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .sector-badge {
-            background-color: #0b1120;
-            border: 1px solid #1e293b;
-            color: #e2e8f0;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 12.5px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .sector-badge i {
-            color: #38bdf8;
-            font-size: 13px;
-        }
-
-        @media (max-width: 992px) {
-            .stack-slide {
-                position: relative;
-                top: auto;
-                min-height: auto;
-                padding: 50px 20px;
-                box-shadow: none;
-            }
-            .products-stack-deck {
-                padding-top: 0;
-            }
-            .sector-badge-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 650px) {
-            .sector-badge-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    
+    <!-- External stylesheet -->
+    <link rel="stylesheet" href="product.css">
 </head>
 <body>
 
@@ -170,7 +67,6 @@
                                 <li><a href="./contact.html"><i class="fas fa-handshake dropdown-icon"></i> Block Deal</a></li>
                             </ul>
                         </li>
-                        <!-- Updated other-services.html to sme.html -->
                         <li class="nav-item has-horizontal-dropdown">
                             <a href="./sme.html" class="nav-link">Other Business <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
@@ -253,8 +149,8 @@
                     <div class="service-tag-chip"><i class="fas fa-pie-chart"></i> Managed Funds</div>
                     <h2 class="service-main-heading">Mutual Funds & SIF</h2>
                     <div class="service-body-copy">
-                        <p><strong>Mutual Fund:</strong>Indian mutual fund houses offer multiple types of schemes like equity, debt, and balanced funds. Within these categories, you can choose large, medium, and small cap funds, index funds, and many more options. Our team constantly reviews various schemes and identifies the best products based on multiple parameters like historical performance, investment portfolio, fund manager experience, and expense ratio.</p>
-                        <p class="service-highlight-note"><strong>Specialized Investment Funds (SIF):</strong> Specialized Investment Funds designed for targeted thematic exposures and rule-driven investment strategies. SIF structures bridge standard diversified funds and alternative high-conviction portfolios, allowing investors to participate in niche sector transformations and tactical macro cycles..</p>
+                        <p><strong>Mutual Fund:</strong> Indian mutual fund houses offer multiple types of schemes like equity, debt, and balanced funds. Within these categories, you can choose large, medium, and small cap funds, index funds, and many more options. Our team constantly reviews various schemes and identifies the best products based on multiple parameters like historical performance, investment portfolio, fund manager experience, and expense ratio.</p>
+                        <p class="service-highlight-note"><strong>Specialized Investment Funds (SIF):</strong> Specialized Investment Funds designed for targeted thematic exposures and rule-driven investment strategies. SIF structures bridge standard diversified funds and alternative high-conviction portfolios, allowing investors to participate in niche sector transformations and tactical macro cycles.</p>
                     </div>
                     <div class="service-action-bar">
                         <a href="./sip-calculator.html" class="admin-btn-primary"><i class="fas fa-calculator"></i> Calculate SIP / SWP</a>
@@ -533,7 +429,6 @@
                     <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
-                    <!-- Updated Twitter Logo -->
                     <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
                     <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
                     <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
@@ -557,7 +452,6 @@
                     </div>
                 </div>
 
-                <!-- Updated Wakad Office -->
                 <div class="footer-office-col">
                     <h4 class="footer-office-heading"><i class="fas fa-city"></i> Wakad Office</h4>
                     <div class="footer-info-item">
@@ -589,7 +483,7 @@
         </div>
     </footer>
 
-    <!-- Floating Top Button (Appears only after scrolling past Mutual Funds section) -->
+    <!-- Floating Top Button -->
     <button class="back-to-catalogue-btn" id="products-top-btn" aria-label="Back to Top">
         <i class="fas fa-arrow-up"></i> <span>Top</span>
     </button>
@@ -599,15 +493,17 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- JAVASCRIPT -->
     <script>
-        // Floating Top Button & Footer Hide for WhatsApp
+        /* ---------------------------------------------------------
+           1. Floating Buttons Logic
+           --------------------------------------------------------- */
         const topBtn = document.getElementById('products-top-btn');
         const mutualFundsSection = document.getElementById('mutual-funds');
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
 
         function handleScrollEvents() {
-            // 1. Top button appears only after scrolling below Mutual Funds
             if (topBtn && mutualFundsSection) {
                 const mfRect = mutualFundsSection.getBoundingClientRect();
                 if (mfRect.bottom <= 120) {
@@ -617,7 +513,6 @@
                 }
             }
 
-            // 2. Hide WhatsApp when footer is in view
             if (footerElement && floatingWhatsApp) {
                 if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
                     floatingWhatsApp.classList.add('hide-floating-btn');
@@ -637,9 +532,66 @@
         window.addEventListener('resize', handleScrollEvents, { passive: true });
         window.addEventListener('DOMContentLoaded', handleScrollEvents);
 
-        // Side Anchor Observer for Stacking Sections
+        /* ---------------------------------------------------------
+           2. Dynamic Section Coordinate Engine
+           --------------------------------------------------------- */
+        const targetAliasMap = {
+            'block-deals': 'unlisted',
+            'fixed-income': 'insurance',
+            'ofs': 'market-offers',
+            'nfo': 'market-offers',
+            'ipo': 'market-offers'
+        };
+
+        function navigateToSection(targetId) {
+            const resolvedId = targetAliasMap[targetId] || targetId;
+            const targetElement = document.getElementById(resolvedId);
+            if (!targetElement) return;
+
+            const isDesktopStack = window.innerWidth > 992;
+            const headerHeight = 75;
+
+            if (isDesktopStack) {
+                const deck = document.querySelector('.products-stack-deck');
+                const slidesList = Array.from(deck.querySelectorAll('.stack-slide'));
+                const targetIndex = slidesList.indexOf(targetElement);
+
+                if (targetIndex !== -1) {
+                    const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
+                    
+                    // Sum the real heights of prior slides to avoid overlap/bleed
+                    let cumulativeHeight = 0;
+                    for (let i = 0; i < targetIndex; i++) {
+                        cumulativeHeight += slidesList[i].offsetHeight;
+                    }
+
+                    const targetScrollPos = (targetIndex === 0)
+                        ? (deckTop - headerHeight)
+                        : (deckTop + cumulativeHeight);
+
+                    window.scrollTo({
+                        top: Math.max(0, targetScrollPos),
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // Tablet/Mobile
+                const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                    top: elementTop - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            history.pushState(null, null, `#${targetId}`);
+        }
+
+        /* ---------------------------------------------------------
+           3. Side Quick-Jump Anchor Observer
+           --------------------------------------------------------- */
         const slides = document.querySelectorAll('.stack-slide');
         const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
+        
         const slideObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -647,18 +599,44 @@
                     dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`));
                 }
             });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.35 });
+
         slides.forEach(slide => slideObserver.observe(slide));
 
-        // Universal Navigation Menu & Dropdowns
+        dots.forEach(dot => {
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = dot.getAttribute('href').replace('#', '');
+                navigateToSection(targetId);
+            });
+        });
+
+        /* ---------------------------------------------------------
+           4. Universal Menu & Dropdown Navigation
+           --------------------------------------------------------- */
         const menuToggleBtn = document.getElementById('menu-toggle-btn');
         const headerNavigationMenu = document.getElementById('header-navigation-menu');
+
+        function closeNavMenu() {
+            if (!headerNavigationMenu) return;
+            headerNavigationMenu.classList.remove('mobile-open');
+            document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+            document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+            if (menuToggleBtn) {
+                const icon = menuToggleBtn.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+
         if (menuToggleBtn && headerNavigationMenu) {
             menuToggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 headerNavigationMenu.classList.toggle('mobile-open');
-                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') 
+                    ? 'fas fa-times' 
+                    : 'fas fa-bars';
             });
+
             document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -676,16 +654,32 @@
                     }
                 });
             });
-            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
-                link.addEventListener('click', () => {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+
+            document.querySelectorAll('.horizontal-dropdown a').forEach(dropdownLink => {
+                dropdownLink.addEventListener('click', (e) => {
+                    const href = dropdownLink.getAttribute('href');
+
+                    if (href && (href.startsWith('#') || href.includes('products.html#'))) {
+                        const targetId = href.split('#')[1];
+                        if (targetId) {
+                            e.preventDefault();
+                            navigateToSection(targetId);
+                        }
+                    }
+
+                    closeNavMenu();
                 });
             });
+
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a):not(.horizontal-dropdown a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    closeNavMenu();
+                });
+            });
+
             document.addEventListener('click', (e) => {
                 if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                    closeNavMenu();
                 }
             });
         }
