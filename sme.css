@@ -391,21 +391,6 @@ a {
    5. STICKY CARD STACK / SLIDE-OVER EFFECT
    ========================================================== */
 
-/*
-   This is the effect used on the four service sections.
-
-   Each .stack-slide becomes sticky at the same position.
-   The following section then slides over the previous section
-   as the user scrolls.
-
-   Common names:
-   - Sticky Card Stack
-   - Stacking Cards
-   - Sticky Sections
-   - Slide-Over Sections
-*/
-
-
 .products-stack-deck {
     position: relative;
 
@@ -419,6 +404,9 @@ a {
     position: sticky;
 
     top: 75px;
+
+    /* Prevent slides from sticking behind the fixed header on anchor jumps */
+    scroll-margin-top: 80px;
 
     min-height:
         calc(100vh - 75px);
@@ -1663,6 +1651,8 @@ a {
         padding: 50px 20px;
 
         box-shadow: none;
+
+        scroll-margin-top: 80px;
     }
 
 
