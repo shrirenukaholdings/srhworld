@@ -843,7 +843,7 @@
     width: auto;
     height: auto;
     /* Shifts the entire video to the left so the ship ends at the left edge */
-    transform: translate(-14%, -5%);
+    transform: translate(-14%, -7%);
     object-fit: cover;
     z-index: 0;
     pointer-events: none;
