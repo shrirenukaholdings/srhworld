@@ -355,6 +355,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
+    <!-- JAVASCRIPT -->
     <script>
         /* -------------------------------------------------------------
            1. FIREBASE INITIALIZATION
@@ -426,7 +427,7 @@
         }
 
         /* -------------------------------------------------------------
-           3. UI HELPERS & MOBILE NAV
+           3. UI HELPERS & FLOATING BUTTONS
            ------------------------------------------------------------- */
         const topBtn = document.getElementById('services-top-btn');
         const technicalSection = document.getElementById('technical');
@@ -462,28 +463,142 @@
         window.addEventListener('resize', handleScrollEvents, { passive: true });
         window.addEventListener('DOMContentLoaded', handleScrollEvents);
 
-        // Side Anchor Observer for Stacking Sections
-        const slides = document.querySelectorAll('.stack-slide');
-        const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
-        const slideObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`));
-                }
-            });
-        }, { threshold: 0.25 });
-        slides.forEach(slide => slideObserver.observe(slide));
+        /* -------------------------------------------------------------
+           4. DYNAMIC SECTION COORDINATE ENGINE
+           ------------------------------------------------------------- */
+        function navigateToSection(targetId) {
+            const targetElement = document.getElementById(targetId);
+            if (!targetElement) return;
 
-        // Universal Navigation Menu & Dropdowns
+            const isDesktopStack = window.innerWidth > 992;
+            const headerHeight = 75;
+
+            if (isDesktopStack) {
+                const deck = document.querySelector('.products-stack-deck');
+                const slidesList = Array.from(deck.querySelectorAll('.stack-slide'));
+                const targetIndex = slidesList.indexOf(targetElement);
+
+                if (targetIndex !== -1) {
+                    const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
+                    
+                    // Sum the actual heights of prior slides to avoid overlap/bleed
+                    let cumulativeHeight = 0;
+                    for (let i = 0; i < targetIndex; i++) {
+                        cumulativeHeight += slidesList[i].offsetHeight;
+                    }
+
+                    const targetScrollPos = (targetIndex === 0)
+                        ? (deckTop - headerHeight)
+                        : (deckTop + cumulativeHeight);
+
+                    window.scrollTo({
+                        top: Math.max(0, targetScrollPos),
+                        behavior: 'smooth'
+                    });
+                }
+            } else {
+                // Tablet/Mobile native scroll accounting for top fixed header
+                const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                window.scrollTo({
+                    top: elementTop - headerHeight,
+                    behavior: 'smooth'
+                });
+            }
+
+            history.pushState(null, null, `#${targetId}`);
+        }
+
+        /* -------------------------------------------------------------
+   5. RELIABLE ACTIVE DOT TRACKER ON SCROLL (UP & DOWN)
+   ------------------------------------------------------------- */
+const slides = document.querySelectorAll('.stack-slide');
+const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
+
+function updateActiveDotOnScroll() {
+    const isDesktopStack = window.innerWidth > 992;
+    const headerHeight = 75;
+    let activeId = '';
+
+    if (isDesktopStack) {
+        const deck = document.querySelector('.products-stack-deck');
+        if (!deck) return;
+
+        const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
+        const currentScroll = window.pageYOffset;
+        const slidesList = Array.from(slides);
+
+        // Walk through slides and detect which card is currently active
+        let accumulatedHeight = deckTop - headerHeight;
+        for (let i = 0; i < slidesList.length; i++) {
+            const slideHeight = slidesList[i].offsetHeight;
+            if (currentScroll >= accumulatedHeight - 10) {
+                activeId = slidesList[i].getAttribute('id');
+            }
+            accumulatedHeight += slideHeight;
+        }
+
+        // Default to first slide if at or near the top
+        if (!activeId && slidesList.length > 0) {
+            activeId = slidesList[0].getAttribute('id');
+        }
+    } else {
+        // Mobile / Tablet normal scroll detection
+        const viewportCheckLine = window.innerHeight * 0.35;
+        slides.forEach(slide => {
+            const rect = slide.getBoundingClientRect();
+            if (rect.top <= viewportCheckLine && rect.bottom >= viewportCheckLine) {
+                activeId = slide.getAttribute('id');
+            }
+        });
+    }
+
+    if (activeId) {
+        dots.forEach(dot => {
+            const dotTarget = dot.getAttribute('href').replace('#', '');
+            dot.classList.toggle('active', dotTarget === activeId);
+        });
+    }
+}
+
+// Hook scroll listeners
+window.addEventListener('scroll', updateActiveDotOnScroll, { passive: true });
+window.addEventListener('DOMContentLoaded', updateActiveDotOnScroll);
+
+// Dot Click Navigation
+dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = dot.getAttribute('href').replace('#', '');
+        navigateToSection(targetId);
+    });
+});
+
+        /* -------------------------------------------------------------
+           6. UNIVERSAL MENU & DROPDOWN NAVIGATION
+           ------------------------------------------------------------- */
         const menuToggleBtn = document.getElementById('menu-toggle-btn');
         const headerNavigationMenu = document.getElementById('header-navigation-menu');
+
+        function closeNavMenu() {
+            if (!headerNavigationMenu) return;
+            headerNavigationMenu.classList.remove('mobile-open');
+            document.querySelectorAll('.horizontal-dropdown').forEach(dd => dd.classList.remove('submenu-visible'));
+            document.querySelectorAll('.mobile-arrow').forEach(arr => arr.classList.remove('rotate-arrow'));
+            if (menuToggleBtn) {
+                const icon = menuToggleBtn.querySelector('i');
+                if (icon) icon.className = 'fas fa-bars';
+            }
+        }
+
         if (menuToggleBtn && headerNavigationMenu) {
             menuToggleBtn.addEventListener('click', (e) => {
                 e.stopPropagation();
                 headerNavigationMenu.classList.toggle('mobile-open');
-                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') ? 'fas fa-times' : 'fas fa-bars';
+                menuToggleBtn.querySelector('i').className = headerNavigationMenu.classList.contains('mobile-open') 
+                    ? 'fas fa-times' 
+                    : 'fas fa-bars';
             });
+
             document.querySelectorAll('.has-horizontal-dropdown > a').forEach(anchor => {
                 anchor.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -501,16 +616,33 @@
                     }
                 });
             });
-            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a)').forEach(link => {
-                link.addEventListener('click', () => {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+
+            // Handle Dropdown Sub-Links (Bidirectional Upward & Downward scrolling)
+            document.querySelectorAll('.horizontal-dropdown a').forEach(dropdownLink => {
+                dropdownLink.addEventListener('click', (e) => {
+                    const href = dropdownLink.getAttribute('href');
+
+                    if (href && (href.startsWith('#') || href.includes('services.html#'))) {
+                        const targetId = href.split('#')[1];
+                        if (targetId) {
+                            e.preventDefault();
+                            navigateToSection(targetId);
+                        }
+                    }
+
+                    closeNavMenu();
                 });
             });
+
+            document.querySelectorAll('#header-navigation-menu a:not(.has-horizontal-dropdown > a):not(.horizontal-dropdown a)').forEach(link => {
+                link.addEventListener('click', () => {
+                    closeNavMenu();
+                });
+            });
+
             document.addEventListener('click', (e) => {
                 if (!headerNavigationMenu.contains(e.target) && !menuToggleBtn.contains(e.target)) {
-                    headerNavigationMenu.classList.remove('mobile-open');
-                    menuToggleBtn.querySelector('i').className = 'fas fa-bars';
+                    closeNavMenu();
                 }
             });
         }
