@@ -241,7 +241,7 @@
 </div>
 <div class="cta-video-side">
 <div class="cta-video-box-wrapper" style="position: relative;">
-<video id="cta-scroll-video" muted playsinline preload="auto">
+<video id="cta-scroll-video" playsinline preload="auto">
 <source src="cta.mp4" type="video/mp4"/>
 </video>
 <div aria-label="Replay Video" class="cta-replay-overlay" id="cta-replay-overlay">
@@ -668,36 +668,62 @@ OPEN FREE DEMAT ACCOUNT
     initInfiniteCarousel('services-slider-track', 0.6);
 
     /* =========================================================
-       CTA VIDEO SCROLL AUTOPLAY OBSERVER & REPLAY
-       ========================================================= */
-    function initCtaVideoController() {
-        const ctaVideo = document.getElementById('cta-scroll-video');
-        const replayOverlay = document.getElementById('cta-replay-overlay');
-        if (!ctaVideo) return;
+      /* =========================================================
+   CTA VIDEO SCROLL AUTOPLAY OBSERVER & REPLAY
+   ========================================================= */
+function initCtaVideoController() {
+    const ctaVideo = document.getElementById('cta-scroll-video');
+    const replayOverlay = document.getElementById('cta-replay-overlay');
+    if (!ctaVideo) return;
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    ctaVideo.muted = true;
-                    ctaVideo.play().catch(err => console.log("CTA video auto-play prevented:", err));
-                } else {
-                    ctaVideo.pause();
+    let hasUnmutedOnce = false;
+
+    // Helper function to play video unmuted if allowed
+    const playWithAudio = () => {
+        ctaVideo.muted = false;
+        const playPromise = ctaVideo.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                // If browser blocks unmuted autoplay, play muted first
+                ctaVideo.muted = true;
+                ctaVideo.play();
+
+                // Unmute automatically upon the user's first click anywhere on the page
+                if (!hasUnmutedOnce) {
+                    window.addEventListener('click', () => {
+                        ctaVideo.muted = false;
+                        hasUnmutedOnce = true;
+                    }, { once: true });
                 }
             });
-        }, { threshold: 0.35 });
+        }
+    };
 
-        observer.observe(ctaVideo);
-
-        ctaVideo.addEventListener('ended', () => {
-            if (replayOverlay) replayOverlay.style.display = 'flex';
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                playWithAudio();
+            } else {
+                ctaVideo.pause();
+            }
         });
+    }, { threshold: 0.35 });
 
-        if (replayOverlay) {
-            replayOverlay.addEventListener('click', () => {
-                replayOverlay.style.display = 'none';
-                ctaVideo.currentTime = 0;
-                ctaVideo.play();
-            });
+    observer.observe(ctaVideo);
+
+    ctaVideo.addEventListener('ended', () => {
+        if (replayOverlay) replayOverlay.style.display = 'flex';
+    });
+
+    if (replayOverlay) {
+        replayOverlay.addEventListener('click', () => {
+            replayOverlay.style.display = 'none';
+            ctaVideo.currentTime = 0;
+            ctaVideo.muted = false; // Always unmuted on direct user click
+            ctaVideo.play();
+        });
+    }
+}
         }
     }
 
