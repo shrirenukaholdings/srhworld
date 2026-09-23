@@ -835,8 +835,8 @@
 
 .exim-hero-video {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 40%;
     /* Gives the video extra width so we can translate/pan it without black bars */
     min-width: 125%;
     min-height: 125%;
