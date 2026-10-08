@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Centre - Market Blogs | SRH World</title>
+    <meta name="description" content="Market intelligence, insights and analysis from SRH World.">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="SRH World">
+    <meta property="og:title" content="Knowledge Centre - Market Blogs | SRH World">
+    <meta property="og:description" content="Market intelligence, insights and analysis from SRH World.">
 
     <link rel="icon" type="image/png" href="./fevicon.png?v=2">
     <link rel="shortcut icon" type="image/png" href="./fevicon.png?v=2">
@@ -11,6 +16,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="blogs.css">
 
     <!-- Firebase SDKs for Live Cloud Sync -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -82,6 +88,7 @@
         </header>
     </div>
 
+    <div id="blogs-list-view">
     <!-- Hero -->
     <section class="blogs-page-hero" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 130px 20px 50px 20px; text-align: center;">
         <div style="max-width: 860px; margin: 0 auto;">
@@ -115,22 +122,30 @@
             </div>
         </div>
     </main>
+    </div><!-- /blogs-list-view -->
 
-    <!-- Article Reader Modal -->
-    <div class="admin-modal" id="article-reader-modal">
-        <div class="admin-modal-dialog" style="max-width: 780px;">
-            <div class="admin-modal-header">
-                <span class="modal-badge-category" id="reader-category">Market Analysis</span>
-                <button class="close-modal-btn" id="close-reader-modal">&times;</button>
-            </div>
-            <div class="modal-article-body" style="padding-top: 10px;">
-                <img src="Equities.jpg" id="reader-img" alt="Hero" class="article-hero-img" style="width: 100%; height: 260px; object-fit: cover; border-radius: 10px; margin-bottom: 18px;">
-                <div style="font-size: 12.5px; color: var(--text-sub); margin-bottom: 8px;"><i class="far fa-calendar-alt"></i> <span id="reader-date">August 2026</span> &nbsp;•&nbsp; By <span id="reader-author">Admin</span></div>
-                <h2 id="reader-title" style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 16px;"></h2>
-                <div id="reader-content" style="font-size: 15px; color: var(--text-muted); line-height: 1.8; white-space: pre-line;"></div>
+    <!-- Full Article Page (shown when URL has ?post=ID) -->
+    <section class="article-page" id="article-view" hidden>
+        <div class="article-page-inner">
+            <a href="blogs.html" class="article-back-link" id="article-back"><i class="fas fa-arrow-left"></i> Back to all articles</a>
+            <span class="modal-badge-category" id="reader-category">Insights</span>
+            <h1 class="article-page-title" id="reader-title"></h1>
+            <div class="article-page-meta"><i class="far fa-calendar-alt"></i> <span id="reader-date"></span> &nbsp;&bull;&nbsp; By <span id="reader-author"></span></div>
+            <img src="Equities.jpg" id="reader-img" alt="" class="article-hero-img" onerror="this.src='Equities.jpg'">
+            <div class="article-page-content" id="reader-content"></div>
+
+            <div class="article-share">
+                <span class="article-share-label">Share this article</span>
+                <div class="article-share-buttons">
+                    <a id="share-wa" class="share-btn share-wa" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                    <a id="share-li" class="share-btn share-li" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a id="share-x" class="share-btn share-x" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fab fa-x-twitter"></i></a>
+                    <a id="share-fb" class="share-btn share-fb" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <button type="button" id="share-copy" class="share-btn share-copy" aria-label="Copy link"><i class="fas fa-link"></i> <span id="share-copy-text">Copy link</span></button>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <!-- Footer -->
     <footer class="site-footer-compact" id="site-footer">
@@ -192,13 +207,78 @@
 
         // Default initial fallback blogs if the collection is empty
         const DEFAULT_BLOGS = [
-            { id: 'post_1', title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: 'August 2026', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.', content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.' },
-            { id: 'post_2', title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: 'August 2026', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.', content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.' }
+            { id: 'post_1', slug: 'market-volatility-and-diversification', order: 1, title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: '2026-08-12', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.', content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.' },
+            { id: 'post_2', slug: 'fixed-income-high-yield-opportunities', order: 2, title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: '2026-08-20', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.', content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.' }
         ];
+
+        /* -------------------------------------------------------------
+           SORT CONFIG  (change this one line to control the order)
+           'order' -> manual sequence: order 1, 2, 3...  (lowest first)
+           'date'  -> chronological: latest to oldest by publication date
+           Posts with no `order` are placed after numbered ones (newest first).
+           ------------------------------------------------------------- */
+        const SORT_MODE = 'order';
+
+        /* ---- Date helpers: accept "2026-10-08", "Oct 08, 2026", "August 2026", Firestore Timestamps ---- */
+        const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+        function parseBlogDate(value) {
+            if (!value) return null;
+            if (typeof value.toDate === 'function') return value.toDate();   // Firestore Timestamp
+            if (value instanceof Date) return value;
+            const str = String(value).trim();
+            const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str);
+            if (iso) return new Date(Date.UTC(+iso[1], +iso[2] - 1, +iso[3]));
+            const t = Date.parse(str);
+            return isNaN(t) ? null : new Date(t);
+        }
+
+        function formatBlogDate(blog) {
+            const raw = blog.date;
+            if (!raw) return '';
+            const str = typeof raw === 'string' ? raw.trim() : '';
+            // Only reformat strict ISO / Timestamp dates; show manual text like "Oct 08, 2026" exactly as typed
+            if (typeof raw === 'string' && !/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
+            const d = parseBlogDate(raw);
+            if (!d) return str;
+            return MONTHS[d.getUTCMonth()] + ' ' + String(d.getUTCDate()).padStart(2, '0') + ', ' + d.getUTCFullYear();
+        }
+
+        function dateValue(blog) {
+            const d = parseBlogDate(blog.date);
+            return d ? d.getTime() : 0;
+        }
+
+        function orderValue(blog) {
+            const n = parseFloat(blog.order);
+            return isNaN(n) ? Infinity : n;
+        }
+
+        function sortBlogs(list) {
+            return list.slice().sort((a, b) => {
+                if (SORT_MODE === 'order') {
+                    const diff = orderValue(a) - orderValue(b);
+                    if (diff !== 0 && !isNaN(diff)) return diff;
+                }
+                return dateValue(b) - dateValue(a);   // latest first (also the tie-breaker)
+            });
+        }
+
+        /* ---- Slug helpers: every post is reachable by `slug` (falls back to document id) ---- */
+        function slugOf(blog) {
+            return String(blog.slug || blog.id);
+        }
+
+        function findBlogByKey(key) {
+            if (!key) return null;
+            return loadedBlogs.find(b => slugOf(b) === String(key)) ||
+                   loadedBlogs.find(b => String(b.id) === String(key)) || null;
+        }
 
         let loadedBlogs = [];
         let currentCategory = 'All';
         let searchQuery = '';
+        let blogsLoaded = false;
 
         /* -------------------------------------------------------------
            2. REAL-TIME CLOUD LISTENER (FIRESTORE)
@@ -214,12 +294,16 @@
                 } else {
                     loadedBlogs = DEFAULT_BLOGS;
                 }
+                blogsLoaded = true;
                 renderBlogs();
+                handleRoute(false);
             }, (error) => {
                 console.warn("Live listener note (falling back to cached data):", error);
                 const localData = localStorage.getItem('srh_blogs');
                 loadedBlogs = localData ? JSON.parse(localData) : DEFAULT_BLOGS;
+                blogsLoaded = true;
                 renderBlogs();
+                handleRoute(false);
             });
         }
 
@@ -243,42 +327,149 @@
                 return;
             }
 
-            filtered.forEach(blog => {
+            sortBlogs(filtered).forEach(blog => {
+                const slug = slugOf(blog);
                 const card = document.createElement('article');
                 card.className = 'blog-square-card';
+                card.id = 'post-' + slug;
                 card.innerHTML = `
                     <div class="blog-image-frame">
                         <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
                         <span class="blog-category-badge">${blog.category || 'Insights'}</span>
                     </div>
                     <div class="blog-body-content">
-                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${blog.date || 'August 2026'} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
-                        <h3 class="blog-article-title">${blog.title}</h3>
+                        <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${formatBlogDate(blog)} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
+                        <h3 class="blog-article-title"><a href="?post=${encodeURIComponent(slug)}" data-post-id="${slug}" class="blog-title-link">${blog.title}</a></h3>
                         <p class="blog-summary-text">${blog.excerpt || ''}</p>
-                        <button class="blog-read-btn" onclick="openArticleModal('${blog.id}')">Read Full Article <i class="fas fa-arrow-right"></i></button>
+                        <a class="blog-read-btn" href="?post=${encodeURIComponent(slug)}" data-post-id="${slug}">Read Full Article <i class="fas fa-arrow-right"></i></a>
                     </div>
                 `;
                 container.appendChild(card);
             });
+
+            // Open article on the same page (no popup), with a shareable URL
+            container.querySelectorAll('a[data-post-id]').forEach(a => {
+                a.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigateToPost(a.getAttribute('data-post-id'));
+                });
+            });
         }
 
         /* -------------------------------------------------------------
-           4. MODAL ARTICLE VIEWER
+           4. ARTICLE PAGE (shareable link: blogs.html?post=ID)
            ------------------------------------------------------------- */
-        window.openArticleModal = function(id) {
-            const blog = loadedBlogs.find(b => b.id === id);
-            if (!blog) return;
+        const listView = document.getElementById('blogs-list-view');
+        const articleView = document.getElementById('article-view');
+        const BASE_TITLE = document.title;
+
+        function getPostUrl(slug) {
+            return location.origin + location.pathname + '?post=' + encodeURIComponent(slug);
+        }
+
+        // Supports  blogs.html?post=my-slug   AND   blogs.html#my-slug  (also #post-my-slug)
+        function getPostIdFromUrl() {
+            const q = new URLSearchParams(location.search).get('post');
+            if (q) return q;
+            const hash = decodeURIComponent(location.hash.replace(/^#/, ''));
+            if (!hash) return null;
+            if (findBlogByKey(hash)) return hash;
+            if (hash.indexOf('post-') === 0 && findBlogByKey(hash.slice(5))) return hash.slice(5);
+            return null;   // unrelated anchor, ignore
+        }
+
+        function setMeta(prop, value) {
+            const el = document.querySelector('meta[property="' + prop + '"]');
+            if (el) el.setAttribute('content', value);
+        }
+
+        function showList() {
+            articleView.hidden = true;
+            listView.style.display = '';
+            document.title = BASE_TITLE;
+            setMeta('og:title', BASE_TITLE);
+        }
+
+        function showArticle(id) {
+            const blog = findBlogByKey(id);
+            listView.style.display = 'none';
+            articleView.hidden = false;
+
+            if (!blog) {
+                document.getElementById('reader-category').innerText = 'Not found';
+                document.getElementById('reader-title').innerText = 'Article not found';
+                document.getElementById('reader-date').innerText = '';
+                document.getElementById('reader-author').innerText = '';
+                document.getElementById('reader-img').style.display = 'none';
+                document.getElementById('reader-content').innerText = 'This article may have been removed or the link is incorrect.';
+                document.querySelector('.article-share').style.display = 'none';
+                return;
+            }
+
+            document.querySelector('.article-share').style.display = '';
+            const img = document.getElementById('reader-img');
+            img.style.display = '';
+            img.src = blog.image || 'Equities.jpg';
+            img.alt = blog.title || '';
             document.getElementById('reader-category').innerText = blog.category || 'Insights';
-            document.getElementById('reader-img').src = blog.image || 'Equities.jpg';
-            document.getElementById('reader-date').innerText = blog.date || 'August 2026';
+            document.getElementById('reader-date').innerText = formatBlogDate(blog);
             document.getElementById('reader-author').innerText = blog.author || 'Admin';
             document.getElementById('reader-title').innerText = blog.title;
             document.getElementById('reader-content').innerText = blog.content || blog.excerpt || '';
-            document.getElementById('article-reader-modal').classList.add('modal-active');
-        };
 
-        document.getElementById('close-reader-modal').addEventListener('click', () => {
-            document.getElementById('article-reader-modal').classList.remove('modal-active');
+            document.title = blog.title + ' | SRH World';
+            setMeta('og:title', blog.title);
+            setMeta('og:description', blog.excerpt || '');
+            updateShareLinks(blog);
+        }
+
+        // Called on load, on back/forward, and after data arrives
+        function handleRoute(scrollTop) {
+            if (!blogsLoaded) return;
+            const id = getPostIdFromUrl();
+            if (id) showArticle(id); else showList();
+            if (scrollTop) window.scrollTo(0, 0);
+        }
+
+        function navigateToPost(id) {
+            history.pushState({}, '', '?post=' + encodeURIComponent(id));
+            handleRoute(true);
+        }
+
+        document.getElementById('article-back').addEventListener('click', (e) => {
+            e.preventDefault();
+            history.pushState({}, '', location.pathname);
+            handleRoute(true);
+        });
+
+        window.addEventListener('popstate', () => handleRoute(true));
+        window.addEventListener('hashchange', () => handleRoute(true));
+
+        /* ---- Share buttons ---- */
+        function updateShareLinks(blog) {
+            const url = encodeURIComponent(getPostUrl(slugOf(blog)));
+            const text = encodeURIComponent(blog.title);
+            document.getElementById('share-wa').href = 'https://wa.me/?text=' + text + '%20' + url;
+            document.getElementById('share-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
+            document.getElementById('share-x').href = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
+            document.getElementById('share-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+        }
+
+        document.getElementById('share-copy').addEventListener('click', async () => {
+            const id = getPostIdFromUrl();
+            if (!id) return;
+            const found = findBlogByKey(id);
+            const link = getPostUrl(found ? slugOf(found) : id);
+            const label = document.getElementById('share-copy-text');
+            try {
+                await navigator.clipboard.writeText(link);
+            } catch (err) {
+                const t = document.createElement('input');
+                t.value = link; document.body.appendChild(t); t.select();
+                document.execCommand('copy'); document.body.removeChild(t);
+            }
+            label.innerText = 'Copied!';
+            setTimeout(() => label.innerText = 'Copy link', 2000);
         });
 
         /* -------------------------------------------------------------
