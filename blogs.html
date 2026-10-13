@@ -18,9 +18,251 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="blogs.css">
 
-    <!-- Firebase SDKs for Live Cloud Sync -->
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- REFACTORED FIXES & STYLING OVERRIDES -->
+    <style id="refactored-fixes">
+        /* Compact Hero */
+        .blogs-page-hero { padding: 90px 20px 30px 20px !important; }
+        
+        /* Sticky Category Filter */
+        .blogs-filter-container {
+            position: sticky;
+            top: 67px;
+            z-index: 1000;
+            background-color: var(--bg-light, #f8f9fa);
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        /* Search & Sort */
+        .search-sort-wrapper { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+        .blog-sort-dropdown {
+            padding: 11px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 25px;
+            outline: none;
+            font-family: inherit;
+            font-size: 13.5px;
+            color: #0f172a;
+            background: #ffffff;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+        }
+        .blog-sort-dropdown:focus { border-color: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1); }
+
+        /* Grid Image Fitting & Clamping */
+        .blog-img { object-fit: contain !important; background-color: #f1f5f9; }
+        .blog-article-title {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 50px; 
+            margin-bottom: 8px !important;
+        }
+        .blog-summary-text {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: 65px;
+            margin-bottom: 16px !important;
+        }
+
+        /* Article Reader View Alignment */
+        #article-view {
+            padding-top: 105px;
+            padding-bottom: 70px;
+            max-width: 860px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Transparent & Clean Image Container */
+        .article-hero-img-container {
+            width: 100%;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 25px 0 35px 0;
+            padding: 0;
+        }
+        .article-hero-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 480px;
+            object-fit: contain;
+            border-radius: 12px;
+            display: block;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Article Typography */
+        .article-page-content {
+            font-size: 16.5px;
+            line-height: 1.85;
+            color: #334155;
+            word-wrap: break-word;
+        }
+        .article-page-content p {
+            margin-bottom: 20px;
+        }
+        .article-page-content strong,
+        .article-page-content b {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        /* Back Link Pill */
+        .article-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            font-weight: 700;
+            padding: 8px 18px;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            border-radius: 25px;
+            color: #0f172a;
+            margin-bottom: 20px;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+        }
+        .article-back-link:hover {
+            background: #e2e8f0;
+            transform: translateX(-2px);
+        }
+
+        /* Distinct Share Section */
+        .article-share {
+            margin-top: 50px;
+            padding: 35px 25px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        .article-share-label { font-size: 18px; font-weight: 800; color: #0f172a; }
+        .article-share-buttons { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%; }
+        .share-icons-row { display: flex; gap: 15px; }
+        .share-btn {
+            display: flex; align-items: center; justify-content: center;
+            width: 48px; height: 48px; border-radius: 50%;
+            background: #f8fafc; color: #0f172a; font-size: 22px;
+            border: 1px solid #e2e8f0;
+            text-decoration: none;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s, color 0.2s;
+        }
+        .share-btn:hover { transform: translateY(-4px); box-shadow: 0 8px 15px rgba(0,0,0,0.08); }
+        .share-wa:hover { background: #25D366; color: #fff; border-color: #25D366; }
+        .share-li:hover { background: #0A66C2; color: #fff; border-color: #0A66C2; }
+        .share-fb:hover { background: #1877F2; color: #fff; border-color: #1877F2; }
+
+        .share-copy {
+            background-color: #64748b; color: #ffffff !important; padding: 10px 24px; border-radius: 25px;
+            font-size: 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;
+            border: none; cursor: pointer; transition: background-color 0.25s ease, transform 0.25s ease;
+        }
+        .share-copy:hover { background-color: var(--accent-green, #10b981) !important; transform: translateY(-2px); }
+
+        /* Floating Top Button Placed Above WhatsApp */
+        .scroll-top-float {
+            position: fixed !important;
+            bottom: 95px !important;
+            right: 25px !important;
+            background-color: #0f172a;
+            color: #ffffff !important;
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 20px !important;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25) !important;
+            z-index: 99999 !important;
+            border: 1px solid #334155;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, background-color 0.25s ease;
+        }
+        .scroll-top-float.show-top-btn {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .scroll-top-float:hover {
+            background-color: var(--accent-green, #10b981);
+            transform: translateY(-3px);
+        }
+        .scroll-top-float.hide-floating-btn {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            #article-view {
+                padding-top: 85px;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+            .article-page-title {
+                font-size: 23px !important;
+                line-height: 1.35 !important;
+            }
+            .article-hero-img {
+                max-height: 320px;
+                border-radius: 10px;
+            }
+            .article-page-content {
+                font-size: 15px;
+                line-height: 1.75;
+            }
+            .search-sort-wrapper {
+                width: 100%;
+            }
+            .blog-search-box {
+                flex: 1;
+                min-width: 140px;
+            }
+            .blog-sort-dropdown {
+                flex: 1;
+                min-width: 120px;
+            }
+            .article-share {
+                padding: 25px 15px;
+            }
+            .scroll-top-float {
+                bottom: 85px !important;
+                right: 20px !important;
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 18px !important;
+            }
+            .whatsapp-float {
+                right: 20px !important;
+                bottom: 20px !important;
+                width: 52px !important;
+                height: 52px !important;
+                font-size: 28px !important;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -29,7 +271,7 @@
             <div class="header-container">
                 <div class="logo-area"><a href="./index.html"><img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo"></a></div>
                 <div class="header-right-actions">
-                    <a href="./sip-calculator.html" class="header-calc-pill" aria-label="Smart Calculator"><i class="fas fa-calculator"></i><span class="calc-btn-text">Smart Calculator</span></a>
+                    <a href="/" class="header-calc-pill" aria-label="Home"><i class="fas fa-home"></i><span class="calc-btn-text">Home</span></a>
                     <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
                 </div>
                 <nav class="nav-bar" id="header-navigation-menu">
@@ -71,8 +313,7 @@
                                 <li><a href="./other-services.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
                                 <li><a href="./other-services.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
                                 <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
-                                <!-- New Industries Link -->
-<li><a href="./industries.html"><i class="fas fa-city dropdown-icon"></i> Industries</a></li>
+                                <li><a href="./industries.html"><i class="fas fa-city dropdown-icon"></i> Industries</a></li>
                             </ul>
                         </li>
                         <li class="nav-item has-horizontal-dropdown">
@@ -91,59 +332,76 @@
     </div>
 
     <div id="blogs-list-view">
-    <!-- Hero -->
-    <section class="blogs-page-hero" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; padding: 130px 20px 50px 20px; text-align: center;">
-        <div style="max-width: 860px; margin: 0 auto;">
-            <span class="hero-category-label">Knowledge Centre</span>
-            <h1 class="blogs-hero-title" style="font-size: 36px; font-weight: 800; margin-bottom: 12px;">Market Intelligence, Insights & Analysis</h1>
-            <p class="blogs-hero-sub" style="font-size: 15.5px; color: #cbd5e1;">Stay ahead with structured macroeconomic viewpoints and investment strategy breakdowns.</p>
-        </div>
-    </section>
-
-    <!-- Filters -->
-    <section class="blogs-filter-container">
-        <div class="category-pills" id="blog-filter-pills">
-            <button class="pill-btn active" data-cat="All">All Articles</button>
-            <button class="pill-btn" data-cat="Market Analysis">Market Analysis</button>
-            <button class="pill-btn" data-cat="Wealth Planning">Wealth Planning</button>
-            <button class="pill-btn" data-cat="Mutual Funds">Mutual Funds</button>
-            <button class="pill-btn" data-cat="Fixed Income">Fixed Income</button>
-        </div>
-        <div class="blog-search-box">
-            <i class="fas fa-search search-icon"></i>
-            <input type="text" id="blog-search-input" placeholder="Search articles...">
-        </div>
-    </section>
-
-    <!-- Blogs Grid -->
-    <main class="blogs-grid-section">
-        <div class="blogs-card-grid" id="blogs-container-grid">
-            <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);">
-                <i class="fas fa-circle-notch fa-spin" style="font-size: 32px; margin-bottom: 12px; display:block;"></i>
-                Loading latest articles...
+        <!-- Compact Hero -->
+        <section class="blogs-page-hero" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: #ffffff; text-align: center;">
+            <div style="max-width: 860px; margin: 0 auto;">
+                <span class="hero-category-label">Knowledge Centre</span>
+                <h1 class="blogs-hero-title" style="font-size: 36px; font-weight: 800; margin-bottom: 12px;">Market Intelligence, Insights & Analysis</h1>
+                <p class="blogs-hero-sub" style="font-size: 15.5px; color: #cbd5e1;">Stay ahead with structured macroeconomic viewpoints and investment strategy breakdowns.</p>
             </div>
-        </div>
-    </main>
+        </section>
+
+        <!-- Filters & Sorting -->
+        <section class="blogs-filter-container">
+            <div class="category-pills" id="blog-filter-pills">
+                <button class="pill-btn active" data-cat="All">All Articles</button>
+                <button class="pill-btn" data-cat="Market Analysis">Market Analysis</button>
+                <button class="pill-btn" data-cat="Wealth Planning">Wealth Planning</button>
+                <button class="pill-btn" data-cat="Mutual Funds">Mutual Funds</button>
+                <button class="pill-btn" data-cat="Fixed Income">Fixed Income</button>
+            </div>
+            <div class="search-sort-wrapper">
+                <div class="blog-search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="blog-search-input" placeholder="Search articles...">
+                </div>
+                <select id="blog-sort-select" class="blog-sort-dropdown">
+                    <option value="latest">Latest</option>
+                    <option value="oldest">Oldest</option>
+                    <option value="category">By Category</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Blogs Grid -->
+        <main class="blogs-grid-section">
+            <div class="blogs-card-grid" id="blogs-container-grid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 60px 20px; color: var(--text-sub);">
+                    <i class="fas fa-circle-notch fa-spin" style="font-size: 32px; margin-bottom: 12px; display:block;"></i>
+                    Loading latest articles...
+                </div>
+            </div>
+        </main>
     </div><!-- /blogs-list-view -->
 
-    <!-- Full Article Page (shown when URL has ?post=ID) -->
+    <!-- Single Article View -->
     <section class="article-page" id="article-view" hidden>
         <div class="article-page-inner">
             <a href="blogs.html" class="article-back-link" id="article-back"><i class="fas fa-arrow-left"></i> Back to all articles</a>
+            <br>
             <span class="modal-badge-category" id="reader-category">Insights</span>
-            <h1 class="article-page-title" id="reader-title"></h1>
-            <div class="article-page-meta"><i class="far fa-calendar-alt"></i> <span id="reader-date"></span> &nbsp;&bull;&nbsp; By <span id="reader-author"></span></div>
-            <img src="Equities.jpg" id="reader-img" alt="" class="article-hero-img" onerror="this.src='Equities.jpg'">
+            <h1 class="article-page-title" id="reader-title" style="margin-top: 15px; font-size: 28px; color: #0f172a; font-weight: 800;"></h1>
+            <div class="article-page-meta" style="color: #64748b; font-size: 13.5px; margin-bottom: 15px;">
+                <i class="far fa-calendar-alt"></i> <span id="reader-date"></span> &nbsp;&bull;&nbsp; By <span id="reader-author"></span>
+            </div>
+            
+            <!-- Transparent / Invisible Container for Image -->
+            <div class="article-hero-img-container">
+                <img src="Equities.jpg" id="reader-img" alt="" class="article-hero-img" onerror="this.src='Equities.jpg'">
+            </div>
+            
             <div class="article-page-content" id="reader-content"></div>
 
+            <!-- Share Section (Without X/Twitter Button) -->
             <div class="article-share">
                 <span class="article-share-label">Share this article</span>
                 <div class="article-share-buttons">
-                    <a id="share-wa" class="share-btn share-wa" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    <a id="share-li" class="share-btn share-li" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a id="share-x" class="share-btn share-x" target="_blank" rel="noopener noreferrer" aria-label="Share on X"><i class="fab fa-x-twitter"></i></a>
-                    <a id="share-fb" class="share-btn share-fb" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
-                    <button type="button" id="share-copy" class="share-btn share-copy" aria-label="Copy link"><i class="fas fa-link"></i> <span id="share-copy-text">Copy link</span></button>
+                    <div class="share-icons-row">
+                        <a id="share-wa" class="share-btn share-wa" target="_blank" rel="noopener noreferrer" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                        <a id="share-li" class="share-btn share-li" target="_blank" rel="noopener noreferrer" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a id="share-fb" class="share-btn share-fb" target="_blank" rel="noopener noreferrer" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+                    </div>
+                    <button type="button" id="share-copy" class="share-copy" aria-label="Copy link"><i class="fas fa-link"></i> <span id="share-copy-text">Copy link</span></button>
                 </div>
             </div>
         </div>
@@ -186,47 +444,42 @@
         </div>
     </footer>
 
+    <!-- Floating Top Button Placed Above WhatsApp -->
+    <button class="scroll-top-float" id="scroll-top-btn" aria-label="Back to Top"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- Floating WhatsApp Button -->
     <a href="https://wa.me/917506151413" class="whatsapp-float" id="whatsapp-btn" target="_blank" rel="noopener noreferrer" aria-label="Chat on WhatsApp"><i class="fab fa-whatsapp"></i></a>
 
+    <!-- Non-Blocking Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
     <script>
-        /* -------------------------------------------------------------
-           1. FIREBASE CONFIGURATION (Same project as manage.html)
-           ------------------------------------------------------------- */
-               const firebaseConfig = {
-  apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
-  authDomain: "srhworld-17653.firebaseapp.com",
-  projectId: "srhworld-17653",
-  storageBucket: "srhworld-17653.firebasestorage.app",
-  messagingSenderId: "161943112081",
-  appId: "1:161943112081:web:888219f6314793b3e73230",
-  measurementId: "G-LXZMQZ9NPH"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+            authDomain: "srhworld-17653.firebaseapp.com",
+            projectId: "srhworld-17653",
+            storageBucket: "srhworld-17653.firebasestorage.app",
+            messagingSenderId: "161943112081",
+            appId: "1:161943112081:web:888219f6314793b3e73230",
+            measurementId: "G-LXZMQZ9NPH"
+        };
 
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.firestore();
 
-        // Default initial fallback blogs if the collection is empty
         const DEFAULT_BLOGS = [
             { id: 'post_1', slug: 'market-volatility-and-diversification', order: 1, title: 'Understanding Market Volatility and Portfolio Diversification', category: 'Market Analysis', date: '2026-08-12', author: 'Admin', image: 'Equities.jpg', excerpt: 'Discover strategic allocation models to safeguard assets while capturing alpha in evolving market cycles.', content: 'Market volatility is an inherent characteristic of dynamic capital markets. Successful long-term wealth compounding relies on structured asset allocation across equities, fixed-income instruments, and alternative investment products.' },
             { id: 'post_2', slug: 'fixed-income-high-yield-opportunities', order: 2, title: 'Top Fixed Income and High Yield Opportunities for Long-Term Growth', category: 'Wealth Planning', date: '2026-08-20', author: 'Wasu', image: 'mutual-fund.jpg', excerpt: 'A comprehensive breakdown of structured debt instruments, sovereign bonds, and tax-efficient yield vehicles.', content: 'Fixed-income investments provide consistent cash flows and principal preservation. Evaluating corporate debentures, sovereign debt papers, and target-maturity mutual funds allows investors to lock in competitive yields.' }
         ];
 
-        /* -------------------------------------------------------------
-           SORT CONFIG  (change this one line to control the order)
-           'order' -> manual sequence: order 1, 2, 3...  (lowest first)
-           'date'  -> chronological: latest to oldest by publication date
-           Posts with no `order` are placed after numbered ones (newest first).
-           ------------------------------------------------------------- */
-        const SORT_MODE = 'order';
-
-        /* ---- Date helpers: accept "2026-10-08", "Oct 08, 2026", "August 2026", Firestore Timestamps ---- */
         const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
         function parseBlogDate(value) {
             if (!value) return null;
-            if (typeof value.toDate === 'function') return value.toDate();   // Firestore Timestamp
+            if (typeof value.toDate === 'function') return value.toDate();
             if (value instanceof Date) return value;
             const str = String(value).trim();
             const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(str);
@@ -239,7 +492,6 @@
             const raw = blog.date;
             if (!raw) return '';
             const str = typeof raw === 'string' ? raw.trim() : '';
-            // Only reformat strict ISO / Timestamp dates; show manual text like "Oct 08, 2026" exactly as typed
             if (typeof raw === 'string' && !/^\d{4}-\d{2}-\d{2}$/.test(str)) return str;
             const d = parseBlogDate(raw);
             if (!d) return str;
@@ -251,22 +503,16 @@
             return d ? d.getTime() : 0;
         }
 
-        function orderValue(blog) {
-            const n = parseFloat(blog.order);
-            return isNaN(n) ? Infinity : n;
-        }
-
         function sortBlogs(list) {
+            const sortMode = document.getElementById('blog-sort-select').value;
             return list.slice().sort((a, b) => {
-                if (SORT_MODE === 'order') {
-                    const diff = orderValue(a) - orderValue(b);
-                    if (diff !== 0 && !isNaN(diff)) return diff;
-                }
-                return dateValue(b) - dateValue(a);   // latest first (also the tie-breaker)
+                if (sortMode === 'latest') return dateValue(b) - dateValue(a);
+                if (sortMode === 'oldest') return dateValue(a) - dateValue(b);
+                if (sortMode === 'category') return (a.category || '').localeCompare(b.category || '');
+                return dateValue(b) - dateValue(a); 
             });
         }
 
-        /* ---- Slug helpers: every post is reachable by `slug` (falls back to document id) ---- */
         function slugOf(blog) {
             return String(blog.slug || blog.id);
         }
@@ -277,22 +523,29 @@
                    loadedBlogs.find(b => String(b.id) === String(key)) || null;
         }
 
+        // Helper to support Bold and Underline (HTML or Markdown)
+        function formatArticleText(text) {
+            if (!text) return '';
+            // If already contains HTML paragraph or tags, return as is
+            if (/<[a-z][\s\S]*>/i.test(text)) {
+                return text;
+            }
+            return text
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/__(.*?)__/g, '<u>$1</u>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+        }
+
         let loadedBlogs = [];
         let currentCategory = 'All';
         let searchQuery = '';
         let blogsLoaded = false;
 
-        /* -------------------------------------------------------------
-           2. REAL-TIME CLOUD LISTENER (FIRESTORE)
-           ------------------------------------------------------------- */
         function startLiveBlogsListener() {
-            // Automatically listens for additions, edits, and deletions in Firestore
             db.collection("blogs").onSnapshot((snapshot) => {
                 if (!snapshot.empty) {
-                    loadedBlogs = snapshot.docs.map(doc => ({
-                        id: doc.id,
-                        ...doc.data()
-                    }));
+                    loadedBlogs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 } else {
                     loadedBlogs = DEFAULT_BLOGS;
                 }
@@ -309,9 +562,6 @@
             });
         }
 
-        /* -------------------------------------------------------------
-           3. RENDER BLOG CARDS
-           ------------------------------------------------------------- */
         function renderBlogs() {
             const container = document.getElementById('blogs-container-grid');
             if (!container) return;
@@ -336,7 +586,7 @@
                 card.id = 'post-' + slug;
                 card.innerHTML = `
                     <div class="blog-image-frame">
-                        <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
+                        <img src="${blog.image || 'Equities.jpg'}" alt="${blog.title}" class="blog-img" loading="lazy" onerror="this.src='Equities.jpg'">
                         <span class="blog-category-badge">${blog.category || 'Insights'}</span>
                     </div>
                     <div class="blog-body-content">
@@ -349,7 +599,6 @@
                 container.appendChild(card);
             });
 
-            // Open article on the same page (no popup), with a shareable URL
             container.querySelectorAll('a[data-post-id]').forEach(a => {
                 a.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -358,18 +607,12 @@
             });
         }
 
-        /* -------------------------------------------------------------
-           4. ARTICLE PAGE (shareable link: blogs.html?post=ID)
-           ------------------------------------------------------------- */
         const listView = document.getElementById('blogs-list-view');
         const articleView = document.getElementById('article-view');
         const BASE_TITLE = document.title;
 
-        function getPostUrl(slug) {
-            return location.origin + location.pathname + '?post=' + encodeURIComponent(slug);
-        }
+        function getPostUrl(slug) { return location.origin + location.pathname + '?post=' + encodeURIComponent(slug); }
 
-        // Supports  blogs.html?post=my-slug   AND   blogs.html#my-slug  (also #post-my-slug)
         function getPostIdFromUrl() {
             const q = new URLSearchParams(location.search).get('post');
             if (q) return q;
@@ -377,7 +620,7 @@
             if (!hash) return null;
             if (findBlogByKey(hash)) return hash;
             if (hash.indexOf('post-') === 0 && findBlogByKey(hash.slice(5))) return hash.slice(5);
-            return null;   // unrelated anchor, ignore
+            return null;
         }
 
         function setMeta(prop, value) {
@@ -403,7 +646,7 @@
                 document.getElementById('reader-date').innerText = '';
                 document.getElementById('reader-author').innerText = '';
                 document.getElementById('reader-img').style.display = 'none';
-                document.getElementById('reader-content').innerText = 'This article may have been removed or the link is incorrect.';
+                document.getElementById('reader-content').innerHTML = 'This article may have been removed or the link is incorrect.';
                 document.querySelector('.article-share').style.display = 'none';
                 return;
             }
@@ -417,7 +660,9 @@
             document.getElementById('reader-date').innerText = formatBlogDate(blog);
             document.getElementById('reader-author').innerText = blog.author || 'Admin';
             document.getElementById('reader-title').innerText = blog.title;
-            document.getElementById('reader-content').innerText = blog.content || blog.excerpt || '';
+            
+            // Renders formatted HTML content allowing bold and underline
+            document.getElementById('reader-content').innerHTML = formatArticleText(blog.content || blog.excerpt || '');
 
             document.title = blog.title + ' | SRH World';
             setMeta('og:title', blog.title);
@@ -425,12 +670,11 @@
             updateShareLinks(blog);
         }
 
-        // Called on load, on back/forward, and after data arrives
         function handleRoute(scrollTop) {
             if (!blogsLoaded) return;
             const id = getPostIdFromUrl();
             if (id) showArticle(id); else showList();
-            if (scrollTop) window.scrollTo(0, 0);
+            if (scrollTop) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function navigateToPost(id) {
@@ -447,13 +691,11 @@
         window.addEventListener('popstate', () => handleRoute(true));
         window.addEventListener('hashchange', () => handleRoute(true));
 
-        /* ---- Share buttons ---- */
         function updateShareLinks(blog) {
             const url = encodeURIComponent(getPostUrl(slugOf(blog)));
             const text = encodeURIComponent(blog.title);
             document.getElementById('share-wa').href = 'https://wa.me/?text=' + text + '%20' + url;
             document.getElementById('share-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + url;
-            document.getElementById('share-x').href = 'https://twitter.com/intent/tweet?text=' + text + '&url=' + url;
             document.getElementById('share-fb').href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
         }
 
@@ -474,9 +716,6 @@
             setTimeout(() => label.innerText = 'Copy link', 2000);
         });
 
-        /* -------------------------------------------------------------
-           5. FILTERS & SEARCH
-           ------------------------------------------------------------- */
         document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('#blog-filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
@@ -491,23 +730,45 @@
             renderBlogs();
         });
 
-        // Initialize listener
+        document.getElementById('blog-sort-select').addEventListener('change', renderBlogs);
+
         startLiveBlogsListener();
 
-        /* -------------------------------------------------------------
-           6. FOOTER & NAVIGATION UI HANDLERS
-           ------------------------------------------------------------- */
+        /* Floating Button Handlers (Scroll-to-top & WhatsApp) */
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
-        function checkFooterVisibility() {
-            if (!footerElement || !floatingWhatsApp) return;
-            if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) floatingWhatsApp.classList.add('hide-floating-btn');
-            else floatingWhatsApp.classList.remove('hide-floating-btn');
-        }
-        window.addEventListener('scroll', checkFooterVisibility, { passive: true });
-        window.addEventListener('resize', checkFooterVisibility, { passive: true });
-        window.addEventListener('DOMContentLoaded', checkFooterVisibility);
+        const scrollTopBtn = document.getElementById('scroll-top-btn');
 
+        function handleScrollUI() {
+            // Scroll to Top visibility
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show-top-btn');
+            } else {
+                scrollTopBtn.classList.remove('show-top-btn');
+            }
+
+            // Hide floating buttons if intersecting footer
+            if (footerElement && floatingWhatsApp) {
+                const reachesFooter = footerElement.getBoundingClientRect().top <= (window.innerHeight - 30);
+                if (reachesFooter) {
+                    floatingWhatsApp.classList.add('hide-floating-btn');
+                    scrollTopBtn.classList.add('hide-floating-btn');
+                } else {
+                    floatingWhatsApp.classList.remove('hide-floating-btn');
+                    scrollTopBtn.classList.remove('hide-floating-btn');
+                }
+            }
+        }
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        window.addEventListener('scroll', handleScrollUI, { passive: true });
+        window.addEventListener('resize', handleScrollUI, { passive: true });
+        window.addEventListener('DOMContentLoaded', handleScrollUI);
+
+        /* Mobile Menu Navigation */
         const menuToggleBtn = document.getElementById('menu-toggle-btn');
         const headerNavigationMenu = document.getElementById('header-navigation-menu');
         if (menuToggleBtn && headerNavigationMenu) {
