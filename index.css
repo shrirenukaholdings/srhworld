@@ -1748,3 +1748,9 @@ a {
         text-align: center;
     }
 }
+
+
+/* Financial Checkup header button — matches the existing Smart Calculator pill */
+.header-fin-checkup-pill {
+    white-space: nowrap;
+}
