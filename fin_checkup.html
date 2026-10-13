@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Financial Health Checkup | Shri Renuka Holdings</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Single Uniform Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      font-family: 'Plus Jakarta Sans', sans-serif !important;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: linear-gradient(160deg, #f8fafc 0%, #eef2f6 50%, #e2e8f0 100%);
+      color: #0e1e38;
+      min-height: 100dvh;
+      overflow-x: hidden;
+    }
+
+    /* Splash Screen Animations */
+    @keyframes logoZoomFade {
+      0% { opacity: 0; transform: scale(0.86); }
+      30% { opacity: 1; transform: scale(1.02); }
+      72% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; transform: scale(1.06); visibility: hidden; }
+    }
+
+    @keyframes welcomeTextFade {
+      0% { opacity: 0; transform: translateY(14px); }
+      25% { opacity: 1; transform: translateY(0); }
+      78% { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-12px); }
+    }
+
+    .animate-logo-splash {
+      animation: logoZoomFade 1.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .animate-welcome-splash {
+      animation: welcomeTextFade 1.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    /* Polished GPU-Accelerated Question Transitions (No Text Flash) */
+    #question-stage {
+      will-change: transform, opacity;
+      transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1), transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .stage-hidden-left {
+      opacity: 0;
+      transform: translateX(-28px) scale(0.985);
+      pointer-events: none;
+    }
+
+    .stage-hidden-right {
+      opacity: 0;
+      transform: translateX(28px) scale(0.985);
+      pointer-events: none;
+    }
+
+    .stage-visible {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+
+    /* Vertical Right Button Styling */
+    .vertical-demat-btn {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+    }
+
+    /* Symmetrical Option Card Hover & Touch States */
+    .option-card {
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+    }
+    .option-card:active {
+      transform: scale(0.985);
+    }
+    @media (hover: hover) {
+      .option-card:hover:not(.selected) {
+        border-color: #2c4c7e;
+        background-color: #f1f5f9;
+      }
+    }
+    .option-card.selected {
+      background: linear-gradient(135deg, #0e1e38 0%, #2c4c7e 100%);
+      color: #ffffff;
+      border-color: #0e1e38;
+      box-shadow: 0 10px 22px -6px rgba(14, 30, 56, 0.32);
+    }
+    .option-card.selected .radio-indicator {
+      border-color: #ffffff;
+      background-color: #18723b;
+    }
+    .option-card.selected .radio-dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-between min-h-[100dvh]">
+
+  <!-- ========================================================= -->
+  <!-- 4. SPLASH SCREEN OVERLAY (ORIGINAL SRH LOGO + GREETING)   -->
+  <!-- ========================================================= -->
+  <div id="splash-overlay" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-50/95 backdrop-blur-md transition-opacity duration-500 px-6">
+    
+    <!-- Stage 1: Big SRH Logo -->
+    <div id="splash-logo-stage" class="flex flex-col items-center justify-center animate-logo-splash">
+      <img 
+        src="Gemini_Generated_Image_4q3594q3594q3594.png" 
+        onerror="this.onerror=null; this.src='logo.png';"
+        alt="Shri Renuka Holdings Logo" 
+        class="w-64 sm:w-80 md:w-96 h-auto object-contain drop-shadow-sm"
+      />
+    </div>
+
+    <!-- Stage 2: Check your finance here All the best! -->
+    <div id="splash-text-stage" class="hidden flex-col items-center text-center max-w-md">
+      <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl bg-[#0e1e38] text-white flex items-center justify-center mb-4 shadow-lg">
+        <svg class="w-8 h-8 text-emerald-400" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+        </svg>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-[#0e1e38] tracking-tight mb-2">
+        Check your finance here
+      </h1>
+      <p class="text-lg sm:text-2xl font-bold text-[#18723b]">
+        All the best!
+      </p>
+    </div>
+
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- 1 & 2. TOP BAR: FROSTED WHITE/GRAY PILL + HAMBURGER       -->
+  <!-- ========================================================= -->
+  <header class="fixed top-3 sm:top-4 left-0 right-0 z-40 flex items-center justify-center px-3 pointer-events-none">
+    <div class="flex items-center gap-2.5 sm:gap-3 pointer-events-auto">
+      
+      <!-- Circular Pill (Translucent White / Soft Gray-Tinted Dynamic Island) -->
+      <div class="flex items-center gap-3.5 sm:gap-5 bg-slate-100/85 backdrop-blur-xl text-[#0e1e38] pl-2.5 pr-5 py-1.5 sm:py-2 rounded-full shadow-[0_8px_30px_rgba(14,30,56,0.10)] border border-white/90 ring-1 ring-slate-300/60 transition-all duration-300">
+        
+        <!-- Left: Home Button linking to srhworld.com -->
+        <a href="https://srhworld.com" title="Go to SRH World Home" class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white hover:bg-slate-200/80 text-[#0e1e38] shadow-sm border border-slate-200/80 flex items-center justify-center transition active:scale-95">
+          <svg class="w-4 h-4 sm:w-5 sm:h-5 text-[#0e1e38]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+          </svg>
+        </a>
+
+        <!-- Original Provided Logo Next to Home Button -->
+        <a href="https://srhworld.com" class="flex items-center">
+          <img 
+            src="Gemini_Generated_Image_4q3594q3594q3594.png" 
+            onerror="this.onerror=null; this.src='logo.png';"
+            alt="SRH Logo" 
+            class="h-8 sm:h-10 w-auto object-contain"
+          />
+        </a>
+      </div>
+
+      <!-- Detached Circular Hamburger Menu Next to Pill (Matching White/Gray Glass) -->
+      <div class="relative">
+        <button id="hamburger-btn" onclick="toggleMenu()" aria-label="Menu" class="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-slate-100/85 backdrop-blur-xl text-[#0e1e38] shadow-[0_8px_30px_rgba(14,30,56,0.10)] border border-white/90 ring-1 ring-slate-300/60 flex items-center justify-center hover:bg-white transition active:scale-95">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-[#0e1e38]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </button>
+
+        <!-- Dropdown Menu -->
+        <div id="nav-dropdown" class="hidden absolute right-0 mt-2.5 w-56 bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-200/80 py-2 text-sm font-bold text-[#0e1e38] overflow-hidden z-50">
+          <a href="https://srhworld.com" class="flex items-center gap-2.5 px-4 py-3 hover:bg-slate-100 transition">
+            <span>🏠</span> Home (SRH World)
+          </a>
+          <a href="javascript:void(0)" onclick="resetQuiz(); toggleMenu();" class="flex items-center gap-2.5 px-4 py-3 hover:bg-slate-100 transition">
+            <span>🔄</span> Restart Checkup
+          </a>
+          <a href="https://digiavatar-kyc.anandrathi.com/signup?RMCODE=607178&REFID=HTRAVSKEKY59GZCAK9WCDXAZHW&TS=FRN_L_GROUP1&DS=F2_N" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2.5 px-4 py-3 hover:bg-emerald-50 text-[#18723b] transition border-t border-slate-100">
+            <span>📈</span> Open Demat Account
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- 3. RIGHT SIDE VERTICAL "OPEN DEMAT ACCOUNT" LINK          -->
+  <!-- ========================================================= -->
+  <a 
+    href="https://digiavatar-kyc.anandrathi.com/signup?RMCODE=607178&REFID=HTRAVSKEKY59GZCAK9WCDXAZHW&TS=FRN_L_GROUP1&DS=F2_N" 
+    target="_blank" 
+    rel="noopener noreferrer"
+    class="fixed right-0 top-1/2 -translate-y-1/2 z-30 bg-gradient-to-b from-[#18723b] to-[#0e1e38] text-white font-bold text-[11px] sm:text-xs tracking-wider uppercase py-4 sm:py-5 px-2 sm:px-3 rounded-l-xl sm:rounded-l-2xl shadow-xl border-l border-t border-b border-white/25 hover:pr-3.5 active:scale-95 transition-all duration-200 flex items-center"
+  >
+    <span class="vertical-demat-btn">Open Demat Account</span>
+  </a>
+
+  <!-- ========================================================= -->
+  <!-- 5. MOBILE-OPTIMIZED SYMMETRICAL QUESTIONNAIRE             -->
+  <!-- ========================================================= -->
+  <main class="w-full max-w-2xl pl-3 pr-9 sm:px-6 pt-20 sm:pt-24 pb-6 mx-auto flex-grow flex flex-col justify-center">
+    
+    <div id="quiz-wrapper" class="bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_12px_40px_rgba(14,30,56,0.08)] border border-slate-200/90 p-4 sm:p-8 transition-all duration-300">
+      
+      <!-- Visual Progress Bar (Strictly NO numbers or text) -->
+      <div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden mb-5 sm:mb-7 shadow-inner">
+        <div id="progress-fill" class="h-full bg-gradient-to-r from-[#0e1e38] via-[#2c4c7e] to-[#18723b] rounded-full transition-all duration-500 ease-out" style="width: 7.6%;"></div>
+      </div>
+
+      <!-- Question & Symmetrical Options Stage -->
+      <div id="question-stage" class="stage-visible">
+        
+        <!-- Category Pill -->
+        <div class="flex items-center justify-center mb-2">
+          <span id="q-category" class="px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-slate-100 text-[#2c4c7e]">
+            Profile
+          </span>
+        </div>
+
+        <!-- Symmetrical Question Header Box -->
+        <div class="min-h-[68px] sm:min-h-[80px] flex items-center justify-center text-center px-1 mb-4 sm:mb-6">
+          <h2 id="q-title" class="text-base sm:text-xl md:text-2xl font-extrabold text-[#0e1e38] leading-snug">
+            Loading question...
+          </h2>
+        </div>
+
+        <!-- Symmetrical Options Grid (Thumb-friendly on mobile, 2-col on tablet/desktop) -->
+        <div id="q-options" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3.5 min-h-[230px] content-center">
+          <!-- Populated dynamically -->
+        </div>
+
+      </div>
+
+      <!-- Bottom Navigation Controls -->
+      <div class="flex items-center justify-between mt-5 sm:mt-7 pt-4 border-t border-slate-100">
+        <button id="prev-btn" onclick="prevQuestion()" class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm text-slate-600 hover:bg-slate-100 active:scale-95 transition disabled:opacity-30 disabled:pointer-events-none">
+          ← Previous
+        </button>
+        <button id="next-btn" onclick="nextQuestion()" disabled class="px-6 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0e1e38] text-white hover:bg-[#193158] active:scale-95 transition shadow-md disabled:opacity-35 disabled:pointer-events-none">
+          Next →
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 6 & 7. MOBILE-OPTIMIZED LEAD CAPTURE & VERIFICATION       -->
+    <!-- ========================================================= -->
+    <div id="lead-form-wrapper" class="hidden bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_12px_40px_rgba(14,30,56,0.08)] border border-slate-200/90 p-5 sm:p-9">
+      <div class="text-center max-w-md mx-auto mb-6">
+        <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-emerald-50 text-[#18723b] flex items-center justify-center mx-auto mb-3">
+          <svg class="w-7 h-7 sm:w-8 sm:h-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-extrabold text-[#0e1e38] mb-1.5">
+          Checkup Complete!
+        </h2>
+        <p class="text-slate-600 text-xs sm:text-sm font-medium leading-relaxed">
+          Enter your details below to view your Financial Health Score. <strong class="text-[#0e1e38]">We will share the score to your inbox directly.</strong>
+        </p>
+      </div>
+
+      <form id="score-lead-form" onsubmit="handleLeadSubmit(event)" class="max-w-md mx-auto space-y-3.5" novalidate>
+        
+        <!-- Name -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">Full Name *</label>
+          <input type="text" id="user-name" autocomplete="name" required placeholder="Enter your full name" class="w-full px-3.5 py-3 rounded-xl border border-slate-300 focus:border-[#0e1e38] focus:ring-2 focus:ring-[#0e1e38]/15 outline-none text-sm font-medium transition" />
+          <p id="err-name" class="hidden text-[11px] text-red-600 font-semibold mt-1">Please enter your full name (minimum 2 letters).</p>
+        </div>
+
+        <!-- Phone Number (Real Indian Mobile Verification) -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">Mobile Number *</label>
+          <div class="flex">
+            <span class="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-slate-300 bg-slate-100 text-slate-700 text-sm font-bold">+91</span>
+            <input type="tel" id="user-phone" inputmode="numeric" autocomplete="tel" maxlength="10" required placeholder="10-digit mobile number" class="w-full px-3.5 py-3 rounded-r-xl border border-slate-300 focus:border-[#0e1e38] focus:ring-2 focus:ring-[#0e1e38]/15 outline-none text-sm font-medium transition" />
+          </div>
+          <p id="err-phone" class="hidden text-[11px] text-red-600 font-semibold mt-1">Please enter a valid 10-digit Indian mobile number (starts with 6–9).</p>
+        </div>
+
+        <!-- Email ID (Real Domain Verification) -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">Email ID *</label>
+          <input type="email" id="user-email" inputmode="email" autocomplete="email" required placeholder="you@example.com" class="w-full px-3.5 py-3 rounded-xl border border-slate-300 focus:border-[#0e1e38] focus:ring-2 focus:ring-[#0e1e38]/15 outline-none text-sm font-medium transition" />
+          <p id="err-email" class="hidden text-[11px] text-red-600 font-semibold mt-1">Please enter a real, active email ID.</p>
+        </div>
+
+        <!-- City -->
+        <div>
+          <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-700 mb-1">City *</label>
+          <input type="text" id="user-city" autocomplete="address-level2" required placeholder="e.g., Pune, Mumbai, Delhi" class="w-full px-3.5 py-3 rounded-xl border border-slate-300 focus:border-[#0e1e38] focus:ring-2 focus:ring-[#0e1e38]/15 outline-none text-sm font-medium transition" />
+          <p id="err-city" class="hidden text-[11px] text-red-600 font-semibold mt-1">Please enter your city name.</p>
+        </div>
+
+        <div class="pt-2">
+          <button type="submit" id="submit-lead-btn" class="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-[#0e1e38] to-[#18723b] text-white font-bold text-sm sm:text-base shadow-lg hover:opacity-95 active:scale-[0.99] transition flex items-center justify-center gap-2">
+            <span>View My Financial Score →</span>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ========================================================= -->
+    <!-- 8. FINAL SCORE REPORT & CATEGORY BREAKDOWN                -->
+    <!-- ========================================================= -->
+    <div id="result-wrapper" class="hidden bg-white/95 backdrop-blur-sm rounded-3xl shadow-[0_12px_40px_rgba(14,30,56,0.08)] border border-slate-200/90 p-5 sm:p-8">
+      
+      <!-- Inbox & Backend Sync Confirmation Banner -->
+      <div class="mb-5 p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start sm:items-center gap-3 text-[#18723b]">
+        <svg class="w-5 h-5 shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+        </svg>
+        <div class="text-xs sm:text-sm font-semibold leading-snug">
+          We will share the score to your inbox directly (<span id="confirm-email" class="underline font-bold"></span>).
+        </div>
+      </div>
+
+      <!-- Overall Score Header -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-5 pb-6 border-b border-slate-100 text-center sm:text-left">
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Financial Health Report</span>
+          <h2 id="report-user-title" class="text-xl sm:text-2xl font-extrabold text-[#0e1e38] mt-0.5">User</h2>
+          <p id="report-tier-desc" class="text-xs sm:text-sm font-semibold text-slate-600 mt-1.5 max-w-md"></p>
+        </div>
+
+        <!-- Score Circle -->
+        <div class="flex flex-col items-center justify-center w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-gradient-to-br from-[#0e1e38] to-[#18723b] text-white shadow-xl shrink-0">
+          <span id="final-score-num" class="text-3xl sm:text-4xl font-extrabold">0</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest opacity-80">Out of 100</span>
+        </div>
+      </div>
+
+      <!-- Category Breakdown -->
+      <div class="mt-6">
+        <h3 class="text-xs sm:text-sm font-extrabold text-[#0e1e38] uppercase tracking-wider mb-3">
+          Category-Wise Score Breakdown
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-500 text-[10px] sm:text-xs uppercase">
+                <th class="py-2.5 px-1.5 font-bold">Area</th>
+                <th class="py-2.5 px-1.5 font-bold text-center">Score</th>
+                <th class="py-2.5 px-1.5 font-bold text-center">Max</th>
+                <th class="py-2.5 px-1.5 font-bold text-right">%</th>
+              </tr>
+            </thead>
+            <tbody id="score-table-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-6 pt-5 border-t border-slate-100 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <button onclick="resetQuiz()" class="px-4 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-xs sm:text-sm hover:bg-slate-100 transition text-center">
+          Retake Checkup
+        </button>
+        <a 
+          href="https://digiavatar-kyc.anandrathi.com/signup?RMCODE=607178&REFID=HTRAVSKEKY59GZCAK9WCDXAZHW&TS=FRN_L_GROUP1&DS=F2_N" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="px-5 py-3 rounded-xl bg-[#18723b] text-white font-bold text-xs sm:text-sm hover:bg-[#135a2e] transition shadow-md text-center"
+        >
+          Open Free Demat Account →
+        </a>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- FIREBASE BACKEND + QUESTIONNAIRE & SCORING ENGINE         -->
+  <!-- ========================================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    // SRH World Firebase Configuration (srhworld-17653)
+    const firebaseConfig = {
+      apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
+      authDomain: "srhworld-17653.firebaseapp.com",
+      projectId: "srhworld-17653",
+      storageBucket: "srhworld-17653.firebasestorage.app",
+      messagingSenderId: "161943112081",
+      appId: "1:161943112081:web:888219f6314793b3e73230"
+    };
+
+    let db = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+    } catch (err) {
+      console.warn("Firebase initialization warning:", err);
+    }
+
+    // Expose backend save function globally for form handler
+    window.saveLeadToSRHBackend = async function(leadPayload) {
+      // 1. Always save local backup
+      try {
+        const existing = JSON.parse(localStorage.getItem('srh_finance_checkups') || '[]');
+        existing.unshift(leadPayload);
+        localStorage.setItem('srh_finance_checkups', JSON.stringify(existing));
+      } catch (e) {}
+
+      if (!db) return;
+
+      try {
+        // 2. Save detailed Financial Checkup record to `finance_checkups` collection
+        await addDoc(collection(db, "finance_checkups"), {
+          ...leadPayload,
+          createdAt: serverTimestamp()
+        });
+
+        // 3. Also push a summary entry to `contact_inquiries` so it appears directly in your existing manage.html dashboard
+        await addDoc(collection(db, "contact_inquiries"), {
+          id: Date.now().toString(),
+          timestamp: new Date().toLocaleString('en-IN'),
+          name: leadPayload.name,
+          phone: leadPayload.phone,
+          email: leadPayload.email,
+          city: leadPayload.city,
+          query: `[Financial Health Checkup] Score: ${leadPayload.finalScore}/100 | City: ${leadPayload.city} | Age: ${leadPayload.ageGroup} | Life Stage: ${leadPayload.lifeStage} | Monthly Expense: ${leadPayload.monthlyExpense}`,
+          createdAt: serverTimestamp()
+        });
+      } catch (err) {
+        console.error("Error syncing lead to Firestore:", err);
+      }
+    };
+  </script>
+
+  <script>
+    // Complete Questionnaire & Official Scoring Rubric
+    const questions = [
+      {
+        id: 'age',
+        category: 'Profile',
+        scored: false,
+        area: null,
+        question: 'Select your Age Group',
+        options: [
+          { label: '18-25', score: 0 },
+          { label: '25-35', score: 0 },
+          { label: '35-45', score: 0 },
+          { label: '45-55', score: 0 },
+          { label: '55+', score: 0 }
+        ]
+      },
+      {
+        id: 'q1',
+        category: 'Life Stage',
+        scored: false,
+        area: null,
+        question: '1. How would you describe your current phase of your life?',
+        options: [
+          { label: 'Single', score: 0 },
+          { label: 'Married', score: 0 },
+          { label: 'Married with Young Children', score: 0 },
+          { label: 'Married with Financially Independent Kids', score: 0 },
+          { label: 'Nearing Retirement', score: 0 },
+          { label: 'Retired', score: 0 }
+        ]
+      },
+      {
+        id: 'q2',
+        category: 'Financial Planning Preparedness',
+        scored: true,
+        area: 'Financial Planning Preparedness',
+        question: '2. Which of the following best describes how you manage your financial goals?',
+        options: [
+          { label: 'I have not considered financial goal planning or tracking investments yet', score: 0 },
+          { label: 'I mostly focus on day-to-day expenses & savings, with little or no structured financial goal planning', score: 2 },
+          { label: "I have thought about financial goals but haven't formally planned or tracked them consistently", score: 5 },
+          { label: 'I have some financial goals and investments in place, but I review or adjust them only occasionally', score: 7 },
+          { label: 'I have clearly defined financial goals, periodically review them (at least once a year)', score: 10 }
+        ]
+      },
+      {
+        id: 'q3',
+        category: 'Child Future Planning',
+        scored: true,
+        area: 'Child Future Planning',
+        question: "3. Which statement best describes your preparedness for your child's future education needs?",
+        options: [
+          { label: 'Not started planning yet', score: 0 },
+          { label: 'Some savings but may not be sufficient', score: 4 },
+          { label: 'Reasonably prepared', score: 7 },
+          { label: 'Confident that my current plan can meet future needs', score: 10 },
+          { label: 'N/A', score: null }
+        ]
+      },
+      {
+        id: 'q4',
+        category: 'Child Future Planning',
+        scored: true,
+        area: 'Child Future Planning',
+        question: "4. Have you estimated the future cost of your child's higher education, considering inflation?",
+        options: [
+          { label: 'Not aware about future cost estimations', score: 0 },
+          { label: 'Aware but not estimated', score: 2 },
+          { label: 'Have estimated it but not fully confident', score: 5 },
+          { label: 'Have estimated it and aligned my investments accordingly', score: 10 },
+          { label: 'N/A', score: null }
+        ]
+      },
+      {
+        id: 'q5',
+        category: 'Life Cover for Family',
+        scored: true,
+        area: 'Health & Life Cover',
+        question: '5. How much life cover do you have for yourself?',
+        options: [
+          { label: 'No Life Insurance Cover', score: 0 },
+          { label: 'Upto 5x Annual Expenses', score: 2 },
+          { label: '5-15x Annual Expenses', score: 5 },
+          { label: '15-20x Annual Expenses', score: 7 },
+          { label: '> 20x Annual Expenses', score: 10 },
+          { label: 'N/A', score: null }
+        ]
+      },
+      {
+        id: 'q6',
+        category: 'Emergency Fund',
+        scored: true,
+        area: 'Emergency Fund',
+        question: '6. How much emergency funds do you have available for unexpected situations?',
+        options: [
+          { label: 'No emergency fund', score: 0 },
+          { label: 'Less than 3 months expenses', score: 2 },
+          { label: '3-6 months expenses', score: 5 },
+          { label: 'More than 6 months expenses', score: 10 }
+        ]
+      },
+      {
+        id: 'q7',
+        category: 'Wealth Creation',
+        scored: true,
+        area: 'Wealth Creation',
+        question: '7. What percentage of your income do you save or invest monthly towards your long-term financial goals?',
+        options: [
+          { label: 'Less than 10%', score: 0 },
+          { label: '10-20%', score: 4 },
+          { label: '20-30%', score: 7 },
+          { label: 'More than 30%', score: 10 }
+        ]
+      },
+      {
+        id: 'q8',
+        category: 'Health Cover for Family',
+        scored: true,
+        area: 'Health & Life Cover',
+        question: '8. Do you have health insurance coverage for you and your family?',
+        options: [
+          { label: 'No, do not have health insurance', score: 0 },
+          { label: 'Yes, but have company provided only', score: 2 },
+          { label: 'Yes, adequate only for myself', score: 5 },
+          { label: 'Yes, adequate for myself & my family', score: 10 }
+        ]
+      },
+      {
+        id: 'q9',
+        category: 'Debt Management',
+        scored: false,
+        area: null,
+        question: "9. Approximately how much is your family's monthly household expense, including EMI, school fees, rent, lifestyle expenses and other regular commitments?",
+        options: [
+          { label: '< ₹25,000', score: 0 },
+          { label: '₹25,000 - ₹50,000', score: 0 },
+          { label: '₹50,001 - ₹1,00,000', score: 0 },
+          { label: '₹1,00,001 - ₹2,00,000', score: 0 },
+          { label: '₹2,00,001 - ₹3,00,000', score: 0 },
+          { label: '> ₹3,00,000', score: 0 },
+          { label: 'Prefer not to disclose', score: 0 }
+        ]
+      },
+      {
+        id: 'q10',
+        category: 'Expense & Debt Management',
+        scored: true,
+        area: 'Expense & Debt Management',
+        question: '10. How manageable are your current loans and EMIs, given your monthly expenses?',
+        options: [
+          { label: 'EMIs create significant financial stress', score: 0 },
+          { label: 'EMIs are manageable but restrict savings', score: 4 },
+          { label: 'EMIs are comfortable and under control', score: 7 },
+          { label: 'Debt-free or minimal liabilities', score: 10 }
+        ]
+      },
+      {
+        id: 'q11',
+        category: 'Retirement Readiness',
+        scored: true,
+        area: 'Retirement Readiness',
+        question: '11. Which statement best describes your retirement planning?',
+        options: [
+          { label: 'I have never thought about retirement planning', score: 0 },
+          { label: 'I have thought about it but have not started planning', score: 4 },
+          { label: 'I have a target retirement age in mind', score: 7 },
+          { label: 'I have identified both a target retirement age and a retirement corpus goal', score: 10 },
+          { label: 'N/A', score: null }
+        ]
+      },
+      {
+        id: 'q12',
+        category: 'Retirement Readiness',
+        scored: true,
+        area: 'Retirement Readiness',
+        question: '12. How much retirement savings have you accumulated till date?',
+        options: [
+          { label: 'No Retirement Corpus till date', score: 0 },
+          { label: 'Upto 5x Annual Expenses', score: 2 },
+          { label: '5-10x Annual Expenses', score: 4 },
+          { label: '10-15x Annual Expenses', score: 6 },
+          { label: '15-20x Annual Expenses', score: 8 },
+          { label: '> 20x Annual Expenses', score: 10 },
+          { label: 'N/A', score: null }
+        ]
+      }
+    ];
+
+    let currentStep = 0;
+    let isTransitioning = false;
+    const userAnswers = new Array(questions.length).fill(null);
+
+    // Splash Screen Sequence
+    window.addEventListener('DOMContentLoaded', () => {
+      const logoStage = document.getElementById('splash-logo-stage');
+      const textStage = document.getElementById('splash-text-stage');
+      const splashOverlay = document.getElementById('splash-overlay');
+
+      setTimeout(() => {
+        logoStage.classList.add('hidden');
+        textStage.classList.remove('hidden');
+        textStage.classList.add('flex', 'animate-welcome-splash');
+      }, 1550);
+
+      setTimeout(() => {
+        splashOverlay.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => splashOverlay.classList.add('hidden'), 500);
+      }, 3150);
+
+      populateQuestionDOM(0);
+    });
+
+    // Populate Question DOM without triggering an in-place flash
+    function populateQuestionDOM(index) {
+      const q = questions[index];
+
+      // Update Progress Bar width only (No numbers or text)
+      const progressPercent = ((index + 1) / questions.length) * 100;
+      document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+
+      document.getElementById('q-category').textContent = q.category;
+      document.getElementById('q-title').textContent = q.question;
+
+      const optionsContainer = document.getElementById('q-options');
+      optionsContainer.innerHTML = '';
+
+      q.options.forEach((opt, optIdx) => {
+        const isSelected = userAnswers[index] === optIdx;
+        const isOddLastItem = (q.options.length % 2 !== 0) && (optIdx === q.options.length - 1);
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `option-card w-full min-h-[56px] sm:min-h-[64px] px-4 py-3 rounded-2xl border-2 text-left flex items-center justify-between gap-3 ${
+          isSelected ? 'selected' : 'border-slate-200 bg-slate-50/70 text-[#0e1e38]'
+        } ${isOddLastItem ? 'sm:col-span-2 sm:max-w-md sm:mx-auto' : ''}`;
+
+        btn.innerHTML = `
+          <span class="text-xs sm:text-sm md:text-base font-semibold leading-snug">${opt.label}</span>
+          <span class="radio-indicator w-5 h-5 rounded-full border-2 ${
+            isSelected ? 'border-white bg-[#18723b]' : 'border-slate-400'
+          } shrink-0 flex items-center justify-center transition-colors">
+            <span class="radio-dot w-2 h-2 rounded-full bg-white transition-transform ${
+              isSelected ? 'opacity-100 scale-100' : 'opacity-0 scale-0'
+            }"></span>
+          </span>
+        `;
+
+        btn.onclick = () => selectOptionInPlace(optIdx, btn);
+        optionsContainer.appendChild(btn);
+      });
+
+      document.getElementById('prev-btn').disabled = index === 0;
+      document.getElementById('next-btn').disabled = userAnswers[index] === null;
+      document.getElementById('next-btn').textContent = index === questions.length - 1 ? 'Finish →' : 'Next →';
+    }
+
+    // Highlight clicked option in-place (NO DOM rebuild or double flash!)
+    function selectOptionInPlace(optIdx, clickedBtn) {
+      if (isTransitioning) return;
+      userAnswers[currentStep] = optIdx;
+
+      // Update visual selection state in-place without re-rendering DOM
+      const allButtons = document.querySelectorAll('#q-options .option-card');
+      allButtons.forEach((btn) => {
+        btn.classList.remove('selected');
+        btn.classList.add('border-slate-200', 'bg-slate-50/70', 'text-[#0e1e38]');
+        const indicator = btn.querySelector('.radio-indicator');
+        const dot = btn.querySelector('.radio-dot');
+        if (indicator) indicator.className = 'radio-indicator w-5 h-5 rounded-full border-2 border-slate-400 shrink-0 flex items-center justify-center transition-colors';
+        if (dot) dot.className = 'radio-dot w-2 h-2 rounded-full bg-white transition-transform opacity-0 scale-0';
+      });
+
+      clickedBtn.classList.add('selected');
+      clickedBtn.classList.remove('border-slate-200', 'bg-slate-50/70', 'text-[#0e1e38]');
+      const activeIndicator = clickedBtn.querySelector('.radio-indicator');
+      const activeDot = clickedBtn.querySelector('.radio-dot');
+      if (activeIndicator) activeIndicator.className = 'radio-indicator w-5 h-5 rounded-full border-2 border-white bg-[#18723b] shrink-0 flex items-center justify-center transition-colors';
+      if (activeDot) activeDot.className = 'radio-dot w-2 h-2 rounded-full bg-white transition-transform opacity-100 scale-100';
+
+      document.getElementById('next-btn').disabled = false;
+
+      // Smoothly advance after brief visual confirmation
+      setTimeout(() => {
+        nextQuestion();
+      }, 210);
+    }
+
+    // Smooth single-direction transition to next question
+    function nextQuestion() {
+      if (isTransitioning || userAnswers[currentStep] === null) return;
+      isTransitioning = true;
+
+      const stage = document.getElementById('question-stage');
+      stage.classList.remove('stage-visible');
+      stage.classList.add('stage-hidden-left');
+
+      setTimeout(() => {
+        if (currentStep < questions.length - 1) {
+          currentStep++;
+          populateQuestionDOM(currentStep);
+
+          // Position stage slightly to the right before animating in
+          stage.style.transition = 'none';
+          stage.classList.remove('stage-hidden-left');
+          stage.classList.add('stage-hidden-right');
+          void stage.offsetWidth; // Force reflow
+
+          stage.style.transition = '';
+          stage.classList.remove('stage-hidden-right');
+          stage.classList.add('stage-visible');
+
+          setTimeout(() => { isTransitioning = false; }, 220);
+        } else {
+          document.getElementById('quiz-wrapper').classList.add('hidden');
+          document.getElementById('lead-form-wrapper').classList.remove('hidden');
+          isTransitioning = false;
+        }
+      }, 210);
+    }
+
+    function prevQuestion() {
+      if (isTransitioning || currentStep === 0) return;
+      isTransitioning = true;
+
+      const stage = document.getElementById('question-stage');
+      stage.classList.remove('stage-visible');
+      stage.classList.add('stage-hidden-right');
+
+      setTimeout(() => {
+        currentStep--;
+        populateQuestionDOM(currentStep);
+
+        stage.style.transition = 'none';
+        stage.classList.remove('stage-hidden-right');
+        stage.classList.add('stage-hidden-left');
+        void stage.offsetWidth;
+
+        stage.style.transition = '';
+        stage.classList.remove('stage-hidden-left');
+        stage.classList.add('stage-visible');
+
+        setTimeout(() => { isTransitioning = false; }, 220);
+      }, 210);
+    }
+
+    // Verification for Real Indian Mobile Number & Real Email
+    function isValidIndianMobile(phone) {
+      const cleaned = phone.trim();
+      if (!/^[6-9]\d{9}$/.test(cleaned)) return false;
+      if (/^(\d)\1{9}$/.test(cleaned)) return false;
+      if (cleaned === '9876543210' || cleaned === '6789012345') return false;
+      return true;
+    }
+
+    function isValidRealEmail(email) {
+      const cleaned = email.trim().toLowerCase();
+      const basicFormat = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!basicFormat.test(cleaned)) return false;
+
+      const domain = cleaned.split('@')[1];
+      const blockedDomains = [
+        'test.com', 'example.com', 'mailinator.com', 'tempmail.com',
+        '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'abc.com', 'xyz.com', 'fake.com'
+      ];
+      return !blockedDomains.includes(domain);
+    }
+
+    async function handleLeadSubmit(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('user-name').value.trim();
+      const phone = document.getElementById('user-phone').value.trim();
+      const email = document.getElementById('user-email').value.trim();
+      const city = document.getElementById('user-city').value.trim();
+
+      let valid = true;
+
+      if (name.length < 2) {
+        document.getElementById('err-name').classList.remove('hidden');
+        valid = false;
+      } else {
+        document.getElementById('err-name').classList.add('hidden');
+      }
+
+      if (!isValidIndianMobile(phone)) {
+        document.getElementById('err-phone').classList.remove('hidden');
+        valid = false;
+      } else {
+        document.getElementById('err-phone').classList.add('hidden');
+      }
+
+      if (!isValidRealEmail(email)) {
+        document.getElementById('err-email').classList.remove('hidden');
+        valid = false;
+      } else {
+        document.getElementById('err-email').classList.add('hidden');
+      }
+
+      if (city.length < 2) {
+        document.getElementById('err-city').classList.remove('hidden');
+        valid = false;
+      } else {
+        document.getElementById('err-city').classList.add('hidden');
+      }
+
+      if (!valid) return;
+
+      const submitBtn = document.getElementById('submit-lead-btn');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Calculating & Saving...</span>';
+
+      await calculateAndSaveScore(name, phone, email, city);
+
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>View My Financial Score →</span>';
+    }
+
+    async function calculateAndSaveScore(name, phone, email, city) {
+      const areas = {
+        'Child Future Planning': { earned: 0, max: 0 },
+        'Health & Life Cover': { earned: 0, max: 0 },
+        'Financial Planning Preparedness': { earned: 0, max: 0 },
+        'Emergency Fund': { earned: 0, max: 0 },
+        'Wealth Creation': { earned: 0, max: 0 },
+        'Expense & Debt Management': { earned: 0, max: 0 },
+        'Retirement Readiness': { earned: 0, max: 0 }
+      };
+
+      const detailedAnswers = {};
+
+      questions.forEach((q, idx) => {
+        const selectedOptIndex = userAnswers[idx];
+        const selectedOpt = q.options[selectedOptIndex];
+        detailedAnswers[q.id] = selectedOpt ? selectedOpt.label : 'Unanswered';
+
+        if (q.scored && selectedOpt && selectedOpt.score !== null) {
+          areas[q.area].earned += selectedOpt.score;
+          areas[q.area].max += 10;
+        }
+      });
+
+      let totalEarned = 0;
+      let totalApplicableMax = 0;
+
+      const tbody = document.getElementById('score-table-body');
+      tbody.innerHTML = '';
+
+      Object.keys(areas).forEach(areaName => {
+        const { earned, max } = areas[areaName];
+        totalEarned += earned;
+        totalApplicableMax += max;
+
+        const areaPct = max > 0 ? Math.round((earned / max) * 100) + '%' : 'N/A';
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="py-3 px-1.5 font-bold text-[#0e1e38]">${areaName}</td>
+          <td class="py-3 px-1.5 text-center font-semibold text-[#18723b]">${max > 0 ? earned : '-'}</td>
+          <td class="py-3 px-1.5 text-center text-slate-500">${max > 0 ? max : 'N/A'}</td>
+          <td class="py-3 px-1.5 text-right font-extrabold text-[#0e1e38]">${areaPct}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const finalNormalizedScore = totalApplicableMax > 0
+        ? Math.round((totalEarned / totalApplicableMax) * 100)
+        : 0;
+
+      // Save to SRH World Firebase Backend
+      const leadPayload = {
+        name,
+        phone: `+91${phone}`,
+        email,
+        city,
+        finalScore: finalNormalizedScore,
+        totalEarned,
+        totalApplicableMax,
+        ageGroup: detailedAnswers.age || '',
+        lifeStage: detailedAnswers.q1 || '',
+        monthlyExpense: detailedAnswers.q9 || '',
+        categoryScores: areas,
+        answers: detailedAnswers,
+        submittedAtISO: new Date().toISOString()
+      };
+
+      if (typeof window.saveLeadToSRHBackend === 'function') {
+        await window.saveLeadToSRHBackend(leadPayload);
+      }
+
+      // Render Results UI
+      document.getElementById('confirm-email').textContent = email;
+      document.getElementById('report-user-title').textContent = `${name} (${city})`;
+      document.getElementById('final-score-num').textContent = finalNormalizedScore;
+
+      let tierMessage = '';
+      if (finalNormalizedScore >= 80) {
+        tierMessage = 'Excellent Financial Health! Your goals, protection cover, and retirement corpus are well aligned.';
+      } else if (finalNormalizedScore >= 55) {
+        tierMessage = 'Good Foundation! Expanding your protection cover and structured goal planning will further strengthen your future.';
+      } else {
+        tierMessage = 'Needs Attention. Prioritizing an emergency fund, adequate insurance, and disciplined monthly investments will boost your financial security.';
+      }
+      document.getElementById('report-tier-desc').textContent = tierMessage;
+
+      document.getElementById('lead-form-wrapper').classList.add('hidden');
+      document.getElementById('result-wrapper').classList.remove('hidden');
+    }
+
+    function toggleMenu() {
+      const menu = document.getElementById('nav-dropdown');
+      menu.classList.toggle('hidden');
+    }
+
+    function resetQuiz() {
+      currentStep = 0;
+      isTransitioning = false;
+      userAnswers.fill(null);
+      document.getElementById('score-lead-form').reset();
+      document.getElementById('lead-form-wrapper').classList.add('hidden');
+      document.getElementById('result-wrapper').classList.add('hidden');
+      document.getElementById('quiz-wrapper').classList.remove('hidden');
+
+      const stage = document.getElementById('question-stage');
+      stage.className = 'stage-visible';
+      populateQuestionDOM(0);
+    }
+  </script>
+</body>
+</html>
