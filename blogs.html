@@ -140,6 +140,16 @@
             transform: translateX(-2px);
         }
 
+        /* Optional related-blog button; shown only when enabled in Manage */
+        .related-blog-action { margin-top: 28px; margin-bottom: 10px; }
+        .related-blog-btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+            padding: 12px 24px; border-radius: 25px; background: #0f172a; color: #ffffff;
+            font-size: 14px; font-weight: 700; text-decoration: none;
+            border: 1px solid #0f172a; transition: background .2s ease, transform .2s ease;
+        }
+        .related-blog-btn:hover { background: #10b981; border-color: #10b981; color: #ffffff; transform: translateY(-2px); }
+
         /* Distinct Share Section */
         .article-share {
             margin-top: 50px;
@@ -391,6 +401,13 @@
             </div>
             
             <div class="article-page-content" id="reader-content"></div>
+
+            <!-- Optional Related Blog Button (controlled from manage.html) -->
+            <div class="related-blog-action" id="related-blog-container" hidden>
+                <a class="related-blog-btn" id="related-blog-link" href="#" target="_blank" rel="noopener noreferrer">
+                    <span id="related-blog-label">Read Related Blog</span> <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
 
             <!-- Share Section (Without X/Twitter Button) -->
             <div class="article-share">
@@ -648,6 +665,7 @@
                 document.getElementById('reader-img').style.display = 'none';
                 document.getElementById('reader-content').innerHTML = 'This article may have been removed or the link is incorrect.';
                 document.querySelector('.article-share').style.display = 'none';
+                document.getElementById('related-blog-container').hidden = true;
                 return;
             }
 
@@ -663,6 +681,27 @@
             
             // Renders formatted HTML content allowing bold and underline
             document.getElementById('reader-content').innerHTML = formatArticleText(blog.content || blog.excerpt || '');
+
+            // Show the button only for posts where it was enabled in the admin page.
+            const relatedContainer = document.getElementById('related-blog-container');
+            const relatedLink = document.getElementById('related-blog-link');
+            const relatedLabel = document.getElementById('related-blog-label');
+            const relatedUrl = String(blog.relatedBlogUrl || '').trim();
+            let safeRelatedUrl = false;
+            try {
+                const parsedRelatedUrl = new URL(relatedUrl, window.location.href);
+                safeRelatedUrl = (parsedRelatedUrl.protocol === 'http:' || parsedRelatedUrl.protocol === 'https:') && !!relatedUrl;
+            } catch (e) {
+                safeRelatedUrl = false;
+            }
+            if (blog.relatedBlogEnabled === true && safeRelatedUrl) {
+                relatedLink.href = relatedUrl;
+                relatedLabel.textContent = String(blog.relatedBlogLabel || 'Read Related Blog');
+                relatedContainer.hidden = false;
+            } else {
+                relatedContainer.hidden = true;
+                relatedLink.removeAttribute('href');
+            }
 
             document.title = blog.title + ' | SRH World';
             setMeta('og:title', blog.title);
