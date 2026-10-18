@@ -663,6 +663,38 @@
                     <label>Full Content</label>
                     <textarea id="post-content" class="form-control" rows="6" placeholder="Full article writeup..." required></textarea>
                 </div>
+
+                <!-- Optional manual publish date -->
+                <div class="form-group" style="padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px;">
+                        <input type="checkbox" id="post-manual-date-enabled" style="width: 17px; height: 17px; accent-color: var(--accent-green);">
+                        Set Manual Publish Date
+                    </label>
+                    <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 12px;">Leave unchecked to use today’s date automatically. Check it to choose a date from the calendar.</p>
+                    <div id="manual-date-fields" style="display: none;">
+                        <label for="post-manual-date">Publish Date</label>
+                        <input type="date" id="post-manual-date" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Optional related-blog button -->
+                <div class="form-group" style="padding: 14px; border: 1px solid var(--border-color); border-radius: 10px; background: #f8fafc;">
+                    <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 14px;">
+                        <input type="checkbox" id="post-related-enabled" style="width: 17px; height: 17px; accent-color: var(--accent-green);">
+                        Enable Related Blog Button
+                    </label>
+                    <p style="font-size: 12px; color: var(--text-muted); margin: 6px 0 12px;">Enable this only when the article has a relevant blog you want readers to visit.</p>
+                    <div id="related-blog-fields" style="display: none;">
+                        <div class="form-group">
+                            <label for="post-related-label">Button Text</label>
+                            <input type="text" id="post-related-label" class="form-control" value="Read Related Blog" placeholder="Read Related Blog">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0;">
+                            <label for="post-related-url">Relevant Blog URL</label>
+                            <input type="url" id="post-related-url" class="form-control" placeholder="https://yourwebsite.com/blogs.html?...">
+                        </div>
+                    </div>
+                </div>
                 <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 15px;">
                     <button type="button" class="admin-btn-secondary" id="cancel-post-modal">Cancel</button>
                     <button type="submit" class="admin-btn-primary" id="save-post-btn">Publish to Cloud</button>
@@ -957,9 +989,46 @@
 
         const postModal = document.getElementById('post-modal');
         const postForm = document.getElementById('post-editor-form');
+        const relatedEnabledInput = document.getElementById('post-related-enabled');
+        const relatedFields = document.getElementById('related-blog-fields');
+        const relatedLabelInput = document.getElementById('post-related-label');
+        const relatedUrlInput = document.getElementById('post-related-url');
+
+        function updateRelatedBlogFields() {
+            relatedFields.style.display = relatedEnabledInput.checked ? 'block' : 'none';
+            relatedUrlInput.required = relatedEnabledInput.checked;
+        }
+        relatedEnabledInput.addEventListener('change', updateRelatedBlogFields);
+
+        const manualDateEnabledInput = document.getElementById('post-manual-date-enabled');
+        const manualDateFields = document.getElementById('manual-date-fields');
+        const manualDateInput = document.getElementById('post-manual-date');
+
+        function updateManualDateFields() {
+            manualDateFields.style.display = manualDateEnabledInput.checked ? 'block' : 'none';
+            manualDateInput.required = manualDateEnabledInput.checked;
+        }
+        manualDateEnabledInput.addEventListener('change', updateManualDateFields);
+
+        function standardDateToInputValue(value) {
+            if (!value || typeof value !== 'string') return '';
+            const match = value.match(/^(\d{1,2})-([A-Za-z]{3})-(\d{4})$/);
+            if (!match) return '';
+            const months = { Jan: '01', Feb: '02', Mar: '03', Apr: '04', May: '05', Jun: '06', Jul: '07', Aug: '08', Sep: '09', Oct: '10', Nov: '11', Dec: '12' };
+            const month = months[match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase()];
+            if (!month) return '';
+            return `${match[3]}-${month}-${String(match[1]).padStart(2, '0')}`;
+        }
 
         document.getElementById('open-create-blog-modal-btn').onclick = () => {
             postForm.reset();
+            manualDateEnabledInput.checked = false;
+            manualDateInput.value = '';
+            updateManualDateFields();
+            relatedEnabledInput.checked = false;
+            relatedLabelInput.value = 'Read Related Blog';
+            relatedUrlInput.value = '';
+            updateRelatedBlogFields();
             document.getElementById('edit-post-id').value = '';
             document.getElementById('post-image-base64').value = '';
             document.getElementById('post-preview-img').style.display = 'none';
@@ -977,6 +1046,13 @@
             document.getElementById('post-excerpt').value = post.excerpt;
             document.getElementById('post-content').value = post.content;
             document.getElementById('post-image-base64').value = post.image;
+            manualDateEnabledInput.checked = true;
+            manualDateInput.value = standardDateToInputValue(post.date) || new Date().toISOString().slice(0, 10);
+            updateManualDateFields();
+            relatedEnabledInput.checked = post.relatedBlogEnabled === true;
+            relatedLabelInput.value = post.relatedBlogLabel || 'Read Related Blog';
+            relatedUrlInput.value = post.relatedBlogUrl || '';
+            updateRelatedBlogFields();
             
             const preview = document.getElementById('post-preview-img');
             preview.src = post.image;
@@ -994,6 +1070,32 @@
             e.preventDefault();
             const editId = document.getElementById('edit-post-id').value;
             const imgData = document.getElementById('post-image-base64').value;
+            const relatedEnabled = relatedEnabledInput.checked;
+            const relatedUrl = relatedUrlInput.value.trim();
+            const manualDateEnabled = manualDateEnabledInput.checked;
+            const selectedManualDate = manualDateInput.value;
+
+            if (manualDateEnabled && !selectedManualDate) {
+                alert('Please choose a publish date, or uncheck Set Manual Publish Date to use today’s date.');
+                manualDateInput.focus();
+                return;
+            }
+
+            if (relatedEnabled && !relatedUrl) {
+                alert('Please enter the relevant blog URL, or uncheck Enable Related Blog Button.');
+                relatedUrlInput.focus();
+                return;
+            }
+            if (relatedEnabled) {
+                try {
+                    const parsedUrl = new URL(relatedUrl);
+                    if (!['http:', 'https:'].includes(parsedUrl.protocol)) throw new Error('Invalid protocol');
+                } catch (_) {
+                    alert('Please enter a valid blog URL starting with https:// or http://.');
+                    relatedUrlInput.focus();
+                    return;
+                }
+            }
 
             if (!imgData) {
                 alert('Please upload an image for this article.');
@@ -1010,7 +1112,12 @@
                 image: imgData,
                 excerpt: document.getElementById('post-excerpt').value.trim(),
                 content: document.getElementById('post-content').value.trim(),
-                date: formatStandardDate(new Date()),
+                relatedBlogEnabled: relatedEnabled,
+                relatedBlogUrl: relatedEnabled ? relatedUrl : '',
+                relatedBlogLabel: relatedEnabled ? (relatedLabelInput.value.trim() || 'Read Related Blog') : 'Read Related Blog',
+                date: manualDateEnabled
+                    ? formatStandardDate(new Date(`${selectedManualDate}T12:00:00`))
+                    : formatStandardDate(new Date()),
                 author: getAuthorDisplayName(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             };
