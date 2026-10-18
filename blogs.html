@@ -404,7 +404,7 @@
 
             <!-- Optional Related Blog Button (controlled from manage.html) -->
             <div class="related-blog-action" id="related-blog-container" hidden>
-                <a class="related-blog-btn" id="related-blog-link" href="#" target="_blank" rel="noopener noreferrer">
+                <a class="related-blog-btn" id="related-blog-link" href="#">
                     <span id="related-blog-label">Read Related Blog</span> <i class="fas fa-arrow-right"></i>
                 </a>
             </div>
@@ -720,6 +720,29 @@
             history.pushState({}, '', '?post=' + encodeURIComponent(id));
             handleRoute(true);
         }
+
+        // Related-blog links to another article on this same page use client-side
+        // navigation: update the URL and article content without opening a tab or reloading.
+        document.getElementById('related-blog-link').addEventListener('click', (e) => {
+            const link = e.currentTarget;
+            const rawHref = link.getAttribute('href');
+            if (!rawHref) return;
+
+            let destination;
+            try { destination = new URL(rawHref, window.location.href); }
+            catch (_) { return; }
+
+            const samePage = destination.origin === window.location.origin &&
+                destination.pathname.replace(/\/$/, '') === window.location.pathname.replace(/\/$/, '');
+            if (!samePage) return; // external URL: open in this same tab normally
+
+            let relatedId = destination.searchParams.get('post');
+            if (!relatedId && destination.hash) relatedId = decodeURIComponent(destination.hash.slice(1));
+            if (relatedId && findBlogByKey(relatedId)) {
+                e.preventDefault();
+                navigateToPost(relatedId);
+            }
+        });
 
         document.getElementById('article-back').addEventListener('click', (e) => {
             e.preventDefault();
