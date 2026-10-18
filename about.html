@@ -14,27 +14,43 @@
 </head>
 <body>
 
-    <!-- Main Navigation Header -->
+    <!-- Main Navigation Header (Floating Rounded Pill) -->
     <div class="header-sticky-wrapper header-visible">
         <header class="main-header">
             <div class="header-container">
                 <div class="logo-area">
                     <a href="./index.html"><img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo"></a>
                 </div>
+
                 <div class="header-right-actions">
-                    <!-- Circular Home Button -->
-                    <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page" style="width: 42px; height: 42px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">
-                        <i class="fas fa-home" style="margin: 0;"></i>
+                    <!-- Doji Mascot positioned to the left of the action buttons -->
+                    <div class="header-doji-mascot" id="header-doji-wrap" title="Ask Doji!">
+                        <img src="doji.png" alt="Doji Mascot" class="doji-header-img" onerror="this.style.display='none'">
+                    </div>
+
+                    <!-- Financial Checkup Button -->
+                    <a href="./financial-checkup.html" class="header-action-pill checkup-pill" aria-label="Financial Checkup" title="Financial Checkup">
+                        <i class="fas fa-stethoscope"></i>
+                        <span class="pill-btn-text">Financial Checkup</span>
                     </a>
-                    <a href="./sip-calculator.html" class="header-calc-pill" aria-label="Smart Calculator" title="Smart Financial Calculator">
-                        <i class="fas fa-calculator"></i><span class="calc-btn-text">Smart Calculator</span>
+
+                    <!-- Smart Calculator Button -->
+                    <a href="./sip-calculator.html" class="header-action-pill calc-pill" aria-label="Smart Calculator" title="Smart Financial Calculator">
+                        <i class="fas fa-calculator"></i>
+                        <span class="pill-btn-text">Smart Calculator</span>
                     </a>
-                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu"><i class="fas fa-bars"></i></button>
+
+                    <!-- Hamburger Menu Button -->
+                    <button class="mobile-nav-toggle" id="menu-toggle-btn" aria-label="Toggle Menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
                 </div>
+
+                <!-- Wide Floating Navigation Drawer -->
                 <nav class="nav-bar" id="header-navigation-menu">
                     <ul class="nav-list">
                         <li class="nav-item"><a href="./index.html" class="nav-link">Home</a></li>
-                        <li class="nav-item"><a href="./about.html" class="nav-link active">About Us</a></li>
+                        <li class="nav-item"><a href="./about.html" class="nav-link">About Us</a></li>
                         <li class="nav-item has-horizontal-dropdown">
                             <a href="./products.html" class="nav-link">Products <i class="fas fa-chevron-down mobile-arrow"></i></a>
                             <ul class="horizontal-dropdown">
@@ -70,8 +86,7 @@
                                 <li><a href="./sme.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
                                 <li><a href="./sme.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
                                 <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
-                                <!-- New Industries Link -->
-<li><a href="./industries.html"><i class="fas fa-city dropdown-icon"></i> Industries</a></li>
+                                <li><a href="./industries.html"><i class="fas fa-city dropdown-icon"></i> Industries</a></li>
                             </ul>
                         </li>
                         <li class="nav-item has-horizontal-dropdown">
