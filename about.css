@@ -763,4 +763,285 @@ a {
         flex-wrap: wrap;
         justify-content: center;
     }
+   /* --- 2. GLOBAL HEADER & NAVIGATION (FLOATING ROUNDED BAR) --- */
+.header-sticky-wrapper { 
+    position: fixed; 
+    top: 14px; 
+    left: 0; 
+    width: 100%; 
+    padding: 0 16px;
+    z-index: 2000; 
+    transform: translateY(-130%); 
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+    pointer-events: none;
+}
+
+.header-sticky-wrapper.header-visible { 
+    transform: translateY(0); 
+}
+
+.main-header { 
+    max-width: 1240px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.96); 
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color); 
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+    width: 100%; 
+    pointer-events: auto;
+    position: relative;
+}
+
+.header-container { 
+    padding: 8px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    position: relative; 
+}
+
+.logo-area .client-logo { 
+    height: 44px; 
+    width: auto; 
+    object-fit: contain; 
+    display: block; 
+}
+
+.header-right-actions { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    z-index: 1050; 
+}
+
+/* Doji Mascot in Header */
+.header-doji-mascot {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 4px;
+    cursor: pointer;
+    transition: transform 0.25s ease;
+}
+
+.header-doji-mascot:hover {
+    transform: translateY(-2px) scale(1.06);
+}
+
+.doji-header-img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+}
+
+/* Header Action Pills (Financial Checkup & Smart Calculator) */
+.header-action-pill,
+.header-calc-pill { 
+    background-color: #64748b; 
+    color: #ffffff !important; 
+    padding: 9px 16px; 
+    border-radius: 999px; 
+    font-size: 13.5px; 
+    font-weight: 700; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center;
+    gap: 8px; 
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); 
+    transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; 
+}
+
+.header-action-pill.checkup-pill {
+    background-color: var(--primary-dark);
+}
+
+.header-action-pill:hover,
+.header-calc-pill:hover { 
+    background-color: var(--accent-green) !important; 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35); 
+}
+
+/* Hamburger Button */
+.mobile-nav-toggle { 
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #f1f5f9; 
+    border: 1px solid var(--border-color); 
+    color: var(--primary-dark); 
+    font-size: 18px; 
+    cursor: pointer; 
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-nav-toggle:hover {
+    background-color: var(--primary-dark);
+    color: #ffffff;
+}
+
+/* Wide Floating Navigation Drawer */
+.nav-bar { 
+    position: absolute; 
+    top: calc(100% + 12px); 
+    left: 0; 
+    width: 100%; 
+    background-color: #ffffff; 
+    border: 1px solid var(--border-color); 
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12); 
+    max-height: 0; 
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden; 
+    transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease, visibility 0.25s ease; 
+}
+
+.nav-bar.mobile-open { 
+    max-height: 82vh; 
+    opacity: 1;
+    visibility: visible;
+    overflow-y: auto; 
+}
+
+.nav-list { 
+    list-style: none; 
+    display: flex; 
+    flex-direction: column; 
+    padding: 10px 12px; 
+}
+
+.nav-item { 
+    border-bottom: 1px solid #f1f5f9; 
+}
+
+.nav-item:last-child { 
+    border-bottom: none; 
+}
+
+.nav-link { 
+    color: var(--primary-dark); 
+    font-weight: 700; 
+    font-size: 15px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    padding: 13px 20px; 
+    border-radius: 12px;
+    transition: 0.2s ease; 
+}
+
+.nav-link:hover, .nav-link.active { 
+    background-color: #f8fafc; 
+    color: var(--accent-green); 
+}
+
+.mobile-arrow { 
+    margin-left: 8px; 
+    font-size: 12px; 
+    transition: transform 0.25s ease; 
+}
+
+.rotate-arrow { 
+    transform: rotate(180deg); 
+}
+
+.horizontal-dropdown { 
+    list-style: none; 
+    background-color: #f8fafc; 
+    border-radius: 12px;
+    max-height: 0; 
+    overflow: hidden; 
+    display: flex; 
+    flex-direction: column; 
+    transition: max-height 0.3s ease-out; 
+}
+
+.horizontal-dropdown.submenu-visible { 
+    max-height: 800px; 
+    margin: 4px 12px 10px 12px;
+    padding: 8px;
+    border: 1px solid var(--border-color); 
+     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 4px;
+}
+
+.horizontal-dropdown li a { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    padding: 10px 16px; 
+    border-radius: 8px;
+    color: var(--text-muted); 
+    font-size: 13.5px; 
+    font-weight: 600; 
+    transition: 0.2s ease; 
+}
+
+.horizontal-dropdown li a:hover { 
+    background-color: #edf2f7; 
+    color: var(--primary-dark); 
+}
+
+.dropdown-icon { 
+    font-size: 15px; 
+    color: var(--accent-green); 
+    width: 18px; 
+    text-align: center; 
+}
+
+/* Header Responsive Rules: Icons + Text on Desktop, Icons Only on Mobile */
+@media (max-width: 768px) {
+    .header-sticky-wrapper {
+        top: 10px;
+        padding: 0 10px;
+    }
+
+    .header-container {
+        padding: 8px 14px;
+    }
+
+    .logo-area .client-logo {
+        height: 38px;
+    }
+
+    .header-right-actions {
+        gap: 8px;
+    }
+
+    .doji-header-img {
+        height: 34px;
+    }
+
+    .header-action-pill .pill-btn-text,
+    .header-calc-pill .calc-btn-text {
+        display: none;
+    }
+
+    .header-action-pill,
+    .header-calc-pill {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    .mobile-nav-toggle {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+
+    .horizontal-dropdown.submenu-visible {
+        grid-template-columns: 1fr;
+    }
+}
 }
