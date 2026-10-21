@@ -19,29 +19,23 @@
 <body>
 <div class="site-wrapper" id="site-wrapper">
 <div class="header-sticky-wrapper header-visible" id="header-sticky-wrapper">
-<div class="nav-shell">
-<header class="main-header nav-pill">
+<header class="main-header">
+<div class="header-container">
 <div class="logo-area">
-<a href="./index.html" aria-label="SRH World home">
+<a href="./index.html">
 <img alt="SRH World Logo" class="client-logo" src="Logo_SRH_World.png"/>
 </a>
 </div>
 <div class="header-right-actions">
-<a aria-label="Financial Checkup" class="header-calc-pill header-fin-checkup-pill" href="./fin_checkup.html" title="Financial Checkup">
-<i class="fas fa-heart-pulse" aria-hidden="true"></i>
-<span class="calc-btn-text">Financial Checkup</span>
-</a>
-<a aria-label="Smart Calculator" class="header-calc-pill" href="./sip-calculator.html" title="Smart Calculator">
-<i class="fas fa-calculator" aria-hidden="true"></i>
+<a aria-label="Smart Calculator" class="header-calc-pill" href="./sip-calculator.html" title="Smart Financial Calculator">
+<i class="fas fa-calculator"></i>
 <span class="calc-btn-text">Smart Calculator</span>
 </a>
-</div>
-</header>
-<button aria-label="Open navigation menu" aria-expanded="false" aria-controls="header-navigation-menu" class="menu-circle mobile-nav-toggle" id="menu-toggle-btn" type="button">
-<svg class="b" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-<svg class="x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+<button aria-label="Toggle Navigation Menu" class="mobile-nav-toggle" id="menu-toggle-btn">
+<i class="fas fa-bars"></i>
 </button>
-<nav class="nav-bar" id="header-navigation-menu" aria-label="Main navigation">
+</div>
+<nav class="nav-bar" id="header-navigation-menu">
 <ul class="nav-list">
 <li class="nav-item"><a class="nav-link active" href="./index.html">Home</a></li>
 <li class="nav-item"><a class="nav-link" href="./about.html">About Us</a></li>
@@ -96,6 +90,7 @@
 </ul>
 </nav>
 </div>
+</header>
 </div>
 
 <!-- 1. Hero Video + Product Catalog Reveal -->
@@ -111,7 +106,7 @@
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#sif"><i class="fas fa-chart-pie product-minimal-icon"></i><span class="product-minimal-name">Specialised Investment Fund (SIF)</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#aif"><i class="fas fa-layer-group product-minimal-icon"></i><span class="product-minimal-name">Alternative Investment Funds (AIFs)</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#bonds"><i class="fas fa-file-invoice-dollar product-minimal-icon"></i><span class="product-minimal-name">Bonds</span></a></div>
-<div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#ncd"><i class="fas fa-certificate product-minimal-icon"></i><span class="product-minimal-name">Non-Convertible Debentures (NCD)</a></div>
+<div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#ncd"><i class="fas fa-certificate product-minimal-icon"></i><span class="product-minimal-name">Non-Convertible Debentures (NCD)</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#unlisted"><i class="fas fa-building-columns product-minimal-icon"></i><span class="product-minimal-name">Unlisted Stocks</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#insurance"><i class="fas fa-shield-halved product-minimal-icon"></i><span class="product-minimal-name">Insurance</span></a></div>
 <div class="product-minimal-slide"><a class="product-minimal-card" href="./products.html#fixed-income"><i class="fas fa-vault product-minimal-icon"></i><span class="product-minimal-name">Fixed Income Securities</span></a></div>
@@ -807,25 +802,10 @@ OPEN FREE DEMAT ACCOUNT
     const menuToggleBtn = document.getElementById('menu-toggle-btn');
     const headerNavigationMenu = document.getElementById('header-navigation-menu');
 
-    function closeAllSubmenus() {
-        document.querySelectorAll('.horizontal-dropdown').forEach(d => d.classList.remove('submenu-visible'));
-        document.querySelectorAll('.mobile-arrow').forEach(a => a.classList.remove('rotate-arrow'));
-    }
-
-    function setNavMenuOpen(isOpen) {
-        if (!headerNavigationMenu || !menuToggleBtn) return;
-        headerNavigationMenu.classList.toggle('mobile-open', isOpen);
-        menuToggleBtn.setAttribute('aria-expanded', String(isOpen));
-        menuToggleBtn.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-        const mascotEl = document.getElementById('srh-mascot');
-        if (mascotEl) mascotEl.classList.toggle('menu-open-safe', isOpen);
-        if (!isOpen) closeAllSubmenus();
-    }
-
     if (menuToggleBtn && headerNavigationMenu) {
         menuToggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            setNavMenuOpen(!headerNavigationMenu.classList.contains('mobile-open'));
+            headerNavigationMenu.classList.toggle('mobile-open');
         });
     }
 
@@ -837,33 +817,26 @@ OPEN FREE DEMAT ACCOUNT
             const parentItem = this.closest('.has-horizontal-dropdown');
             const dropdown = parentItem.querySelector('.horizontal-dropdown');
             const arrow = this.querySelector('.mobile-arrow');
-            const wasOpen = dropdown && dropdown.classList.contains('submenu-visible');
 
-            closeAllSubmenus();
+            document.querySelectorAll('.has-horizontal-dropdown').forEach(item => {
+                if (item !== parentItem) {
+                    const otherDropdown = item.querySelector('.horizontal-dropdown');
+                    const otherArrow = item.querySelector('.mobile-arrow');
+                    if (otherDropdown) otherDropdown.classList.remove('submenu-visible');
+                    if (otherArrow) otherArrow.classList.remove('rotate-arrow');
+                }
+            });
 
-            if (!wasOpen) {
-                if (dropdown) dropdown.classList.add('submenu-visible');
-                if (arrow) arrow.classList.add('rotate-arrow');
-            }
+            if (dropdown) dropdown.classList.toggle('submenu-visible');
+            if (arrow) arrow.classList.toggle('rotate-arrow');
         });
     });
-
-    if (headerNavigationMenu) {
-        headerNavigationMenu.querySelectorAll('.horizontal-dropdown a, .nav-item:not(.has-horizontal-dropdown) > a').forEach(a => {
-            a.addEventListener('click', () => setNavMenuOpen(false));
-        });
-    }
 
     document.addEventListener('click', (e) => {
-        if (headerNavigationMenu && !headerNavigationMenu.contains(e.target) && (!menuToggleBtn || !menuToggleBtn.contains(e.target))) {
-            setNavMenuOpen(false);
-        }
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && headerNavigationMenu && headerNavigationMenu.classList.contains('mobile-open')) {
-            setNavMenuOpen(false);
-            if (menuToggleBtn) menuToggleBtn.focus();
+        if (headerNavigationMenu && !headerNavigationMenu.contains(e.target) && e.target !== menuToggleBtn) {
+            headerNavigationMenu.classList.remove('mobile-open');
+            document.querySelectorAll('.horizontal-dropdown').forEach(d => d.classList.remove('submenu-visible'));
+            document.querySelectorAll('.mobile-arrow').forEach(a => a.classList.remove('rotate-arrow'));
         }
     });
 
@@ -933,7 +906,7 @@ OPEN FREE DEMAT ACCOUNT
         const ctaBlock = document.getElementById('cta-video-block');
         const weOfferSection = document.getElementById('we-offer');
         const headerBar = document.querySelector('.main-header');
-        const smartCalculator = document.querySelector('.header-fin-checkup-pill');
+        const smartCalculator = document.querySelector('.header-calc-pill');
 
         if (!mascot || !character || !bubble) return;
 
