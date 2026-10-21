@@ -100,7 +100,8 @@ a {
     z-index: 1050;
 }
 
-.header-calc-pill {
+.header-calc-pill,
+.header-fin-pill {
     background-color: #64748b;
     color: #ffffff !important;
     padding: 8px 16px;
@@ -114,7 +115,8 @@ a {
     transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.header-calc-pill:hover {
+.header-calc-pill:hover,
+.header-fin-pill:hover {
     background-color: var(--accent-green) !important;
     transform: translateY(-2px) scale(1.06);
     box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
@@ -1715,6 +1717,23 @@ a {
 }
 
 @media (max-width: 768px) {
+    .header-right-actions {
+        gap: 10px;
+    }
+    .header-calc-pill,
+    .header-fin-pill {
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        justify-content: center;
+        gap: 0;
+        border-radius: 50%;
+        font-size: 16px;
+    }
+    .header-calc-pill .calc-btn-text,
+    .header-fin-pill .calc-btn-text {
+        display: none;
+    }
     .demat-floating-btn {
         font-size: 12px;
         padding: 16px 8px;
