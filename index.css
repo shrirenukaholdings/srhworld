@@ -10,7 +10,6 @@
     --accent-green-hover: #059669;
     --accent-blue: #2563eb;
     --accent-blue-hover: #1d4ed8;
-    --brand-forest: #136b32;
     --bg-light: #f8f9fa;
     --card-bg: #ffffff;
     --text-main: #0f172a;
@@ -18,7 +17,6 @@
     --text-sub: #64748b;
     --border-color: #e2e8f0;
     --border-subtle: #cbd5e1;
-    --pill-border: #dbe4f2;
     --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.04);
     --shadow-md: 0 10px 25px rgba(0, 0, 0, 0.06);
     --radius-sm: 8px;
@@ -56,188 +54,105 @@ a {
     text-decoration: none;
 }
 
-/* --- 2. FLOATING PILL HEADER & WIDER NAVIGATION DRAWER --- */
+/* --- 2. HEADER & NAVIGATION --- */
 .header-sticky-wrapper {
     position: fixed;
-    top: 12px;
+    top: 0;
     left: 0;
     width: 100%;
     z-index: 2000;
-    padding: 0 14px;
-    pointer-events: none;
     transform: translateY(0);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .header-sticky-wrapper.header-visible {
     transform: translateY(0) !important;
 }
 
-.nav-shell {
-    position: relative;
-    max-width: 1180px;
+.main-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.header-container {
+    max-width: 1240px;
     margin: 0 auto;
+    padding: 10px 24px;
     display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.main-header.nav-pill,
-.menu-circle {
-    pointer-events: auto;
-    background: rgba(255, 255, 255, 0.92);
-    -webkit-backdrop-filter: blur(14px);
-    backdrop-filter: blur(14px);
-    border: 1px solid var(--pill-border);
-    box-shadow: 0 10px 30px rgba(26, 29, 51, 0.12);
-}
-
-.main-header.nav-pill {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 12px;
-    border-radius: 999px;
-    padding: 6px 8px 6px 20px;
-}
-
-.logo-area {
-    flex: 0 1 auto;
-    display: flex;
     align-items: center;
-    min-width: 0;
-}
-
-.logo-area a {
-    display: flex;
-    align-items: center;
-    min-width: 0;
+    position: relative;
 }
 
 .logo-area .client-logo {
-    height: 38px;
+    height: 48px;
     width: auto;
-    max-width: 100%;
     object-fit: contain;
     display: block;
 }
 
 .header-right-actions {
-    flex: 0 0 auto;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 14px;
     z-index: 1050;
 }
 
 .header-calc-pill {
-    flex: 0 0 auto;
-    background-color: var(--brand-forest);
+    background-color: #64748b;
     color: #ffffff !important;
-    padding: 10px 18px;
-    border-radius: 999px;
+    padding: 8px 16px;
+    border-radius: 25px;
     font-size: 13.5px;
     font-weight: 700;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    white-space: nowrap;
-    box-shadow: 0 4px 12px rgba(19, 107, 50, 0.18);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.header-calc-pill i {
-    font-size: 14px;
-    line-height: 1;
-}
-
-.header-calc-pill:hover,
-.header-calc-pill:focus-visible {
+.header-calc-pill:hover {
     background-color: var(--accent-green) !important;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 18px rgba(16, 185, 129, 0.35);
+    transform: translateY(-2px) scale(1.06);
+    box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
-/* Circular Hamburger Button */
-.menu-circle {
-    flex: 0 0 auto;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: #1a1d33;
+.mobile-nav-toggle {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--primary-dark);
+    font-size: 24px;
     cursor: pointer;
-    padding: 0;
-    transition: background-color 0.25s ease, color 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+    padding: 6px;
 }
 
-.menu-circle svg {
-    width: 24px;
-    height: 24px;
-    display: block;
-}
-
-.menu-circle .x {
-    display: none;
-}
-
-.menu-circle[aria-expanded="true"] .x {
-    display: block;
-}
-
-.menu-circle[aria-expanded="true"] .b {
-    display: none;
-}
-
-.menu-circle:hover,
-.menu-circle:focus-visible,
-.menu-circle[aria-expanded="true"] {
-    background-color: var(--brand-forest);
-    color: #ffffff;
-    border-color: var(--brand-forest);
-}
-
-/* Wide Navigation Drawer (560px desktop, full-width with margins on mobile) */
 .nav-bar {
-    pointer-events: none;
     position: absolute;
-    top: calc(100% + 12px);
-    right: 0;
-    left: auto;
-    width: min(560px, calc(100vw - 28px));
+    top: 100%;
+    left: 0;
+    width: 100%;
     background-color: #ffffff;
-    border: 1px solid var(--pill-border);
-    border-radius: 26px;
-    box-shadow: 0 24px 56px rgba(15, 23, 42, 0.20);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-8px);
-    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
-    max-height: calc(100vh - 104px);
-    max-height: calc(100dvh - 104px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
-    z-index: 2100;
+    border-top: 1px solid var(--border-color);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.09);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
 }
 
 .nav-bar.mobile-open {
-    pointer-events: auto;
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    max-height: 85vh;
+    overflow-y: auto;
 }
 
 .nav-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    padding: 14px 16px;
-    gap: 2px;
+    padding: 8px 0;
 }
 
 .nav-item {
@@ -251,23 +166,21 @@ a {
 .nav-link {
     color: var(--primary-dark);
     font-weight: 700;
-    font-size: 15.5px;
+    font-size: 15px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 14px 18px;
-    border-radius: 14px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    padding: 14px 28px;
+    transition: 0.2s ease;
 }
 
-.nav-link:hover,
-.nav-link.active {
-    background-color: #f1f8f4;
-    color: var(--brand-forest);
+.nav-link:hover, .nav-link.active {
+    background-color: #f8fafc;
+    color: var(--accent-green);
 }
 
 .mobile-arrow {
-    margin-left: 10px;
+    margin-left: 8px;
     font-size: 12px;
     transition: transform 0.25s ease;
 }
@@ -279,33 +192,27 @@ a {
 .horizontal-dropdown {
     list-style: none;
     background-color: #f8fafc;
-    border-radius: 16px;
     max-height: 0;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    margin: 0 6px;
-    padding: 0 8px;
-    transition: max-height 0.32s cubic-bezier(0.25, 1, 0.5, 1), padding 0.25s ease, margin 0.25s ease;
+    transition: max-height 0.3s ease-out;
 }
 
 .horizontal-dropdown.submenu-visible {
-    max-height: 900px;
-    margin: 4px 6px 10px 6px;
-    padding: 8px;
-    border: 1px solid #e2e8f0;
+    max-height: 800px;
+    border-top: 1px solid var(--border-color);
 }
 
 .horizontal-dropdown li a {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 11px 16px;
+    padding: 12px 40px;
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 13.5px;
     font-weight: 600;
-    border-radius: 10px;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    transition: 0.2s ease;
 }
 
 .horizontal-dropdown li a:hover {
@@ -316,9 +223,8 @@ a {
 .dropdown-icon {
     font-size: 15px;
     color: var(--accent-green);
-    width: 20px;
+    width: 18px;
     text-align: center;
-    flex: 0 0 auto;
 }
 
 /* --- 3. HERO INTERACTIVE SECTION & MARQUEE --- */
@@ -1809,69 +1715,6 @@ a {
 }
 
 @media (max-width: 768px) {
-    /* Mobile Floating Pill Header & Icon-Only CTA Buttons */
-    .header-sticky-wrapper {
-        top: 10px;
-        padding: 0 12px;
-    }
-    .nav-shell {
-        gap: 8px;
-    }
-    .main-header.nav-pill {
-        padding: 5px 6px 5px 14px;
-        gap: 8px;
-    }
-    .logo-area .client-logo {
-        height: 32px;
-    }
-    .header-right-actions {
-        gap: 8px;
-    }
-    .header-calc-pill {
-        width: 44px;
-        height: 44px;
-        padding: 0;
-        border-radius: 50%;
-        gap: 0;
-    }
-    .header-calc-pill .calc-btn-text {
-        display: none;
-    }
-    .header-calc-pill i {
-        font-size: 16px;
-    }
-    .menu-circle {
-        width: 48px;
-        height: 48px;
-    }
-    .menu-circle svg {
-        width: 22px;
-        height: 22px;
-    }
-    /* Full available mobile width inside 12px wrapper padding */
-    .nav-bar {
-        top: calc(100% + 10px);
-        left: 0;
-        right: 0;
-        width: 100%;
-        border-radius: 22px;
-        max-height: calc(100vh - 88px);
-        max-height: calc(100dvh - 88px);
-    }
-    .nav-list {
-        padding: 10px 12px;
-    }
-    .nav-link {
-        padding: 13px 16px;
-        font-size: 15px;
-    }
-    .horizontal-dropdown li a {
-        padding: 11px 14px;
-        font-size: 13.5px;
-    }
-    .hero-statement {
-        font-size: 32px;
-    }
     .demat-floating-btn {
         font-size: 12px;
         padding: 16px 8px;
@@ -1904,36 +1747,4 @@ a {
         gap: 12px;
         text-align: center;
     }
-}
-
-@media (max-width: 390px) {
-    .header-sticky-wrapper {
-        padding: 0 10px;
-    }
-    .nav-shell {
-        gap: 6px;
-    }
-    .main-header.nav-pill {
-        padding: 4px 5px 4px 12px;
-        gap: 6px;
-    }
-    .logo-area .client-logo {
-        height: 28px;
-    }
-    .header-right-actions {
-        gap: 6px;
-    }
-    .header-calc-pill {
-        width: 42px;
-        height: 42px;
-    }
-    .menu-circle {
-        width: 46px;
-        height: 46px;
-    }
-}
-
-/* Financial Checkup header button — matches the existing Smart Calculator pill */
-.header-fin-checkup-pill {
-    white-space: nowrap;
 }
