@@ -141,7 +141,7 @@ a {
 
 
 .logo-area .client-logo {
-    height: 48px;
+    height: 78px;
 
     width: auto;
 
@@ -575,33 +575,39 @@ a {
    ========================================================== */
 
 .service-pill-list {
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
     margin: 10px 0;
+    width: 100%;
+    min-width: 0;
 }
 
-
-.service-pill-list span {
+.service-pill-list > span {
     display: flex;
-
-    align-items: center;
-
-    gap: 10px;
-
-    font-size: 14px;
-
+    align-items: flex-start;
+    gap: 9px;
+    min-width: 0;
+    padding: 11px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    background: #fff;
+    font-size: 13.5px;
+    line-height: 1.4;
     font-weight: 600;
-
     color: var(--primary-dark);
+    overflow-wrap: anywhere;
 }
 
-
-.service-pill-list span i {
+.service-pill-list > span > i {
     color: var(--accent-green);
+    flex: 0 0 auto;
+    margin-top: 2px;
+}
+
+.service-pill-list > span > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
 }
 
 
@@ -1703,7 +1709,8 @@ a {
 
 
     .logo-area .client-logo {
-        height: 42px;
+        height: 58px;
+        max-width: 210px;
     }
 
 
@@ -1889,4 +1896,175 @@ a {
         padding-right: 16px;
     }
 
+}
+
+/* ==========================================================
+   26. RESPONSIVE FIXES — LOGO, DOT NAV, CONTENT & MOBILE REVEALS
+   ========================================================== */
+
+@media (min-width: 993px) {
+    .stack-slide {
+        padding-right: 64px; /* reserve a gutter so the side dots never cover card content */
+    }
+
+    .services-anchor-nav {
+        right: 12px;
+        z-index: 90;
+    }
+}
+
+/* Prevent long words/labels from forcing sections wider than the viewport. */
+.service-slide-container,
+.service-content-card,
+.service-visual-showcase,
+.visual-glass-card {
+    min-width: 0;
+    max-width: 100%;
+}
+
+img, video {
+    max-width: 100%;
+}
+
+@media (max-width: 992px) {
+    .stack-slide {
+        overflow: visible;
+    }
+
+    /* Keep the stacked-card feel with a gentle reveal on touch devices. */
+    .stack-slide .service-content-card,
+    .stack-slide .service-visual-showcase {
+        opacity: 0;
+        transform: translateY(18px);
+        transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+
+    .stack-slide.is-visible .service-content-card,
+    .stack-slide.is-visible .service-visual-showcase {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .service-pill-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .header-container {
+        gap: 10px;
+    }
+
+    .logo-area {
+        min-width: 0;
+        flex: 0 1 auto;
+    }
+
+    .logo-area .client-logo {
+        height: 52px;
+        max-width: 170px;
+    }
+
+    .header-right-actions {
+        gap: 8px;
+        flex: 0 0 auto;
+    }
+
+    .service-pill-list {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 8px;
+    }
+
+    .service-pill-list > span {
+        font-size: 14px;
+        padding: 11px 12px;
+    }
+
+    .stack-slide {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .service-slide-container {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .visual-glass-card {
+        padding: 20px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .stack-slide .service-content-card,
+    .stack-slide .service-visual-showcase {
+        transition: none;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+
+/* ==========================================================
+   FINAL VIEWPORT & NAVIGATION POLISH
+   ========================================================== */
+/* Give the header a consistent, non-squashed logo area. */
+.header-container { min-height: 86px; }
+.logo-area { flex: 0 0 auto; display: flex; align-items: center; }
+.logo-area .client-logo { height: 72px; max-width: 270px; }
+
+/* The section must grow with its content; never clip CTA buttons on short windows. */
+.products-stack-deck { padding-top: 76px; }
+.stack-slide {
+    min-height: calc(100svh - 76px);
+    height: auto;
+    align-items: flex-start;
+    padding-top: clamp(28px, 5vh, 54px);
+    padding-bottom: clamp(32px, 5vh, 54px);
+    scroll-margin-top: 88px;
+}
+.service-slide-container { align-items: center; }
+.service-content-card { text-transform: none; }
+.service-action-bar { padding-bottom: 4px; }
+
+/* Keep the dot rail in a dedicated right gutter, clear of the content cards. */
+@media (min-width: 993px) {
+    .stack-slide { padding-right: 82px; }
+    .services-anchor-nav {
+        position: fixed;
+        right: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 2100;
+        gap: 16px;
+        padding: 10px 4px;
+    }
+    .anchor-dot { flex: 0 0 12px; }
+    /* On short desktop windows, tighten vertical spacing but let content expand. */
+    @media (max-height: 760px) {
+        .stack-slide { padding-top: 24px; padding-bottom: 28px; }
+        .service-slide-container { gap: 36px; }
+        .service-content-card { gap: 12px; }
+        .service-main-heading { font-size: clamp(28px, 2.7vw, 36px); }
+        .service-body-copy p { margin-bottom: 8px; }
+        .service-pill-list { gap: 7px; margin: 5px 0; }
+        .service-pill-list > span { padding: 9px 11px; }
+        .service-action-bar { margin-top: 4px; }
+    }
+}
+
+/* Crypto should look like the other first-level hamburger menu links. */
+.nav-list > .nav-item > .nav-link { width: 100%; }
+.nav-list > .nav-item > .nav-link .dropdown-icon { flex: 0 0 18px; }
+
+@media (max-width: 992px) {
+    .header-container { min-height: 76px; }
+    .logo-area .client-logo { height: 58px; max-width: 210px; }
+    .products-stack-deck { padding-top: 76px; }
+    .stack-slide { min-height: auto; height: auto; align-items: stretch; padding-top: 38px; padding-bottom: 42px; }
+}
+@media (max-width: 600px) {
+    .header-container { min-height: 68px; }
+    .logo-area .client-logo { height: 48px; max-width: 150px; }
+    .products-stack-deck { padding-top: 68px; }
+    .stack-slide { padding-top: 30px; padding-bottom: 34px; }
 }
