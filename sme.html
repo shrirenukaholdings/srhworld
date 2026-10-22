@@ -186,6 +186,14 @@
 
                         </li>
 
+                        <!-- Crypto -->
+                        <li class="nav-item">
+                            <a href="/crypto" class="nav-link">
+                                <i class="fas fa-coins dropdown-icon" aria-hidden="true"></i>
+                                Crypto
+                            </a>
+                        </li>
+
                         <!-- Services -->
                         <li class="nav-item has-horizontal-dropdown">
 
@@ -438,42 +446,18 @@
                     </div>
 
 
-                    <div class="service-pill-list">
+                    <div class="service-pill-list" aria-label="Loan types">
 
-                        <span>
-                            <i class="fas fa-check-circle"></i>
-                            Home Loan
-                            <i class="fas fa-check-circle"></i>
-                            Home Loan (Top-Up & Balance Transfer)
-                        </span>
-
-                        <span>
-                            <i class="fas fa-check-circle"></i>
-                            LAP
-                            <i class="fas fa-check-circle"></i>
-                            LAP (Loans,Top-Up & Balance Transfer)
-                        </span>
-
-                        <span>
-                            <i class="fas fa-check-circle"></i>
-                            Commercial Property Loans
-                            <i class="fas fa-check-circle"></i>
-                            Commercial Property Top-Up
-                        </span>
-
-                        <span>
-                            <i class="fas fa-check-circle"></i>
-                            Personal Loans
-                            <i class="fas fa-check-circle"></i>
-                            Education Loans
-                        </span>
-
-                        <span>
-                            <i class="fas fa-check-circle"></i>
-                            Construction Finance
-                            <i class="fas fa-check-circle"></i>
-                            SME Loans
-                        </span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Home Loan</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Home Loan (Top-Up &amp; Balance Transfer)</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>LAP</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>LAP (Top-Up &amp; Balance Transfer)</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Commercial Property Loans</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Commercial Property Top-Up</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Personal Loans</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Education Loans</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>Construction Finance</span></span>
+                        <span><i class="fas fa-check-circle" aria-hidden="true"></i><span>SME Loans</span></span>
 
                     </div>
 
@@ -1753,21 +1737,53 @@
         /* ---------------------------------------------------------
            Side Anchor Observer for Stacking Sections
            --------------------------------------------------------- */
-        const slides = document.querySelectorAll('.stack-slide');
-        const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
+        const slides = Array.from(document.querySelectorAll('.stack-slide'));
+        const dots = Array.from(document.querySelectorAll('.services-anchor-nav .anchor-dot'));
 
-        const slideObserver = new IntersectionObserver((entries) => {
+        // Reveal each slide on mobile/tablet and keep the active dot correct
+        // while scrolling both down and up (IntersectionObserver entry order can be ambiguous).
+        const slideRevealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    dots.forEach(dot => {
-                        dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`);
-                    });
-                }
+                if (entry.isIntersecting) entry.target.classList.add('is-visible');
             });
-        }, { threshold: 0.25 });
+        }, { threshold: 0.12 });
+        slides.forEach(slide => slideRevealObserver.observe(slide));
 
-        slides.forEach(slide => slideObserver.observe(slide));
+        let activeDotTicking = false;
+        function updateActiveSectionDot() {
+            activeDotTicking = false;
+            if (!slides.length || !dots.length) return;
+
+            // Use the scroll position and each section's document position rather than
+            // intersection-entry order; sticky sections can overlap while scrolling up.
+            const activationLine = window.scrollY + Math.min(window.innerHeight * 0.38, 300) + 80;
+            let activeIndex = 0;
+            slides.forEach((slide, index) => {
+                const sectionTop = slide.getBoundingClientRect().top + window.scrollY;
+                if (sectionTop <= activationLine) activeIndex = index;
+            });
+            // At the very bottom, keep the final section active until the contact area.
+            const deck = document.querySelector('.products-stack-deck');
+            if (deck && window.scrollY + window.innerHeight >= deck.offsetTop + deck.offsetHeight - 80) {
+                activeIndex = slides.length - 1;
+            }
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === activeIndex);
+                if (index === activeIndex) dot.setAttribute('aria-current', 'location');
+                else dot.removeAttribute('aria-current');
+            });
+        }
+        function requestActiveDotUpdate() {
+            if (!activeDotTicking) {
+                activeDotTicking = true;
+                window.requestAnimationFrame(updateActiveSectionDot);
+            }
+        }
+        window.addEventListener('scroll', requestActiveDotUpdate, { passive: true });
+        window.addEventListener('resize', requestActiveDotUpdate, { passive: true });
+        window.addEventListener('load', requestActiveDotUpdate);
+        window.addEventListener('hashchange', requestActiveDotUpdate);
+        requestActiveDotUpdate();
 
         /* Side Dots Click Navigation */
         dots.forEach(dot => {
