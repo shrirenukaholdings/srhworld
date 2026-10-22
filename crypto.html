@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0a0602">
+<title>Crypto – Coming soon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0a0602;
+    --bronze: #8a6a2c;
+    --gold: #f3dca0;
+    --gold-deep: #d9b86a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+  /* Locked to the device screen: no scrolling, no bounce, no pinch */
+  html, body {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    overscroll-behavior: none;
+    touch-action: none;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: "Cinzel", "Times New Roman", Georgia, serif;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  body { height: 100dvh; }
+
+  #tunnel { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* Vignette keeps the edges dark and the centre glowing */
+  .vignette {
+    position: fixed; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(5,3,1,.75) 100%);
+  }
+
+  /* Top bar with centred circular pill */
+  .bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 5;
+    display: flex; justify-content: center;
+    padding: calc(env(safe-area-inset-top, 0px) + 14px) 16px 0;
+  }
+  .home {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 11px 26px 11px 20px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(243,220,160,.7);
+    background: rgba(18,12,5,.62);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 700; font-size: 15px; letter-spacing: .08em;
+    box-shadow: 0 0 18px rgba(217,184,106,.35), inset 0 0 12px rgba(217,184,106,.15);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .home svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .home:hover, .home:focus-visible { transform: scale(1.05); background: rgba(40,28,10,.75); box-shadow: 0 0 28px rgba(243,220,160,.55); outline: none; }
+  .home:active { transform: scale(.97); }
+
+  /* Coming soon */
+  .soon {
+    position: fixed; left: 0; right: 0; z-index: 4;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 9vh);
+    display: flex; justify-content: center;
+    pointer-events: none;
+  }
+  .soon h1 {
+    padding: 14px 30px 12px;
+    font-size: clamp(26px, 7.5vw, 52px);
+    font-weight: 700; letter-spacing: .12em;
+    white-space: nowrap;
+    color: var(--gold);
+    text-shadow: 0 0 18px rgba(243,220,160,.55), 0 2px 0 #3a2a0c, 0 0 40px rgba(0,0,0,.9);
+    background: radial-gradient(ellipse at center, rgba(8,5,2,.7) 0%, rgba(8,5,2,0) 70%);
+  }
+  .soon .d { display: inline-block; animation: blink 1.5s infinite both; }
+  .soon .d:nth-child(2) { animation-delay: .25s; }
+  .soon .d:nth-child(3) { animation-delay: .5s; }
+  @keyframes blink { 0%, 100% { opacity: .15; } 40%, 60% { opacity: 1; } }
+</style>
+</head>
+<body>
+
+<canvas id="tunnel" aria-hidden="true"></canvas>
+<div class="vignette"></div>
+
+<header class="bar">
+  <a class="home" href="index.html" aria-label="Back to home">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/></svg>
+    <span>Home</span>
+  </a>
+</header>
+
+<main class="soon">
+  <h1>Coming soon<span class="d">.</span><span class="d">.</span><span class="d">.</span></h1>
+</main>
+
+<script>
+(function () {
+  var cv = document.getElementById('tunnel');
+  var ctx = cv.getContext('2d');
+  var TAU = Math.PI * 2;
+
+  // Two interleaved spiral arms. Each arm shrinks to a quarter per turn;
+  // together they fill the tunnel. Arm 1 flows inward, arm 2 flows outward.
+  var PER_TURN = 9;
+  var STEP = TAU / PER_TURN;
+  var G = Math.pow(0.25, 1 / PER_TURN);
+  var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+
+  var ARMS = [
+    { dir: 1, off: 0,
+      rim: ['#f6e4b0', '#8a6a2c', '#e2c379'],
+      edge: '#e9cd86', body: ['#6a4e1c', '#1c1308', '#3a2a10', '#120c05'], bead: '#e9cd86' },
+    { dir: -1, off: Math.PI,
+      rim: ['#eef1e6', '#6f7766', '#bcc3b0'],
+      edge: '#cdd3bf', body: ['#55543f', '#17150e', '#2e2c1d', '#0f0e08'], bead: '#d7dcc9' }
+  ];
+
+  var W, H, DPR, CX, CY, R0, DIAG, bg;
+
+  function pos(u, r, off) {
+    var a = u * STEP + off;
+    return [CX + Math.cos(a) * r, CY + Math.sin(a) * r, a];
+  }
+
+  // The ornate bands the clocks ride on (static, so drawn once)
+  function buildBand() {
+    bg = document.createElement('canvas');
+    bg.width = cv.width; bg.height = cv.height;
+    var b = bg.getContext('2d');
+    b.setTransform(DPR, 0, 0, DPR, 0, 0);
+    b.lineCap = 'round';
+    var uEnd = Math.log(2 / R0) / Math.log(G);
+    ARMS.forEach(function (A) {
+      var layers = [
+        { w: 0.66, c: A.edge }, { w: 0.62, c: A.body[0] }, { w: 0.57, c: A.body[1] },
+        { w: 0.50, c: A.body[2] }, { w: 0.46, c: A.body[3] }
+      ];
+      layers.forEach(function (L) {
+        for (var u = -5; u < uEnd; u += 0.05) {
+          var r = R0 * Math.pow(G, u);
+          if (r * 0.7 > DIAG / 2) continue;
+          var p1 = pos(u, r, A.off), p2 = pos(u + 0.05, r * Math.pow(G, 0.05), A.off);
+          b.strokeStyle = L.c;
+          b.lineWidth = Math.max(0.6, r * L.w);
+          b.beginPath(); b.moveTo(p1[0], p1[1]); b.lineTo(p2[0], p2[1]); b.stroke();
+        }
+      });
+    });
+  }
+
+  function resize() {
+    DPR = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    CX = W / 2; CY = H / 2;
+    DIAG = Math.hypot(W, H);
+    R0 = Math.max(W, H) * 0.62;
+    buildBand();
+  }
+
+  function clock(x, y, R, label, rot, rim) {
+    ctx.save();
+    ctx.translate(x, y);
+    var g = ctx.createLinearGradient(-R, -R, R, R);
+    g.addColorStop(0, rim[0]); g.addColorStop(.5, rim[1]); g.addColorStop(1, rim[2]);
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0, 0, R, 0, TAU); ctx.fill();
+    if (R < 5) { ctx.restore(); return; }
+    ctx.fillStyle = '#2a261c';
+    ctx.beginPath(); ctx.arc(0, 0, R * 0.9, 0, TAU); ctx.fill();
+    var f = ctx.createRadialGradient(-R * .25, -R * .3, R * .1, 0, 0, R * .84);
+    f.addColorStop(0, '#fffdf3'); f.addColorStop(1, '#cbc3aa');
+    ctx.fillStyle = f;
+    ctx.beginPath(); ctx.arc(0, 0, R * 0.84, 0, TAU); ctx.fill();
+
+    if (R > 11) {
+      ctx.fillStyle = '#fff';
+      for (var k = 0; k < 4; k++) {
+        ctx.save(); ctx.rotate(k * Math.PI / 2 + rot);
+        ctx.translate(0, -R * 0.95);
+        ctx.rotate(Math.PI / 4);
+        var s = R * 0.05;
+        ctx.fillRect(-s, -s, s * 2, s * 2);
+        ctx.restore();
+      }
+    }
+    ctx.save();
+    ctx.rotate(rot);
+    var n = label.length;
+    ctx.font = '700 ' + (R * (n > 3 ? 0.46 : n > 2 ? 0.56 : n > 1 ? 0.7 : 0.92)) + 'px "Cinzel","Times New Roman",serif';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#2b2a22';
+    ctx.fillText(label, 0, R * 0.03);
+    ctx.restore();
+    ctx.restore();
+  }
+
+  function frame(ms) {
+    var p = ms * 0.0009;
+    var fr = p % 1, n = Math.floor(p);
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.drawImage(bg, 0, 0);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+    ARMS.forEach(function (A, ai) {
+      for (var j = -5; ; j++) {
+        var u = j + A.dir * fr;
+        var r = R0 * Math.pow(G, u);
+        if (r < 2) break;
+        if (r * 0.7 > DIAG / 2) continue;
+        var P = pos(u, r, A.off);
+        var id = j - A.dir * n;
+        var m = ((id % 24) + 24) % 24;
+        var label = ai === 0
+          ? (m < 12 ? ROMAN[m] : String(m - 11))
+          : (m < 12 ? String(m + 1) : ROMAN[m - 12]);
+
+        if (r > 8) {
+          ctx.fillStyle = A.bead;
+          for (var q = 0; q < 3; q++) {
+            var uu = u + q / 3 + 1 / 6, rr = R0 * Math.pow(G, uu);
+            var a = uu * STEP + A.off;
+            for (var sgn = -1; sgn <= 1; sgn += 2) {
+              var er = rr * (1 + sgn * 0.27);
+              ctx.beginPath();
+              ctx.arc(CX + Math.cos(a) * er, CY + Math.sin(a) * er, Math.max(.6, rr * 0.028), 0, TAU);
+              ctx.fill();
+            }
+          }
+        }
+        clock(P[0], P[1], r * 0.24, label, P[2] + Math.PI / 2, A.rim);
+      }
+    });
+
+    ctx.globalCompositeOperation = 'lighter';
+    var pulse = 0.8 + 0.2 * Math.sin(ms * 0.002);
+    var gr = ctx.createRadialGradient(CX, CY, 0, CX, CY, Math.min(W, H) * 0.3);
+    gr.addColorStop(0, 'rgba(255,214,130,' + (0.5 * pulse) + ')');
+    gr.addColorStop(1, 'rgba(255,214,130,0)');
+    ctx.fillStyle = gr;
+    ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', resize);
+  window.addEventListener('orientationchange', function () { setTimeout(resize, 150); });
+  ['touchmove', 'gesturestart', 'wheel'].forEach(function (e) {
+    document.addEventListener(e, function (ev) { ev.preventDefault(); }, { passive: false });
+  });
+
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
