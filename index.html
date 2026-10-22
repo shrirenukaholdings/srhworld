@@ -60,6 +60,7 @@
 <li><a href="./products.html#ipo"><i class="fas fa-rocket dropdown-icon"></i> Initial Public Offering (IPO)</a></li>
 </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="/crypto">Crypto</a></li>
 <li class="nav-item has-horizontal-dropdown">
 <a class="nav-link" href="./services.html">Services <i class="fas fa-chevron-down mobile-arrow"></i></a>
 <ul class="horizontal-dropdown">
@@ -860,6 +861,16 @@ OPEN FREE DEMAT ACCOUNT
             video.muted = true;
             video.playbackRate = 1.5;
 
+            // Keep the hero layer opaque until a real video frame is available.
+            // This prevents the product catalogue underneath from flashing through
+            // while banner.mp4 is still downloading/decoding.
+            const markVideoReady = () => {
+                if (videoLayer) videoLayer.classList.add('video-ready');
+            };
+            video.addEventListener('loadeddata', markVideoReady, { once: true });
+            video.addEventListener('canplay', markVideoReady, { once: true });
+            if (video.readyState >= 2) markVideoReady();
+
             const triggerHeroPlay = () => {
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
@@ -910,7 +921,7 @@ OPEN FREE DEMAT ACCOUNT
         const ctaBlock = document.getElementById('cta-video-block');
         const weOfferSection = document.getElementById('we-offer');
         const headerBar = document.querySelector('.main-header');
-        const smartCalculator = document.querySelector('.header-calc-pill');
+        const smartCalculator = document.querySelector('.header-fin-pill');
 
         if (!mascot || !character || !bubble) return;
 
