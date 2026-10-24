@@ -2,6 +2,9 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Automech Industries – Precision Rings &amp; Machined Components</title>
+<link rel="icon" type="image/png" href="fevicon.png?v=2">
+<link rel="shortcut icon" type="image/png" href="fevicon.png?v=2">
+<link rel="apple-touch-icon" href="fevicon.png?v=2">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <style>
 :root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);--ink:#1a1d33;--navy:#263a6b;--mut:#5a6580;--grn:#136b32;--g2:#2e9e55;--line:#dbe4f2}
@@ -531,6 +534,20 @@ html{scroll-padding-top:80px}
 /* ===== crypto.html: full SRH Automech logo in the hero centre ===== */
 #hero .srh-mark{height:auto;width:min(86vw,62vh,640px);aspect-ratio:620/469;margin:14px auto 0;mix-blend-mode:multiply}
 #hero h1.sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== Fix: tagline / chips no longer overlap the hero logo =====
+   #rev now starts just below the logo's bottom edge (logo height = 0.756 x its width,
+   hero content is centred, so logo bottom = 50% + half of content height). */
+#rev{top:calc(50% + 47px + .378*min(86vw,62vh,640px) + 14px)}
+@media(max-width:768px){#rev{top:calc(50% + 47px + .378*min(86vw,62vh,640px) + 10px)}}
+
+/* ===== Back-to-top button ===== */
+#toTop{position:fixed;z-index:56;left:max(16px,2vw);bottom:calc(env(safe-area-inset-bottom,0px) + 22px);width:52px;height:52px;border-radius:50%;border:0;padding:0;display:grid;place-items:center;background:var(--ink);color:#fff;cursor:pointer;box-shadow:0 12px 30px rgba(26,29,51,.28);opacity:0;transform:translateY(24px);pointer-events:none;transition:opacity .4s,transform .4s,background .3s}
+#toTop.show{opacity:1;transform:none;pointer-events:auto}
+#toTop:hover{background:var(--grn);transform:translateY(-3px)}
+#toTop:focus-visible{outline:3px solid var(--g2);outline-offset:3px}
+#toTop svg{width:22px;height:22px}
+@media(max-width:768px){#toTop{left:auto;right:14px;width:46px;height:46px;bottom:calc(env(safe-area-inset-bottom,0px) + 12px + 48px + 12px)}}
 </style><script>var LGX=["png","jpg","jpeg","svg","webp"];function lgErr(i){var n=(+i.dataset.t||0)+1;if(n<LGX.length){i.dataset.t=n;i.src=i.src.replace(/\.\w+$/,"."+LGX[n])}else{i.parentNode.classList.add("nologo");i.remove()}}</script>
 </head>
 <body>
@@ -845,4 +862,16 @@ $('brochure').onclick=function(e){e.preventDefault();
   const url=URL.createObjectURL(new Blob([u8],{type:'application/pdf'})),a=document.createElement('a');
   if('download' in a){a.href=url;a.download='SRH_Automech_Industries_Brochure.pdf';document.body.appendChild(a);a.click();a.remove()}else{window.open(url,'_blank')}
   setTimeout(()=>URL.revokeObjectURL(url),120000)}catch(_){}};
+</script>
+<button id="toTop" type="button" aria-label="Back to top" title="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+<script>
+(function(){
+ var b=document.getElementById('toTop');if(!b)return;
+ function upd(){b.classList.toggle('show',(window.pageYOffset||document.documentElement.scrollTop)>window.innerHeight*.6)}
+ window.addEventListener('scroll',upd,{passive:true});window.addEventListener('resize',upd);upd();
+ b.addEventListener('click',function(){
+  var r=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  window.scrollTo({top:0,behavior:r?'auto':'smooth'});
+ });
+})();
 </script></body></html>
