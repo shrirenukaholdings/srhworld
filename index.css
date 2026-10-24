@@ -2,6 +2,8 @@
    SRH WORLD — STANDALONE HOMEPAGE STYLESHEET (index.css)
    ========================================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
+
 /* --- 1. DESIGN TOKENS & RESET --- */
 :root {
     --primary-dark: #0f172a;
@@ -230,7 +232,6 @@ a {
 }
 
 /* --- 3. HERO INTERACTIVE SECTION & MARQUEE --- */
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 .hero-interactive-section {
     height: 100vh;
     min-height: 100vh;
@@ -332,7 +333,7 @@ a {
     left: 0;
     font-size: 52px; 
     font-weight: 800;
-    font-family: "Cinzel Decorative", serif;
+    font-family: "Cinzel Decorative", serif !important;
     color: #ffffff;
     line-height: 1.15;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); 
