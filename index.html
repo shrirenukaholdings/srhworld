@@ -128,8 +128,9 @@
 </div>
 <div class="hero-sticky-container">
 <div class="hero-video-layer" id="hero-video-layer">
-<!-- Added muted and preload="auto" to guarantee cross-browser autoplay compliance -->
-<video autoplay muted playsinline preload="auto" class="hero-banner-video" id="hero-scroll-video">
+<!-- muted + playsinline keep autoplay allowed. No "autoplay" attribute: the script below starts playback only
+     once enough of banner.mp4 is buffered, so it never stutters or plays half-loaded. -->
+<video muted playsinline preload="auto" class="hero-banner-video" id="hero-scroll-video">
   <source src="banner.mp4" type="video/mp4"/>
 </video>
 <div class="hero-text-overlay">
@@ -864,6 +865,13 @@ OPEN FREE DEMAT ACCOUNT
             video.muted = true;
             video.playbackRate = 1.5;
 
+            const HERO_VISIBLE_MS   = 4500; // how long the hero video plays before the layer fades (same as before)
+            const HERO_STALL_MS     = 3500; // if playback freezes (re-buffering) this long, fade out instead of showing a stuck frame
+            const HERO_NEVER_PLAY_MS = 8000; // if the video never starts (very slow network), reveal the page anyway
+
+            let heroStarted = false, heroFaded = false, heroPlaying = false;
+            let fadeTimer = null, stallTimer = null;
+
             // Keep the hero layer opaque until a real video frame is available.
             // This prevents the product catalogue underneath from flashing through
             // while banner.mp4 is still downloading/decoding.
@@ -871,10 +879,19 @@ OPEN FREE DEMAT ACCOUNT
                 if (videoLayer) videoLayer.classList.add('video-ready');
             };
             video.addEventListener('loadeddata', markVideoReady, { once: true });
-            video.addEventListener('canplay', markVideoReady, { once: true });
             if (video.readyState >= 2) markVideoReady();
 
+            const fadeHeroOut = () => {
+                if (heroFaded) return;
+                heroFaded = true;
+                clearTimeout(fadeTimer);
+                clearTimeout(stallTimer);
+                if (videoLayer) videoLayer.classList.add('video-fade-out');
+                setTimeout(() => { if (video) video.pause(); }, 1500);
+            };
+
             const triggerHeroPlay = () => {
+                video.playbackRate = 1.5;
                 const playPromise = video.play();
                 if (playPromise !== undefined) {
                     playPromise.catch(() => {
@@ -890,7 +907,33 @@ OPEN FREE DEMAT ACCOUNT
                 }
             };
 
-            triggerHeroPlay();
+            // Start only when the browser says it can play to the end without re-buffering.
+            const startHero = () => {
+                if (heroStarted) return;
+                heroStarted = true;
+                markVideoReady();
+                triggerHeroPlay();
+            };
+            video.addEventListener('canplaythrough', startHero, { once: true });
+            if (video.readyState >= 4) startHero();
+            // If canplaythrough is slow to fire, start once enough data is ready (HAVE_FUTURE_DATA).
+            setTimeout(() => { if (video.readyState >= 3) startHero(); }, 2500);
+
+            // The 4.5s countdown now begins when frames are really playing, not at page load.
+            video.addEventListener('playing', () => {
+                heroPlaying = true;
+                clearTimeout(stallTimer);
+                if (!fadeTimer && !heroFaded) fadeTimer = setTimeout(fadeHeroOut, HERO_VISIBLE_MS);
+            });
+            // Frozen / re-buffering mid-play: don't leave a stuck frame on screen.
+            video.addEventListener('waiting', () => {
+                if (heroPlaying && !heroFaded) {
+                    clearTimeout(stallTimer);
+                    stallTimer = setTimeout(fadeHeroOut, HERO_STALL_MS);
+                }
+            });
+            // Network/decode error: skip the video cleanly.
+            video.addEventListener('error', fadeHeroOut);
 
             // Unmute seamlessly on user's first tap/click anywhere
             window.addEventListener('click', () => {
@@ -898,17 +941,10 @@ OPEN FREE DEMAT ACCOUNT
             }, { once: true });
 
             // Fade layer when the video finishes playing
-            video.addEventListener('ended', () => {
-                if (videoLayer) videoLayer.classList.add('video-fade-out');
-            });
+            video.addEventListener('ended', fadeHeroOut);
 
-            // Smooth fallback fade-out in case of video stall or looping
-            setTimeout(() => {
-                if (videoLayer && !videoLayer.classList.contains('video-fade-out')) {
-                    videoLayer.classList.add('video-fade-out');
-                    setTimeout(() => { if (video) video.pause(); }, 1500);
-                }
-            }, 4500);
+            // Safety net: never leave the white cover up if the video never started.
+            setTimeout(() => { if (!heroPlaying) fadeHeroOut(); }, HERO_NEVER_PLAY_MS);
         }
     });
     
