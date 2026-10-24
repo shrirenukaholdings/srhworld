@@ -976,6 +976,10 @@ OPEN FREE DEMAT ACCOUNT
         }
 
         function showMascot(mode = 'hero') {
+            // Keep the mascot hidden over the hero video; show it only after the video has faded away.
+            if (mode === 'hero' && videoLayer && !videoLayer.classList.contains('video-fade-out')) {
+                return;
+            }
             mascot.dataset.mascotState = mode;
             if (mode === 'cta' || mode === 'header') {
                 positionMascotBesideCalculator(mode);
@@ -998,7 +1002,8 @@ OPEN FREE DEMAT ACCOUNT
                 if (event.propertyName === 'opacity') setTimeout(() => showMascot('hero'), 120);
             });
         }
-        setTimeout(() => showMascot('hero'), 5500);
+        // The video layer's opacity transition triggers the first hero mascot appearance.
+        // No independent timer: this prevents the mascot appearing over a still-playing video.
 
         function weOfferIsInView() {
             if (!weOfferSection) return false;
