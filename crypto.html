@@ -7,7 +7,7 @@
 <title>Crypto – Coming soon</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cinzel+Decorative:wght@700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --ink: #0a0602;
@@ -68,15 +68,22 @@
   /* Coming soon */
   .soon {
     position: fixed; left: 0; right: 0; z-index: 4;
-    bottom: calc(env(safe-area-inset-bottom, 0px) + 9vh);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 8vh);
     display: flex; justify-content: center;
+    padding: 0 4vw;
     pointer-events: none;
   }
   .soon h1 {
-    padding: 14px 30px 12px;
-    font-size: clamp(26px, 7.5vw, 52px);
-    font-weight: 700; letter-spacing: .12em;
-    white-space: nowrap;
+    max-width: 100%;
+    padding: 14px 24px 12px;
+    font-family: "Cinzel Decorative", "Cinzel", "Times New Roman", Georgia, serif;
+    font-size: clamp(28px, 8.4vw, 60px);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    line-height: 1.2;
+    text-align: center;
+    text-wrap: balance;               /* on narrow phones it wraps into two even lines */
     color: var(--gold);
     text-shadow: 0 0 18px rgba(243,220,160,.55), 0 2px 0 #3a2a0c, 0 0 40px rgba(0,0,0,.9);
     background: radial-gradient(ellipse at center, rgba(8,5,2,.7) 0%, rgba(8,5,2,0) 70%);
@@ -117,12 +124,16 @@
   var ROMAN = ['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 
   var ARMS = [
+    // Arm 1: gold clocks on a blue band
     { dir: 1, off: 0,
       rim: ['#f6e4b0', '#8a6a2c', '#e2c379'],
-      edge: '#e9cd86', body: ['#6a4e1c', '#1c1308', '#3a2a10', '#120c05'], bead: '#e9cd86' },
+      edge: '#8fb0f2', body: ['#2f5fc4', '#0a1a44', '#17358a', '#060f2a'],
+      setting: '#e9cd86' },
+    // Arm 2: silver clocks on a grey band
     { dir: -1, off: Math.PI,
       rim: ['#eef1e6', '#6f7766', '#bcc3b0'],
-      edge: '#cdd3bf', body: ['#55543f', '#17150e', '#2e2c1d', '#0f0e08'], bead: '#d7dcc9' }
+      edge: '#c3c7ce', body: ['#7d828b', '#1d1f23', '#3b3e44', '#121315'],
+      setting: '#d5d9e0' }
   ];
 
   var W, H, DPR, CX, CY, R0, DIAG, bg;
@@ -166,6 +177,61 @@
     DIAG = Math.hypot(W, H);
     R0 = Math.max(W, H) * 0.62;
     buildBand();
+  }
+
+  // Faceted diamond stud (like the gem-set hour markers on a watch bezel)
+  function diamond(x, y, s, metal, glint) {
+    var t = s * 1.35;                       // slightly taller than wide, like a cut stone
+    ctx.save();
+    ctx.translate(x, y);
+
+    // metal setting
+    ctx.fillStyle = metal;
+    ctx.beginPath();
+    ctx.moveTo(0, -t * 1.28); ctx.lineTo(s * 1.28, 0); ctx.lineTo(0, t * 1.28); ctx.lineTo(-s * 1.28, 0);
+    ctx.closePath(); ctx.fill();
+
+    if (s > 1.2) {
+      // stone body
+      ctx.fillStyle = '#dfe9f7';
+      ctx.beginPath();
+      ctx.moveTo(0, -t); ctx.lineTo(s, 0); ctx.lineTo(0, t); ctx.lineTo(-s, 0);
+      ctx.closePath(); ctx.fill();
+
+      // facets
+      ctx.fillStyle = '#ffffff';                       // top-left bright facet
+      ctx.beginPath(); ctx.moveTo(0, -t); ctx.lineTo(-s, 0); ctx.lineTo(0, 0); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = 'rgba(160,190,235,.75)';         // bottom-right cool facet
+      ctx.beginPath(); ctx.moveTo(0, t); ctx.lineTo(s, 0); ctx.lineTo(0, 0); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,255,.45)';         // top-right soft facet
+      ctx.beginPath(); ctx.moveTo(0, -t); ctx.lineTo(s, 0); ctx.lineTo(0, 0); ctx.closePath(); ctx.fill();
+
+      // girdle lines
+      ctx.strokeStyle = 'rgba(70,90,130,.55)';
+      ctx.lineWidth = Math.max(0.4, s * 0.07);
+      ctx.beginPath();
+      ctx.moveTo(-s, 0); ctx.lineTo(s, 0);
+      ctx.moveTo(0, -t); ctx.lineTo(0, t);
+      ctx.stroke();
+
+      // twinkle
+      if (glint > 0.05 && s > 2) {
+        var g = s * (1.6 + glint * 1.6);
+        ctx.globalAlpha = glint;
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.moveTo(0, -g); ctx.lineTo(g * 0.16, -g * 0.16); ctx.lineTo(g, 0); ctx.lineTo(g * 0.16, g * 0.16);
+        ctx.lineTo(0, g); ctx.lineTo(-g * 0.16, g * 0.16); ctx.lineTo(-g, 0); ctx.lineTo(-g * 0.16, -g * 0.16);
+        ctx.closePath(); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+    } else {
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.moveTo(0, -t); ctx.lineTo(s, 0); ctx.lineTo(0, t); ctx.lineTo(-s, 0);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.restore();
   }
 
   function clock(x, y, R, label, rot, rim) {
@@ -227,16 +293,18 @@
           ? (m < 12 ? ROMAN[m] : String(m - 11))
           : (m < 12 ? String(m + 1) : ROMAN[m - 12]);
 
+        // diamond studs along both edges of the band
         if (r > 8) {
-          ctx.fillStyle = A.bead;
           for (var q = 0; q < 3; q++) {
             var uu = u + q / 3 + 1 / 6, rr = R0 * Math.pow(G, uu);
             var a = uu * STEP + A.off;
+            var ds = Math.max(0.9, rr * 0.036);
+            // each stud twinkles on its own rhythm
+            var tw = Math.sin(ms * 0.004 + (id * 3 + q) * 1.7);
+            var glint = tw > 0.82 ? (tw - 0.82) / 0.18 : 0;
             for (var sgn = -1; sgn <= 1; sgn += 2) {
               var er = rr * (1 + sgn * 0.27);
-              ctx.beginPath();
-              ctx.arc(CX + Math.cos(a) * er, CY + Math.sin(a) * er, Math.max(.6, rr * 0.028), 0, TAU);
-              ctx.fill();
+              diamond(CX + Math.cos(a) * er, CY + Math.sin(a) * er, ds, A.setting, sgn > 0 ? glint : 0);
             }
           }
         }
