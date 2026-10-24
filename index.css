@@ -317,12 +317,12 @@ a {
 
 .hero-text-overlay {
     position: absolute;
-    bottom: 12%; 
-    left: 6%;    
-    width: 85%;
-    max-width: 900px; 
-    height: 140px; 
-    overflow: hidden;
+    bottom: 8%;
+    left: 6%;
+    width: 88%;
+    max-width: 1000px;
+    height: 230px;
+    overflow: visible;
     z-index: 10;
     pointer-events: none; 
 }
@@ -331,9 +331,10 @@ a {
     position: absolute;
     bottom: 0;
     left: 0;
-    font-size: 52px; 
+    font-size: 52px;
     font-weight: 800;
     font-family: "Cinzel Decorative", serif !important;
+    text-transform: uppercase;
     color: #ffffff;
     line-height: 1.15;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); 
@@ -471,6 +472,33 @@ a {
 /* Moved inward so it is never obstructed by the demat account side banner */
 .carousel-arrow-right { 
     right: 58px; 
+}
+
+/* Keep the full multi-line hero statements visible on smaller screens. */
+@media (max-width: 768px) {
+    .hero-text-overlay {
+        bottom: 7%;
+        left: 5%;
+        width: 90%;
+        height: 190px;
+    }
+
+    .hero-statement {
+        font-size: clamp(25px, 6vw, 38px);
+        line-height: 1.18;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-text-overlay {
+        height: 165px;
+        bottom: 6%;
+    }
+
+    .hero-statement {
+        font-size: clamp(21px, 6vw, 29px);
+        line-height: 1.2;
+    }
 }
 
 /* --- 4. KINETIC "WE OFFER" SECTION --- */
