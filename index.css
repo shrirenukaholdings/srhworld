@@ -230,6 +230,7 @@ a {
 }
 
 /* --- 3. HERO INTERACTIVE SECTION & MARQUEE --- */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&display=swap');
 .hero-interactive-section {
     height: 100vh;
     min-height: 100vh;
@@ -331,17 +332,18 @@ a {
     left: 0;
     font-size: 52px; 
     font-weight: 800;
+    font-family: "Cinzel Decorative", serif;
     color: #ffffff;
     line-height: 1.15;
     text-shadow: 0 4px 15px rgba(0, 0, 0, 0.6); 
     opacity: 0;
     transform: translateY(50px);
-    animation: textSlideUpFade 5s infinite; 
+    animation: textSlideUpFade 8s infinite; 
 }
 
 .statement-1 { animation-delay: 0s; }
-.statement-2 { animation-delay: 1.66s; }
-.statement-3 { animation-delay: 3.33s; }
+.statement-2 { animation-delay: 2.66s; }
+.statement-3 { animation-delay: 5.33s; }
 
 @keyframes textSlideUpFade {
     0% { opacity: 0; transform: translateY(50px); }
