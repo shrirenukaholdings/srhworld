@@ -26,7 +26,7 @@
                 </div>
                 <div class="header-right-actions">
                     <!-- Circular Home Button -->
-                    <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page" style="width: 42px; height: 42px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">
+                    <a href="./index.html" class="header-calc-pill header-home-btn" aria-label="Home" title="Back to Home Page">
                         <i class="fas fa-home" style="margin: 0;"></i>
                     </a>
 
@@ -431,11 +431,9 @@
                     <img src="footer_logo.png" alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'">
                 </div>
                 <div class="footer-social-icons">
-                    <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/srhworldpune/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
                     <a href="https://wa.me/918484914844" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
@@ -504,25 +502,29 @@
            1. Floating Buttons Logic
            --------------------------------------------------------- */
         const topBtn = document.getElementById('products-top-btn');
-        const mutualFundsSection = document.getElementById('mutual-funds');
         const footerElement = document.getElementById('site-footer');
         const floatingWhatsApp = document.getElementById('whatsapp-btn');
 
         function handleScrollEvents() {
-            if (topBtn && mutualFundsSection) {
-                const mfRect = mutualFundsSection.getBoundingClientRect();
-                if (mfRect.bottom <= 120) {
+            // Top button: appears once the user has scrolled past the first slide
+            // and stays visible all the way down (including the footer).
+            // (Sticky slides never scroll out of view, so a scroll-distance check is used.)
+            if (topBtn) {
+                if (window.pageYOffset > 400) {
                     topBtn.classList.add('show-catalogue-btn');
                 } else {
                     topBtn.classList.remove('show-catalogue-btn');
                 }
             }
 
+            // WhatsApp hides over the footer; the Top button stays and drops down into its place.
             if (footerElement && floatingWhatsApp) {
                 if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
                     floatingWhatsApp.classList.add('hide-floating-btn');
+                    if (topBtn) topBtn.classList.add('shift-down');
                 } else {
                     floatingWhatsApp.classList.remove('hide-floating-btn');
+                    if (topBtn) topBtn.classList.remove('shift-down');
                 }
             }
         }
@@ -553,37 +555,15 @@
             const targetElement = document.getElementById(resolvedId);
             if (!targetElement) return;
 
-            const isDesktopStack = window.innerWidth > 992;
-            const headerHeight = 75;
+            // Slides are sticky on every screen size, so their on-screen position
+            // can't be measured directly. Use their natural (flow) position instead.
+            const headerHeight = getHeaderHeight();
+            const targetIndex = slidesArr.indexOf(targetElement);
 
-            if (isDesktopStack) {
-                const deck = document.querySelector('.products-stack-deck');
-                const slidesList = Array.from(deck.querySelectorAll('.stack-slide'));
-                const targetIndex = slidesList.indexOf(targetElement);
-
-                if (targetIndex !== -1) {
-                    const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
-                    
-                    // Sum the real heights of prior slides to avoid overlap/bleed
-                    let cumulativeHeight = 0;
-                    for (let i = 0; i < targetIndex; i++) {
-                        cumulativeHeight += slidesList[i].offsetHeight;
-                    }
-
-                    const targetScrollPos = (targetIndex === 0)
-                        ? (deckTop - headerHeight)
-                        : (deckTop + cumulativeHeight);
-
-                    window.scrollTo({
-                        top: Math.max(0, targetScrollPos),
-                        behavior: 'smooth'
-                    });
-                }
-            } else {
-                // Tablet/Mobile
-                const elementTop = targetElement.getBoundingClientRect().top + window.pageYOffset;
+            if (targetIndex !== -1) {
+                const targetScrollPos = getSlideFlowTop(targetIndex) - headerHeight;
                 window.scrollTo({
-                    top: elementTop - headerHeight,
+                    top: Math.max(0, targetScrollPos),
                     behavior: 'smooth'
                 });
             }
@@ -594,19 +574,74 @@
         /* ---------------------------------------------------------
            3. Side Quick-Jump Anchor Observer
            --------------------------------------------------------- */
-        const slides = document.querySelectorAll('.stack-slide');
+        const stackDeck = document.querySelector('.products-stack-deck');
+        const slidesArr = Array.from(document.querySelectorAll('.stack-slide'));
         const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
-        
-        const slideObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`));
-                }
-            });
-        }, { threshold: 0.35 });
 
-        slides.forEach(slide => slideObserver.observe(slide));
+        // Header height: fixed 75px on desktop (matches CSS), real height on tablet/mobile.
+        function getHeaderHeight() {
+            if (window.innerWidth > 992) return 75;
+            const hdr = document.querySelector('.main-header');
+            return hdr ? hdr.offsetHeight : 64;
+        }
+
+        // Natural (flow) top of a slide. Sticky slides keep their space in the flow,
+        // so this is deck top + deck padding + heights of all slides before it.
+        function getSlideFlowTop(index) {
+            const padTop = parseFloat(getComputedStyle(stackDeck).paddingTop) || 0;
+            let top = stackDeck.getBoundingClientRect().top + window.pageYOffset + padTop;
+            for (let i = 0; i < index; i++) top += slidesArr[i].offsetHeight;
+            return top;
+        }
+
+        // Sticky offset per slide. If a slide is taller than the screen (common on phones),
+        // it sticks when its bottom reaches the screen bottom so no content gets hidden
+        // before the next slide slides over it.
+        function applyStickyOffsets() {
+            const hh = getHeaderHeight();
+            slidesArr.forEach(slide => {
+                slide.style.top = Math.min(hh, window.innerHeight - slide.offsetHeight) + 'px';
+            });
+        }
+
+        // Active dot is calculated from scroll position (works both scrolling down and up).
+        function updateActiveDot() {
+            const hh = getHeaderHeight();
+            const probe = window.pageYOffset + hh + (window.innerHeight - hh) * 0.5;
+            let activeIndex = 0;
+            for (let i = 0; i < slidesArr.length; i++) {
+                if (probe >= getSlideFlowTop(i)) activeIndex = i;
+            }
+            const activeId = slidesArr[activeIndex].getAttribute('id');
+            dots.forEach(dot => dot.classList.toggle('active', dot.getAttribute('href') === `#${activeId}`));
+        }
+
+        let dotTicking = false;
+        function onScrollUpdateDots() {
+            if (dotTicking) return;
+            dotTicking = true;
+            requestAnimationFrame(() => {
+                updateActiveDot();
+                dotTicking = false;
+            });
+        }
+
+        function refreshStackLayout() {
+            applyStickyOffsets();
+            updateActiveDot();
+        }
+
+        window.addEventListener('scroll', onScrollUpdateDots, { passive: true });
+        window.addEventListener('resize', refreshStackLayout, { passive: true });
+        window.addEventListener('orientationchange', refreshStackLayout);
+        window.addEventListener('DOMContentLoaded', refreshStackLayout);
+        window.addEventListener('load', () => {
+            refreshStackLayout();
+            // Open the correct slide when the page is loaded with a #hash (e.g. products.html#ipo)
+            const initialHash = window.location.hash.replace('#', '');
+            if (initialHash) setTimeout(() => navigateToSection(initialHash), 150);
+        });
+        refreshStackLayout();
 
         dots.forEach(dot => {
             dot.addEventListener('click', (e) => {
