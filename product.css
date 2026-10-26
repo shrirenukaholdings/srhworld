@@ -114,6 +114,22 @@ a {
     transition: background-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease; 
 }
 
+/* Circular Home button (moved from inline style; same look as before) */
+.header-calc-pill.header-home-btn { 
+    width: 42px; 
+    height: 42px; 
+    padding: 0; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    border-radius: 50%; 
+    margin-right: 10px; 
+}
+
+.header-calc-pill.header-home-btn i { 
+    margin: 0; 
+}
+
 .header-calc-pill:hover { 
     background-color: var(--accent-green) !important; 
     transform: translateY(-2px) scale(1.06); 
@@ -647,8 +663,6 @@ a {
 .social-icon.social-fb:hover { background-color: #1877F2 !important; }
 .social-icon.social-insta:hover { background-color: #d6249f !important; }
 .social-icon.social-li:hover { background-color: #0A66C2 !important; }
-.social-icon.social-twitter:hover { background-color: #000000 !important; }
-.social-icon.social-yt:hover { background-color: #FF0000 !important; }
 .social-icon.social-wa:hover { background-color: #25D366 !important; }
 
 .footer-offices-grid { 
@@ -769,7 +783,7 @@ a {
     opacity: 0; 
     visibility: hidden; 
     transform: translateY(15px); 
-    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease; 
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease, bottom 0.3s ease; 
     border: 1px solid #334155; 
     cursor: pointer; 
 }
@@ -778,6 +792,11 @@ a {
     opacity: 1; 
     visibility: visible; 
     transform: translateY(0); 
+}
+
+/* When WhatsApp hides over the footer, the Top button drops into its spot (never hidden) */
+.back-to-catalogue-btn.show-catalogue-btn.shift-down { 
+    bottom: 25px; 
 }
 
 .back-to-catalogue-btn:hover { 
@@ -790,16 +809,18 @@ a {
         grid-template-columns: 1fr; 
         gap: 30px; 
     }
+    /* Slide-over stacking effect is kept on tablet/mobile (sticky). 
+       JS sets the exact sticky `top` per slide so tall slides are never cut off. */
     .stack-slide { 
-        position: relative; 
-        top: auto; 
+        position: sticky; 
+        top: 64px; 
         min-height: auto; 
         padding: 50px 20px; 
-        box-shadow: none; 
-        scroll-margin-top: 80px; 
+        scroll-margin-top: 64px; 
     }
+    /* Reserve space for the fixed header so the first slide's tag is not hidden under it */
     .products-stack-deck { 
-        padding-top: 0; 
+        padding-top: 64px; 
     }
     .services-anchor-nav { 
         display: none; 
@@ -816,8 +837,38 @@ a {
 @media (max-width: 768px) {
     .header-container { padding: 10px 16px; }
     .logo-area .client-logo { height: 42px; }
-    .header-calc-pill { padding: 7px 11px; font-size: 12px; }
+    /* Equal, symmetric header buttons on mobile: Home, Calculator, Menu */
+    .header-right-actions { gap: 8px; }
+    .header-calc-pill,
+    .header-calc-pill.header-home-btn { 
+        width: 40px; 
+        height: 40px; 
+        padding: 0; 
+        margin: 0; 
+        border-radius: 50%; 
+        justify-content: center; 
+        align-items: center; 
+        gap: 0; 
+        font-size: 16px; 
+    }
+    .header-calc-pill i, 
+    .header-calc-pill.header-home-btn i { 
+        font-size: 16px; 
+        margin: 0; 
+        line-height: 1; 
+    }
     .calc-btn-text { display: none; }
+    .mobile-nav-toggle { 
+        width: 40px; 
+        height: 40px; 
+        padding: 0; 
+        display: inline-flex; 
+        align-items: center; 
+        justify-content: center; 
+        font-size: 20px; 
+        line-height: 1; 
+    }
+    .mobile-nav-toggle i { font-size: 20px; line-height: 1; }
     .service-main-heading { font-size: 30px; }
     .service-body-copy p { font-size: 14px; }
     .visual-glass-card { padding: 25px; }
