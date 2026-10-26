@@ -15,6 +15,125 @@
     <!-- Google Firebase SDKs for Cloud Inquiries Sync -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* Mobile header fix for stacking deck */
+        @media (max-width: 992px) {
+            .stack-slide {
+                position: sticky !important;
+                top: 75px !important;
+                min-height: calc(100vh - 75px) !important;
+                padding: 70px 24px !important;
+                box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.05) !important;
+            }
+            .products-stack-deck { padding-top: 75px !important; }
+            .services-anchor-nav { display: flex !important; }
+        }
+
+        /* Top button always visible in right bottom, above WA */
+        .back-to-catalogue-btn {
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: translateY(0) !important;
+            bottom: 95px !important;
+            right: 25px !important;
+        }
+        @media (max-width: 768px) {
+            .back-to-catalogue-btn {
+                bottom: 85px !important;
+                right: 18px !important;
+            }
+        }
+
+        /* Form matching industries.html (.ct layout) */
+        .ct {
+            display: grid;
+            grid-template-columns: 1fr 1.15fr;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(26,29,51,.18);
+            margin: 0 auto;
+        }
+        .ct .l {
+            background: var(--primary-dark);
+            color: #fff;
+            padding: 54px 44px;
+        }
+        .ct .l h2 {
+            color: #fff;
+            font-size: clamp(28px, 3.5vw, 46px);
+            font-weight: 800;
+            line-height: 1.05;
+            letter-spacing: -.025em;
+            margin-bottom: 16px;
+        }
+        .ct .l p { color: #cbd5e1; line-height: 1.6; }
+        .ct .row { margin-top: 26px; }
+        .ct .row b {
+            display: block;
+            color: var(--accent-green);
+            font-size: 11px;
+            letter-spacing: .2em;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .ct .row a, .ct .row span {
+            color: #fff;
+            text-decoration: none;
+            font-size: 15px;
+        }
+        .ct form {
+            padding: 54px 44px;
+            background: #ffffff;
+            display: grid;
+            gap: 18px;
+        }
+        .ct label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+        .ct input:not([type=checkbox]), .ct textarea {
+            width: 100%;
+            border: 0;
+            border-bottom: 1.5px solid var(--border-color);
+            padding: 12px 0;
+            font: 500 16px 'Segoe UI', sans-serif;
+            background: none;
+            outline: none;
+            color: var(--text-main);
+        }
+        .ct input:not([type=checkbox]):focus, .ct textarea:focus {
+            border-color: var(--accent-green);
+        }
+        .two {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .ct button {
+            border: 0;
+            background: var(--accent-green);
+            color: #fff;
+            font: 700 16px 'Segoe UI', sans-serif;
+            padding: 16px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: transform .3s, box-shadow .3s;
+            margin-top: 10px;
+        }
+        .ct button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 28px rgba(16,185,129,.35);
+        }
+        @media(max-width:768px){
+            .ct { grid-template-columns: 1fr; border-radius: 20px; }
+            .ct .l, .ct form { padding: 30px 20px; }
+            .two { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
@@ -26,9 +145,10 @@
                     <a href="./index.html"><img src="Logo_SRH_World.png" alt="SRH World Logo" class="client-logo"></a>
                 </div>
                 <div class="header-right-actions">
-                    <!-- Circular Home Button -->
-                    <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page" style="width: 42px; height: 42px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; margin-right: 10px;">
-                        <i class="fas fa-home" style="margin: 0;"></i>
+                    <!-- Symmetrical Pill Buttons -->
+                    <a href="./index.html" class="header-calc-pill" aria-label="Home" title="Back to Home Page">
+                        <i class="fas fa-home"></i>
+                        <span class="calc-btn-text">Home</span>
                     </a>
                     <a href="./sip-calculator.html" class="header-calc-pill" aria-label="Smart Calculator">
                         <i class="fas fa-calculator"></i>
@@ -78,7 +198,6 @@
                                 <li><a href="./sme.html#reengineering"><i class="fas fa-gears dropdown-icon"></i> Business & Financial Engineering</a></li>
                                 <li><a href="./sme.html#real-estate"><i class="fas fa-city dropdown-icon"></i> Real Estate Advisory</a></li>
                                 <li><a href="./exim.html"><i class="fas fa-ship dropdown-icon"></i> EXIM</a></li>
-                                <!-- New Industries Link -->
                                 <li><a href="./industries.html"><i class="fas fa-city dropdown-icon"></i> Industries</a></li>
                             </ul>
                         </li>
@@ -243,44 +362,52 @@
     </main>
    
     <!-- Contact & Inquiry -->
-    <section class="contact-master-section" id="contact-exim">
-        <div class="contact-grid-container">
-            <div class="contact-info-column">
-                <div class="office-location-card">
-                    <div class="office-header"><div class="office-icon-box"><i class="fas fa-globe-asia"></i></div><div><h3 class="office-title">Contact Expert</h3><span class="office-badge badge-primary">Export Division</span></div></div>
-                    <p class="office-address"><i class="fas fa-map-marker-alt"></i> Office No. 1, Madhukosh Apartments, Near Dhayari Phata, Sinhagad Road, Pune, Maharashtra – 411041, India</p>
-                    <div class="office-contact-links">
-                        <a href="tel:8291008616" class="contact-link-pill"><i class="fas fa-phone-alt"></i> +91 82910 08616</a>
-                        <a href="mailto:mody@srhworld.com" class="contact-link-pill"><i class="fas fa-envelope"></i> mody@srhworld.com</a>
-                    </div>
+    <section class="contact-master-section" id="contact-exim" style="max-width: 1180px; margin: 0 auto; padding: 80px 24px; background: transparent; border: none;">
+        <div class="ct">
+            <div class="l">
+                <h2>We’re Here to Help!</h2>
+                <p>Have questions or ready to partner with us? Reach out today.</p>
+                <div class="row">
+                    <b><i class="fas fa-globe-asia"></i> Export Division</b>
+                    <span>Office No. 1, Madhukosh Apartments, Near Dhayari Phata, Pune, Maharashtra – 411041</span>
                 </div>
-                <div class="direct-connect-card">
-                    <div><h4>Have Immediate Export Queries?</h4><p>Chat directly with our global trade desk on WhatsApp.</p></div>
-                    <a href="https://wa.me/917506151314" target="_blank" rel="noopener noreferrer" class="contact-whatsapp-btn"><i class="fab fa-whatsapp"></i> WhatsApp Trade Desk</a>
+                <div class="row">
+                    <b><i class="fas fa-phone-alt"></i> Contact</b>
+                    <a href="tel:8291008616">+91 82910 08616</a>
+                </div>
+                <div class="row">
+                    <b><i class="fas fa-envelope"></i> Email</b>
+                    <a href="mailto:mody@srhworld.com">mody@srhworld.com</a>
                 </div>
             </div>
-
-            <div class="contact-form-column">
-                <div class="contact-form-card" id="exim-form-card">
-                    <div id="exim-form-inner">
-                        <div class="form-card-header"><h2>We’re Here to Help!</h2><p>Have questions or ready to partner with us? Reach out today.</p></div>
-                        <form id="exim-inquiry-form">
-                            <div class="form-group"><label for="exim-name">Full Name / Company Representative <span class="required-star">*</span></label><input type="text" id="exim-name" class="form-control" placeholder="e.g. John Doe" required></div>
-                            <div class="form-row">
-                                <div class="form-group flex-1"><label for="exim-phone">Phone / WhatsApp <span class="required-star">*</span></label><input type="tel" id="exim-phone" class="form-control" placeholder="with country code" required></div>
-                                <div class="form-group flex-1"><label for="exim-email">Business Email <span class="required-star">*</span></label><input type="email" id="exim-email" class="form-control" placeholder="e.g. john@company.com" required></div>
-                            </div>
-                            <div class="form-group"><label for="exim-query">Products Required / Destination Port <span class="required-star">*</span></label><textarea id="exim-query" class="form-control" rows="4" placeholder="Specify products, quantity, and delivery country..." required></textarea></div>
-                            <button type="submit" class="admin-btn-primary full-width-btn" id="exim-submit-btn"><i class="fas fa-paper-plane"></i> Send Export Inquiry</button>
-                        </form>
+            <div id="exim-form-inner">
+                <form id="exim-inquiry-form">
+                    <div>
+                        <label>Full Name / Company Representative</label>
+                        <input type="text" id="exim-name" placeholder="e.g. John Doe" required>
                     </div>
-                    <div id="exim-success-state" class="form-success-flip-card" style="display: none;">
-                        <div class="big-tick-circle"><i class="fas fa-check"></i></div>
-                        <h3 style="font-size: 22px; font-weight: 800; color: var(--primary-dark); margin-bottom: 8px;">Inquiry Received!</h3>
-                        <p style="font-size: 14.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 24px;">Thank you for contacting SRH. We will review your request and get back shortly.</p>
-                        <button type="button" class="admin-btn-secondary" id="reset-exim-form-btn"><i class="fas fa-redo"></i> Submit Another Request</button>
+                    <div class="two">
+                        <div>
+                            <label>Phone / WhatsApp</label>
+                            <input type="tel" id="exim-phone" placeholder="with country code" required>
+                        </div>
+                        <div>
+                            <label>Business Email</label>
+                            <input type="email" id="exim-email" placeholder="e.g. john@company.com" required>
+                        </div>
                     </div>
-                </div>
+                    <div>
+                        <label>Products Required / Destination Port</label>
+                        <textarea id="exim-query" rows="3" placeholder="Specify products, quantity, and delivery country..." required></textarea>
+                    </div>
+                    <button type="submit" id="exim-submit-btn"><i class="fas fa-paper-plane"></i> Send Inquiry</button>
+                </form>
+            </div>
+            <div id="exim-success-state" class="form-success-flip-card" style="display: none; align-items:center; justify-content:center; flex-direction:column; padding: 54px 44px; background:#fff;">
+                <div class="big-tick-circle" style="width:64px;height:64px;border-radius:50%;background:#ecfdf5;color:#10b981;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:18px;"><i class="fas fa-check"></i></div>
+                <h3 style="font-size: 22px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">Inquiry Received!</h3>
+                <p style="font-size: 14.5px; color: #475569; line-height: 1.6; margin-bottom: 24px;">Thank you for contacting SRH. We will review your request and get back shortly.</p>
+                <button type="button" class="admin-btn-secondary" id="reset-exim-form-btn" style="border:1px solid #e2e8f0; padding:12px 24px; border-radius:8px; background:#f1f5f9; cursor:pointer;"><i class="fas fa-redo"></i> Submit Another Request</button>
             </div>
         </div>
     </section>
@@ -293,11 +420,9 @@
                     <img src="footer_logo.png" alt="SRH World" class="footer-main-logo" onerror="this.src='Logo_SRH_World.png'">
                 </div>
                 <div class="footer-social-icons">
-                    <a href="https://www.facebook.com/checkpoint/1501092823525282/?next=https%3A%2F%2Fwww.facebook.com%2Fprofile.php%3Fid%3D100094474942979" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.facebook.com/srhworldpune/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="social-icon social-fb"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://www.instagram.com/srh.world" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="social-icon social-insta"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.linkedin.com/company/srh-world/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="social-icon social-li"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://twitter.com/srhworldpune" target="_blank" rel="noopener noreferrer" aria-label="Twitter" class="social-icon social-twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="social-icon social-yt"><i class="fab fa-youtube"></i></a>
                     <a href="https://wa.me/917506151314" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="social-icon social-wa"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
@@ -406,7 +531,7 @@
                         name: nameVal,
                         phone: phoneVal,
                         email: emailVal,
-                        message: queryVal,
+                        message: "services: " + queryVal,
                         status: 'New',
                         timestamp: firebase.firestore.FieldValue.serverTimestamp()
                     });
@@ -418,7 +543,7 @@
                     alert("Submission error: " + error.message);
                 } finally {
                     submitBtn.disabled = false;
-                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Export Inquiry';
+                    submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Inquiry';
                 }
             });
         }
@@ -435,38 +560,12 @@
            3. UI HELPERS & FLOATING BUTTONS
            ------------------------------------------------------------- */
         const topBtn = document.getElementById('services-top-btn');
-        const technicalSection = document.getElementById('technical');
-        const footerElement = document.getElementById('site-footer');
-        const floatingWhatsApp = document.getElementById('whatsapp-btn');
-
-        function handleScrollEvents() {
-            if (topBtn && technicalSection) {
-                const techRect = technicalSection.getBoundingClientRect();
-                if (techRect.bottom <= 150) {
-                    topBtn.classList.add('show-catalogue-btn');
-                } else {
-                    topBtn.classList.remove('show-catalogue-btn');
-                }
-            }
-
-            if (footerElement && floatingWhatsApp) {
-                if (footerElement.getBoundingClientRect().top <= (window.innerHeight - 30)) {
-                    floatingWhatsApp.classList.add('hide-floating-btn');
-                } else {
-                    floatingWhatsApp.classList.remove('hide-floating-btn');
-                }
-            }
-        }
 
         if (topBtn) {
             topBtn.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
         }
-
-        window.addEventListener('scroll', handleScrollEvents, { passive: true });
-        window.addEventListener('resize', handleScrollEvents, { passive: true });
-        window.addEventListener('DOMContentLoaded', handleScrollEvents);
 
         /* -------------------------------------------------------------
            4. DYNAMIC SECTION COORDINATE ENGINE
@@ -514,69 +613,47 @@
         }
 
         /* -------------------------------------------------------------
-   5. RELIABLE ACTIVE DOT TRACKER ON SCROLL (UP & DOWN)
-   ------------------------------------------------------------- */
-const slides = document.querySelectorAll('.stack-slide');
-const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
+           5. RELIABLE ACTIVE DOT TRACKER ON SCROLL (UP & DOWN)
+           ------------------------------------------------------------- */
+        const slides = document.querySelectorAll('.stack-slide');
+        const dots = document.querySelectorAll('.services-anchor-nav .anchor-dot');
 
-function updateActiveDotOnScroll() {
-    const isDesktopStack = window.innerWidth > 992;
-    const headerHeight = 75;
-    let activeId = '';
+        function updateActiveDotOnScroll() {
+            let activeId = '';
+            
+            // Loop sequentially - the last sticky slide whose top edge is hit will be registered as active
+            slides.forEach(slide => {
+                const rect = slide.getBoundingClientRect();
+                if (rect.top <= 100) {
+                    activeId = slide.getAttribute('id');
+                }
+            });
 
-    if (isDesktopStack) {
-        const deck = document.querySelector('.products-stack-deck');
-        if (!deck) return;
-
-        const deckTop = deck.getBoundingClientRect().top + window.pageYOffset;
-        const currentScroll = window.pageYOffset;
-        const slidesList = Array.from(slides);
-
-        // Walk through slides and detect which card is currently active
-        let accumulatedHeight = deckTop - headerHeight;
-        for (let i = 0; i < slidesList.length; i++) {
-            const slideHeight = slidesList[i].offsetHeight;
-            if (currentScroll >= accumulatedHeight - 10) {
-                activeId = slidesList[i].getAttribute('id');
+            // Default to first slide if at or near the top
+            if (!activeId && slides.length > 0) {
+                activeId = slides[0].getAttribute('id');
             }
-            accumulatedHeight += slideHeight;
+
+            if (activeId) {
+                dots.forEach(dot => {
+                    const dotTarget = dot.getAttribute('href').replace('#', '');
+                    dot.classList.toggle('active', dotTarget === activeId);
+                });
+            }
         }
 
-        // Default to first slide if at or near the top
-        if (!activeId && slidesList.length > 0) {
-            activeId = slidesList[0].getAttribute('id');
-        }
-    } else {
-        // Mobile / Tablet normal scroll detection
-        const viewportCheckLine = window.innerHeight * 0.35;
-        slides.forEach(slide => {
-            const rect = slide.getBoundingClientRect();
-            if (rect.top <= viewportCheckLine && rect.bottom >= viewportCheckLine) {
-                activeId = slide.getAttribute('id');
-            }
-        });
-    }
+        // Hook scroll listeners
+        window.addEventListener('scroll', updateActiveDotOnScroll, { passive: true });
+        window.addEventListener('DOMContentLoaded', updateActiveDotOnScroll);
 
-    if (activeId) {
+        // Dot Click Navigation
         dots.forEach(dot => {
-            const dotTarget = dot.getAttribute('href').replace('#', '');
-            dot.classList.toggle('active', dotTarget === activeId);
+            dot.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = dot.getAttribute('href').replace('#', '');
+                navigateToSection(targetId);
+            });
         });
-    }
-}
-
-// Hook scroll listeners
-window.addEventListener('scroll', updateActiveDotOnScroll, { passive: true });
-window.addEventListener('DOMContentLoaded', updateActiveDotOnScroll);
-
-// Dot Click Navigation
-dots.forEach(dot => {
-    dot.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = dot.getAttribute('href').replace('#', '');
-        navigateToSection(targetId);
-    });
-});
 
         /* -------------------------------------------------------------
            6. UNIVERSAL MENU & DROPDOWN NAVIGATION
