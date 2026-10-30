@@ -30,7 +30,7 @@
 </a>
 </div>
 <div class="header-right-actions">
-<a aria-label="Financial Check-up" class="header-fin-pill" href="https://srhworld.com/fin_checkup.html" title="Financial Check-up">
+<a aria-label="Financial Check-up" class="header-fin-pill" href="https://srhworld.com/fin_checkup.html" title="Financial Check-up" style="background-color: grey !important;">
 <i class="fas fa-heart-pulse"></i>
 <span class="calc-btn-text">Financial Check</span>
 </a>
@@ -134,9 +134,7 @@
   <source src="banner.mp4" type="video/mp4"/>
 </video>
 <div class="hero-text-overlay">
-<div class="hero-statement statement-1">BUILD YOUR PATH TO FINANCIAL STABILITY</div>
-<div class="hero-statement statement-2">YOUR PARTNER IN FINANCIAL FREEDOM</div>
-<div class="hero-statement statement-3">LET'S BUILD THE BRIDGE TOWARDS FINANCIAL SECURITY</div>
+<div class="hero-statement" style="opacity: 1; transform: translateY(0); animation: none;">BUILD YOUR PATH TO FINANCIAL STABILITY</div>
 </div>
 </div>
 </div>
@@ -551,7 +549,7 @@ OPEN FREE DEMAT ACCOUNT
             article.innerHTML = `
                 <div class="blog-image-frame">
                     <img src="${imageSrc}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
-                    <span class="blog-category-badge">${blog.category || 'Insights'}</span>
+                    <span class="blog-category-badge" style="top: auto; bottom: 12px; left: auto; right: 12px;">${blog.category || 'Insights'}</span>
                 </div>
                 <div class="blog-body-content">
                     <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${displayDate} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
