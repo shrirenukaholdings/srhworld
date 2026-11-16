@@ -460,6 +460,13 @@ a {
 }
 
 
+.stack-slide:nth-child(5) {
+    background-color: #ffffff;
+
+    z-index: 5;
+}
+
+
 /* ==========================================================
    6. SERVICE SECTION LAYOUT
    ========================================================== */
@@ -2067,4 +2074,31 @@ img, video {
     .logo-area .client-logo { height: 48px; max-width: 150px; }
     .products-stack-deck { padding-top: 68px; }
     .stack-slide { padding-top: 30px; padding-bottom: 34px; }
+}
+
+/* ==========================================================
+   BUSINESS INSURANCE SECTION + EXTRA MOBILE OPTIMISATION
+   ========================================================== */
+#business-insurance .service-pill-list {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+@media (max-width: 992px) {
+    html, body { overflow-x: hidden; }
+    .service-main-heading { overflow-wrap: anywhere; }
+    .service-action-bar { flex-wrap: wrap; }
+}
+
+@media (max-width: 600px) {
+    #business-insurance .service-pill-list {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .service-body-copy p { font-size: 15px; line-height: 1.65; }
+    .service-tag-chip { font-size: 12px; }
+    .alloc-labels { gap: 4px; }
+    .admin-btn-primary,
+    .admin-btn-secondary { min-height: 46px; }
+    .sme-contact-form input,
+    .sme-contact-form select,
+    .sme-contact-form textarea { font-size: 16px; } /* stops iOS zoom on focus */
 }
