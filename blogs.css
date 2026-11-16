@@ -153,9 +153,8 @@
 }
 
 .blog-category-badge {
-    position: absolute;
-    top: 15px;
-    left: 15px;
+    position: static;
+    flex-shrink: 0;
     background: rgba(15, 23, 42, 0.85);
     color: #ffffff;
     font-size: 11px;
@@ -177,6 +176,10 @@
     color: #64748b;
     font-weight: 600;
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .blog-meta-date i {
