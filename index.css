@@ -983,9 +983,8 @@ a {
 }
 
 .blog-category-badge {
-    position: absolute;
-    top: 12px;
-    left: 12px;
+    position: static;
+    flex-shrink: 0;
     background-color: rgba(15, 23, 42, 0.85);
     color: #ffffff;
     font-size: 11px;
@@ -1008,6 +1007,10 @@ a {
     color: var(--text-sub);
     font-weight: 600;
     margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
 }
 
 .blog-article-title {

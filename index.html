@@ -15,6 +15,7 @@
 <!-- Google Firebase SDKs for Cloud Sync -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="./firebase-config.js"></script>
 
 <!-- Standalone Homepage CSS with all Mascot & Assistant Styles -->
 <link href="index.css" rel="stylesheet"/>
@@ -134,7 +135,7 @@
   <source src="banner.mp4" type="video/mp4"/>
 </video>
 <div class="hero-text-overlay">
-<div class="hero-statement" style="opacity: 1; transform: translateY(0); animation: none; color: #64748b;">BUILD YOUR PATH TO FINANCIAL STABILITY</div>
+<div class="hero-statement" style="opacity: 1; transform: translateY(0); animation: none; color: #0a1f44; font-weight: 400;">BUILD YOUR PATH TO FINANCIAL STABILITY</div>
 </div>
 </div>
 </div>
@@ -484,15 +485,7 @@ OPEN FREE DEMAT ACCOUNT
     /* -------------------------------------------------------------
        1. FIREBASE INITIALIZATION FOR HOMEPAGE
        ------------------------------------------------------------- */
-    const firebaseConfig = {
-        apiKey: "AIzaSyA9xwoe9d4npKFyTiJbwhezAvIriXwA9yY",
-        authDomain: "srhworld-17653.firebaseapp.com",
-        projectId: "srhworld-17653",
-        storageBucket: "srhworld-17653.firebasestorage.app",
-        messagingSenderId: "161943112081",
-        appId: "1:161943112081:web:888219f6314793b3e73230",
-        measurementId: "G-LXZMQZ9NPH"
-    };
+    // firebaseConfig is loaded from firebase-config.js
 
     if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
@@ -549,10 +542,9 @@ OPEN FREE DEMAT ACCOUNT
             article.innerHTML = `
                 <div class="blog-image-frame">
                     <img src="${imageSrc}" alt="${blog.title}" class="blog-img" onerror="this.src='Equities.jpg'">
-                    <span class="blog-category-badge" style="top: auto; bottom: 12px; left: auto; right: 12px;">${blog.category || 'Insights'}</span>
                 </div>
                 <div class="blog-body-content">
-                    <div class="blog-meta-date"><i class="far fa-calendar-alt"></i> ${displayDate} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</div>
+                    <div class="blog-meta-date"><span class="blog-meta-left"><i class="far fa-calendar-alt"></i> ${displayDate} &nbsp;•&nbsp; By ${blog.author || 'Admin'}</span><span class="blog-category-badge">${blog.category || 'Insights'}</span></div>
                     <h3 class="blog-article-title">${blog.title}</h3>
                     <p class="blog-summary-text">${blog.excerpt || ''}</p>
                     <a href="./blogs.html" class="blog-read-btn">Read Full Article <i class="fas fa-arrow-right"></i></a>
